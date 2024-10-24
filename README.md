@@ -1,6 +1,2 @@
 # livrolandia
 
-
-Ola
-cona
-boas
