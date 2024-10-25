@@ -3,34 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="..//style/Log-reg.css">
-    <script src="..//script/login.js"></script>
+    <title>Login_Register</title>
+    <link rel="stylesheet" href="..//style/Login_Register.css">
+
+    <!--Box icons link-->
+    <link rel="stylesheet" href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'>
+
+    <!--Remix icons link-->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
+
+    <!--Google Fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="container">
+        <div class="forms">
+            <div class="form login">
+                <span class="title">Login</span>
 
+                <form action="#" id="loginForm">
+                    <div class="input-field">
+                        <input type="text" id="emailInput" placeholder="Enter your email" required> 
+                        <i class="ri-mail-fill icon"></i>
+                    </div>
+                    <div class="input-field">
+                        <input type="password" id="passInput" class="password" placeholder="Enter your password" required> 
+                        <i class="ri-lock-fill icon"></i>
+                        <i class="ri-eye-off-fill showHidePw"></i>
+                    </div>
 
-    <form id="LoginForm" class="hidden">
-        <input type="email" name="Email" placeholder="email@email.com" id="emailInput" > 
-        <input type="password" name="password" placeholder="Password" id="passwordInput" > 
-        <input type="button" value="Login" id="loginBtn">
-    </form>
+                    <div class="checkbox-text">
+                        <div class="checkbox-content">
+                            <input type="checkbox" id="logCheck">
+                            <label for="logCheck" class="text">Remember me</label>
+                        </div>
 
-    <form  id="RegisterForm" class="">
-        <input type="text" name="Nome de Utilizador" placeholder="Nome do utilizador" id="nomeUtilizadorInput">
-        <input type="email" name="Email" placeholder="email@email.com" id="emailInput" > 
-        <input type="password" name="password" placeholder="Password" id="passwordInput" >
-        <input type="password" name="Repetir password" placeholder="Repetir Password" id="passwordInputRep" >  
-        <select id="TipoUtilizador">
-            <option disabled selected>Pretendo ser</option>
-            <option value="opcao1">Comprador</option>
-            <option value="opcao2">Vendedor</option>
-            <option value="opcao3">Ambos</option>
-        </select>
-        <input type="button" value="ButtonReg" >
-        
-    </form>
-    
-    
+                        <a href="#" class="text">Forgot password</a>
+                    </div>
+
+                    <div class="input-field button">
+                        <input type="button" id="loginBtn" value="Login"> 
+                    </div>
+                </form>
+
+                <div class="login-signup">
+                    <span class="text">Not a member?
+                        <a href="#" class="text signup-link">Signup now</a> <!--Aquiiiiiiiiiiiiiiii o caminho href-->
+                    </span>
+                </div>
+            </div>
+
+            <div class="form signup" id="registerForm">
+                <span class="title">Registration</span>
+
+                <form action="#">
+                    <div class="input-field">
+                        <input type="text" id="regName" placeholder="Enter your name" required> 
+                        <i class="ri-user-fill icon"></i>
+                    </div>
+                    <div class="input-field">
+                        <input type="text" id="regEmail" placeholder="Enter your email" required> 
+                        <i class="ri-mail-fill icon"></i>
+                    </div>
+                    <div class="input-field">
+                        <input type="password" id="regPass" class="password" placeholder="Create a password" required> 
+                        <i class="ri-lock-fill icon"></i>
+                        <i class="ri-eye-off-fill showHidePw"></i>
+                    </div>
+
+                    <div class="checkbox-text">
+                        <div class="checkbox-content">
+                            <input type="checkbox" id="sigCheck">
+                            <label for="sigCheck" class="text">Remember me</label>
+                        </div>
+
+                        <a href="#" class="text">Forgot password</a>
+                    </div>
+
+                    <div class="input-field button">
+                        <input type="button" id="registerBtn" value="Create Now"> 
+                    </div>
+                </form>
+
+                <div class="login-signup">
+                    <span class="text">Already a member?
+                        <a href="#" class="text login-link">Login now</a> <!--Aquiiiiiiiiiiiiiiii o caminho href-->
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom js link -->
+    <script src="../script/Login_Register.js"></script>
 </body>
 </html>
