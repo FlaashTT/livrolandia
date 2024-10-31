@@ -1,21 +1,52 @@
+let users = [];
+
+let container, pwShowHide, pwFields, signUp, loginnavbarRight;
 
 // Variáveis para os elementos do HTML
-const container = document.querySelector(".container");
-const pwShowHide = document.querySelectorAll(".showHidePw");
-const pwFields = document.querySelectorAll(".password");
-const signUp = document.querySelector(".signup-link");
-const login = document.querySelector(".login-link");
-const navbarRight = document.querySelector('.nav-right');
+container = document.querySelector(".container"),
+    pwShowHide = document.querySelectorAll(".showHidePw"),
+    pwFields = document.querySelectorAll(".password"),
+    signUp = document.querySelector(".signup-link"),
+    login = document.querySelector(".login-link"),
+    navbarRight = document.querySelector('.nav-right');
+    
 
-window.onload = function(){
-    botaoReg = document.getElementById("ButtonReg") ;
+window.onload = function () {
+    localStorage.removeItem('userLogged');
+    loadUsers();
+    botaoReg = document.getElementById("ButtonReg");
 
-    botaoReg.addEventListener("click",processRegister);
+   // botaoReg.addEventListener("click", processRegister);
 }
 
+function User(name, email, password, tipoUser) {
+    this.name = name;
+    this.email = email;
+    this.password = password;
+    this.tipoUser = tipoUser;
+}
+
+User.prototype = {
+    getName: function () {
+        return this.name;
+    },
+    getEmail: function () {
+        return this.email;
+    },
+    getPassword: function () {
+        return this.password;
+    },
+    getTipoUser: function () {
+        return this.tipoUser;
+    }
+};
 
 
-function processRegister(){
+function trocaForm() {
+    console.log("ola")
+}
+
+function processRegister() {
     console.log("ola");
     window.location.href = '..//html/index.html';
 }
@@ -34,3 +65,22 @@ pwShowHide.forEach(eyeIcon => {
         });
     });
 });
+
+function loadUsers(){
+    let storedUser = localStorage.getItem('users');
+
+    if(storedUser != null){
+        users = JSON.parse(storedUser);
+        users = users.map(user => new User(user.name,user.email,user.password,user.tipoUser))
+    }else{
+        users.push(new User ("Admin","admin@gmail.com","admin","ambos"));
+        users.push(new User ("Joao Pinto","admin@gmail.com","joao123","vendedor"));
+        users.push(new User ("Joana Pinho","admin@gmail.com","joana123","comprador"));
+        saveUsers();
+
+    }
+}
+
+function saveUsers(){
+    localStorage.setItem('users',JSON.stringify(users));
+}
