@@ -1,6 +1,7 @@
 let users = [];
 
-let container, pwShowHide, pwFields, signUp, loginnavbarRight;
+let container, pwShowHide, pwFields, signUp, loginnavbarRight,loginForm,registerForm,campoLog,campoReg,selecionarOP,
+regName,regEmail,regPass,tipoUser;
 
 // Variáveis para os elementos do HTML
 container = document.querySelector(".container"),
@@ -8,16 +9,45 @@ container = document.querySelector(".container"),
     pwFields = document.querySelectorAll(".password"),
     signUp = document.querySelector(".signup-link"),
     login = document.querySelector(".login-link"),
+    
     navbarRight = document.querySelector('.nav-right');
     
 
 window.onload = function () {
     localStorage.removeItem('userLogged');
     loadUsers();
-    botaoReg = document.getElementById("ButtonReg");
 
-   // botaoReg.addEventListener("click", processRegister);
+   
+    regEmail = document.getElementById("regEmail");
+    regName = document.getElementById("regName");
+    regPass = document.getElementById("regPass");
+
+    selecionarOP = document.getElementById("selecionarOP");
+    campoLog = document.getElementById("campoLog")
+    campoReg = document.getElementById("campoReg")
+    loginForm = document.getElementById("loginForm"),
+    registerForm = document.getElementById("registerForm"),
+    botaoReg = document.getElementById("registerBtn");
+
+   botaoReg.addEventListener("click", processRegister);
+
+   selecionarOP.addEventListener("change", function () {
+    let selectedValue = selecionarOP.value;
+    switch (selectedValue) {
+        case "opcao1":
+            tipoUser = "comprador";
+            break;
+        case "opcao2":
+            tipoUser = "vendedor";
+            break;
+        case "opcao3":
+            tipoUser = "ambos";
+            break;
+        
+    }
+});
 }
+
 
 function User(name, email, password, tipoUser) {
     this.name = name;
@@ -42,8 +72,16 @@ User.prototype = {
 };
 
 
-function trocaForm() {
-    console.log("ola")
+function trocarForm() {
+    if (loginForm.classList.contains("hidden")) {
+        loginForm.classList.remove("hidden");
+        registerForm.classList.add("hidden");
+        cleanItens();
+    } else {
+        loginForm.classList.add("hidden");
+        registerForm.classList.remove("hidden");
+       cleanItens();
+    }
 }
 
 function processRegister() {
@@ -83,4 +121,24 @@ function loadUsers(){
 
 function saveUsers(){
     localStorage.setItem('users',JSON.stringify(users));
+}
+
+function cleanItens() {
+    campoLog.reset();
+    campoReg.reset();
+}
+
+function processRegister(){
+    if(regName.value != "" && regEmail.value != "" && regPass.value != "" && tipoUser != null ){
+        console.log("valido")
+    }else{
+        console.log("invalido")
+    }
+    
+
+    
+}
+
+function processLogin(){
+
 }

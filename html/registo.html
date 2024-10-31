@@ -20,10 +20,10 @@
 <body>
     <div class="container">
         <div class="forms">
-            <div class="form login">
+            <div class="form login" id="loginForm">
                 <span class="title">Login</span>
 
-                <form action="#" id="loginForm">
+                <form action="#" id="campoLog">
                     <div class="input-field">
                         <input type="text" id="emailInput" placeholder="Enter your email" required> 
                         <i class="ri-mail-fill icon"></i>
@@ -49,8 +49,8 @@
                 </form>
 
                 <div class="login-signup">
-                    <span class="text">Not a member?
-                        <a href="#" class="text signup-link" onclick=TrocarForm>Signup now</a>
+                    <span class="text" >Not a member?
+                        <a href="#" class="text signup-link" onclick="trocarForm()">Signup now</a>
                     </span>
                 </div>
             </div>
@@ -58,7 +58,7 @@
             <div class="form signup" id="registerForm">
                 <span class="title">Registration</span>
 
-                <form action="#">
+                <form action="#" id="campoReg">
                     <div class="input-field">
                         <input type="text" id="regName" placeholder="Enter your name" required> 
                         <i class="ri-user-fill icon"></i>
@@ -72,6 +72,13 @@
                         <i class="ri-lock-fill icon"></i>
                         <i class="ri-eye-off-fill showHidePw"></i>
                     </div>
+
+                    <select id="selecionarOP">
+                        <option disabled selected>Eu quero ser?</option>
+                        <option value="opcao1">Comprador</option>
+                        <option value="opcao2">Vendedor</option>
+                        <option value="opcao3">Ambos</option>
+                    </select>
 
                     <div class="checkbox-text">
                         <div class="checkbox-content">
@@ -89,7 +96,7 @@
 
                 <div class="login-signup">
                     <span class="text">Already a member?
-                        <a href="#" class="text login-link">Login now</a> <!--Aquiiiiiiiiiiiiiiii o caminho href-->
+                        <a href="#" class="text login-link" onclick="trocarForm()">Login now</a> <!--Aquiiiiiiiiiiiiiiii o caminho href-->
                     </span>
                 </div>
             </div>
