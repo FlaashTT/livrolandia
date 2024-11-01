@@ -150,6 +150,7 @@ function processRegister() {
                 }
             }
             if (verificarEmail(regEmail.value)) {
+                alert("Utilizador criado")
                 users.push(new User(regName.value, regEmail.value, regPass.value, tipoUser, "false"));
                 saveUsers();
                 trocarForm();
@@ -170,20 +171,19 @@ function processLogin() {
     let loggedInUser = null;
     if (logEmail.value != "" && logPass.value != "") {
         for (let i = 0; i < users.length; i++) {
-            if (logEmail.value === users[i].getEmail()) {
-                if (logPass.value === users[i].getPassword()) {
-                    loggedInUser = users[i];
-
-                    localStorage.setItem('userLogged', JSON.stringify(loggedInUser));
-                    alert("Bem vindo " + users[i].getName());
-                    window.location.href = '../html/index.html';
-                    break;
-                } else {
-                    alert("Credenciais invalidas")
-                }
-            } else {
-                alert("Email inexistente")
+            if (logEmail.value === users[i].getEmail() && logPass.value === users[i].getPassword()) {
+                loggedInUser = users[i];
+                break;
             }
+        }
+        
+        if (loggedInUser) {
+            localStorage.setItem('userLogged', JSON.stringify(loggedInUser));
+            alert("Bem vindo " + loggedInUser.name);
+            window.location.href = '../html/index.html';
+            
+        }else{
+            alert("credenciais invalidas")
         }
     } else {
         alert("preencha todos os campos!")
@@ -204,7 +204,7 @@ function forgotEmail() {
                     alert("Foi enviado um email para alterar palavra passe!");
                     loginForm.classList.remove("hidden");
                     forgotForm.classList.add("hidden");
-                   
+
                 } else {
                     alert("Email não existente")
                 }
@@ -213,9 +213,6 @@ function forgotEmail() {
             alert("Insira um email valido")
         }
     })
-
-
-
 }
 
 function verificarEmail(emailreg) {
