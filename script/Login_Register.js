@@ -182,7 +182,7 @@ function processLogin() {
             alert("Bem vindo " + loggedInUser.name);
             window.location.href = '../html/index.html';
             
-        }else{
+        }else{  
             alert("credenciais invalidas")
         }
     } else {
@@ -198,19 +198,21 @@ function forgotEmail() {
     forgotForm.classList.remove("hidden");
 
     ForgotBtn.addEventListener("click", function () {
-        if (forgotEmailInput.value != "" || verificarEmail(forgotEmailInput.value)) {
+        if (forgotEmailInput.value != "" && verificarEmail(forgotEmailInput.value)) {
             for (let i = 0; i < users.length; i++) {
                 if (users[i].getEmail() === forgotEmailInput.value) {
                     alert("Foi enviado um email para alterar palavra passe!");
                     loginForm.classList.remove("hidden");
                     forgotForm.classList.add("hidden");
-
+                    break;
                 } else {
                     alert("Email não existente")
+                    break;
                 }
             }
         } else {
             alert("Insira um email valido")
+            
         }
     })
 }
