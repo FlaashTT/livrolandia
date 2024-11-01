@@ -40,7 +40,7 @@
                             <label for="logCheck" class="text">Remember me</label>
                         </div>
 
-                        <a href="#" class="text">Forgot password</a>
+                        <a href="#" class="text" onclick="forgotEmail()">Forgot password</a>
                     </div>
 
                     <div class="input-field button">
@@ -86,7 +86,7 @@
                             <label for="sigCheck" class="text">Remember me</label>
                         </div>
 
-                        <a href="#" class="text">Forgot password</a>
+                        
                     </div>
 
                     <div class="input-field button">
@@ -96,9 +96,24 @@
 
                 <div class="login-signup">
                     <span class="text">Already a member?
-                        <a href="#" class="text login-link" onclick="trocarForm()">Login now</a> <!--Aquiiiiiiiiiiiiiiii o caminho href-->
+                        <a href="#" class="text login-link" onclick="trocarForm()">Login now</a> 
                     </span>
                 </div>
+            </div>
+
+
+            <div class="hidden" id="forgotForm">
+                <form action="">
+                    <div class="input-field">
+                        <input type="text" id="forgotEmailInput" placeholder="Enter your email" required> 
+                        <i class="ri-mail-fill icon"></i>
+                    </div>
+
+                    <div class="input-field button">
+                        <input type="button" id="ForgotBtn" value="Enviar Email de recuperaçao"> 
+                    </div>
+                </form>
+
             </div>
         </div>
     </div>

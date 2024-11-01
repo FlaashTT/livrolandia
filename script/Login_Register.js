@@ -22,17 +22,20 @@ window.onload = function () {
     regEmail = document.getElementById("regEmail");
     regName = document.getElementById("regName");
     regPass = document.getElementById("regPass");
+    forgotEmailInput = document.getElementById("forgotEmailInput");
 
     selecionarOP = document.getElementById("selecionarOP");
     campoLog = document.getElementById("campoLog");
     campoReg = document.getElementById("campoReg");
+    forgotForm = document.getElementById("forgotForm");
     loginForm = document.getElementById("loginForm");
     registerForm = document.getElementById("registerForm");
     botaoReg = document.getElementById("registerBtn");
     botaoLog = document.getElementById("loginBtn");
+    ForgotBtn = document.getElementById("ForgotBtn");
 
     botaoReg.addEventListener("click", processRegister);
-    botaoLog.addEventListener("click",processLogin);
+    botaoLog.addEventListener("click", processLogin);
 
     selecionarOP.addEventListener("change", function () {
         let selectedValue = selecionarOP.value;
@@ -188,20 +191,31 @@ function processLogin() {
 
 }
 
-function forgotEmail(){
-    if(forgEmail.value != "" || verificarEmail(forgEmail.value)){
-        for(let i =0;i<users.length;i++){
-            if(users[i].getEmail() === forgEmail.value){
-                alert ("Foi enviado um email para alterar palavra passe!");
-                
-                //falta codigo para voltar ao login 
-            }else{
-                alert("Email não existente")
+function forgotEmail() {
+    console.log("forgot");
+    loginForm.classList.add("hidden");
+    registerForm.classList.add("hidden");
+    forgotForm.classList.remove("hidden");
+
+    ForgotBtn.addEventListener("click", function () {
+        if (forgotEmailInput.value != "" || verificarEmail(forgotEmailInput.value)) {
+            for (let i = 0; i < users.length; i++) {
+                if (users[i].getEmail() === forgotEmailInput.value) {
+                    alert("Foi enviado um email para alterar palavra passe!");
+                    loginForm.classList.remove("hidden");
+                    forgotForm.classList.add("hidden");
+                   
+                } else {
+                    alert("Email não existente")
+                }
             }
+        } else {
+            alert("Insira um email valido")
         }
-    }else{
-        alert("Insira um email valido")
-    }
+    })
+
+
+
 }
 
 function verificarEmail(emailreg) {
