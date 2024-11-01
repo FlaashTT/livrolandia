@@ -128,8 +128,13 @@ body{
 .container  .Selecao{
     margin-top: 20px;
     display: flex;
-    border-radius: 20px;
+    border-radius: 5px;
     padding: 2px;
+    justify-content: flex-end;
+}
+
+.Selecao{
+    float: right;
 }
 
 .form .checkbox-text{
