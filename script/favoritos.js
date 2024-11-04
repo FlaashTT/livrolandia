@@ -12,7 +12,11 @@ window.onload = function () {
 }
 
 function header() {
-    textoNome.innerHTML = "Olá <br>" + userLogged.name + " !";
+    if(userLogged !=null){
+        textoNome.innerHTML = "Olá <br>" + userLogged.name + " !";
+    }else{
+        textoNome.innerHTML = "Erro!"
+    }
     btnCategorias.addEventListener("click", function () {
         if (categorias.classList.contains("hidden")) {
             categorias.classList.remove("hidden");
