@@ -55,12 +55,13 @@ window.onload = function () {
 }
 
 
-function User(name, email, password, tipoUser, verfAdmin) {
+function User(name, email, password, tipoUser, verfAdmin,morada) {
     this.name = name;
     this.email = email;
     this.password = password;
     this.tipoUser = tipoUser;
     this.verfAdmin = verfAdmin
+    this.morada = morada;
 }
 
 User.prototype = {
@@ -78,6 +79,9 @@ User.prototype = {
     },
     getVerfAdmin: function () {
         return this.verfAdmin;
+    },
+    getMorada: function(){
+        return this.morada;
     }
 };
 
@@ -119,11 +123,11 @@ function loadUsers() {
 
     if (storedUser != null) {
         users = JSON.parse(storedUser);
-        users = users.map(user => new User(user.name, user.email, user.password, user.tipoUser, user.verfAdmin))
+        users = users.map(user => new User(user.name, user.email, user.password, user.tipoUser, user.verfAdmin,user.morada))
     } else {
-        users.push(new User("Admin", "admin@gmail.com", "admin", "ambos", "true"));
-        users.push(new User("Joao Pinto", "admin@gmail.com", "joao123", "vendedor", "false"));
-        users.push(new User("Joana Pinho", "admin@gmail.com", "joana123", "comprador", "false"));
+        users.push(new User("Admin", "admin@gmail.com", "admin", "ambos", "true",""));
+        users.push(new User("Joao Pinto", "joaopinto@gmail.com", "joao123", "vendedor", "false",""));
+        users.push(new User("Joana Pinho", "joanapinho@gmail.com", "joana123", "comprador", "false",""));
         saveUsers();
 
     }

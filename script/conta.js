@@ -1,9 +1,11 @@
-let btnCategorias, categorias, textoNome;
 
-window.onload = function () {
+
+window.onload = function() {
     userLogged = JSON.parse(localStorage.getItem("userLogged"));
-    categorias = document.getElementById("categorias");
 
+    seletorConta = document.getElementById("seletorConta");
+    contaOps = document.getElementById("contaOps");
+    
     iconConta = document.getElementById("iconConta");
     btnCategorias = document.getElementById("btnCategorias");
     textoNome = document.getElementById("textoNome");
@@ -34,4 +36,17 @@ function header() {
     })
 
 
+}
+
+function execLogout(){
+    localStorage.removeItem('userLogged');
+    window.location.href ='..//html/registo.html'
+}
+
+function exibirContaOps(){
+    if(contaOps.classList.contains("hidden")){
+        contaOps.classList.remove("hidden");
+    }else{
+        contaOps.classList.add("hidden");
+    }
 }

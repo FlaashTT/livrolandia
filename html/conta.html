@@ -4,9 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Livrolandia</title>
-    <link rel="stylesheet" href="..//style/style.css">
-    <script src="..//script/script.js"></script>
+    <title>Document</title>
+    <link rel="stylesheet" href="..//style/conta.css">
+    <script src="..//script/conta.js"></script>
+
     <!--Box icons link-->
     <link rel="stylesheet" href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'>
 
@@ -20,8 +21,8 @@
         rel="stylesheet">
 </head>
 
+
 <body>
-    <!-- header -->
     <header>
         <button id="btnCategorias"> <i class="ri-align-left"></i></button>
 
@@ -53,11 +54,19 @@
         </div>
         -->
     </header>
-    <div class="hidden" id="categorias">
-
+    <div>
+        <br><br><br><br><br>
+        <button id="seletorCompras">Compras</button> <br>
+        <button id="seletorConta" onclick="exibirContaOps()">Conta</button> <br>
+        <div class="hidden" id="contaOps" >
+            <button> Dados Pessoais</button> <br>
+            <button> Gerir Moradas</button> <br>
+        </div>
+        <button id="seletorFavoritos">Favoritos</button> <br>
+        <button id="seletorCupoes">Cupões</button> <br>
+        <button id="logout" onclick="execLogout()">Logout</button>
 
     </div>
-
 </body>
 
 </html>

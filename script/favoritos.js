@@ -1,8 +1,7 @@
-let btnCategorias, categorias, textoNome;
+
 
 window.onload = function () {
     userLogged = JSON.parse(localStorage.getItem("userLogged"));
-    categorias = document.getElementById("categorias");
 
     iconConta = document.getElementById("iconConta");
     btnCategorias = document.getElementById("btnCategorias");

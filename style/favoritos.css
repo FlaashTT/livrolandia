@@ -1,0 +1,134 @@
+.hidden{
+    display: none;
+}
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    list-style: none;
+    text-decoration: none;
+    scroll-behavior: smooth;
+    font-family: "Open Sans", sans-serif;
+}
+
+:root{
+    --bb-color: #e9e9e9;
+    --text-color: #000000;
+    --main-color: #ffffff;
+    --other-color: #689ded;
+    --second-color: #616060;
+
+    --h1-font: 5.5rem;
+    --h2-font: 3.5rem;
+    --p-font: 1rem;
+}
+
+body{
+    background-color: var(--bb-color);
+    color: var(--text-color);
+}
+
+header { 
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    z-index: 1000;
+    background: var(--main-color);
+    box-shadow: 0 1px 6px 0 rgb(32, 33, 36 / 5%);
+    padding: 14px 2%;
+    display: flex;
+    align-items: center;
+    transition: all .6s;
+}
+
+.ri-align-left{
+    margin-right: 20px;
+}
+
+.logo {
+    position: relative;
+    width: 150px; 
+    height: 60px; 
+    overflow: hidden;
+}
+
+.logo-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1.5); 
+    width: 100px;
+    height: auto;
+    object-fit: cover;
+}
+
+.navlist {
+    display: flex;
+    margin-left: auto; 
+    align-items: center;
+}
+
+.navlist button {
+    display: inline-block;
+    margin: 0 15px;
+    font-size: var(--p-font);
+    font-weight: 200;
+    color: var(--text-color);
+    transition: all .6s;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+}
+
+.navlist i{
+    margin: 0 8px;
+}
+
+.search-box:hover > .search-text{
+    width: 320px;
+}
+
+.search-text{
+    border-radius: 20px;
+    height: 50px;
+    align-items: center;
+    transition: .40s;
+}
+
+.navlist h4{
+    font-family: sans-serif;
+}
+
+.navlist a:hover {
+    transform: translate(-4px);
+    color: var(--second-color);
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    margin-left: 20px; 
+}
+
+.nav-right a {
+    display: inline-block;
+    font-size: 22px;
+    color: var(--text-color);
+    margin: 0;
+    transition: all .6s;
+}
+
+.nav-right a:hover {
+    transform: translate(-5px) scale(1.1);
+}
+
+#menu-icon {
+    font-size: 35px;
+    color: var(--text-color);
+    z-index: 10001;
+    margin-left: 10px;
+    cursor: pointer;
+    display: none;
+}
