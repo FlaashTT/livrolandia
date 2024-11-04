@@ -23,14 +23,14 @@ function header() {
     });
 
     iconConta.addEventListener("click", function () {
-        window.location.href = '..//html/conta.html';
+        window.location.href = '../html/conta.html';
     });
 
     iconFavs.addEventListener("click", function () {
-        window.location.href = '..//html/favoritos.html';
+        window.location.href = '../html/favoritos.html';
     });
     iconCarrinho.addEventListener("click",function(){
-        window.location.href = '..//html/carrinho.html';
+        window.location.href = '../html/carrinho.html';
     })
 
 
