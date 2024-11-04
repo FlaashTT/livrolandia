@@ -43,8 +43,11 @@ header {
     transition: all .6s;
 }
 
-.ri-align-left{
+.buttonSide {
+    border: none;
+    background-color: transparent;
     margin-right: 20px;
+    cursor: pointer;
 }
 
 .logo {
@@ -64,6 +67,8 @@ header {
     object-fit: cover;
 }
 
+
+
 .navlist {
     display: flex;
     margin-left: auto; 
@@ -80,6 +85,7 @@ header {
     align-items: center;
     background-color: transparent;
     border: none;
+    cursor: pointer;
 }
 
 .navlist i{
