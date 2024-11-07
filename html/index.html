@@ -1,65 +1,229 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Livrolandia</title>
     <link rel="stylesheet" href="../style/style.css">
-    <script src="../script/script.js"></script>
-    <!--Box icons link-->
-    <link rel="stylesheet" href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'>
-
-    <!--Remix icons link-->
+    <script src="../script/script.js" defer></script>
+    <!-- Box icons link -->
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+    <!-- Remix icons link -->
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
-
-    <!--Google Fonts-->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
 </head>
 
-
 <body>
-    <!-- header Principal -->
+    <!-- Header Principal -->
     <header>
         <button id="btnCategorias" class="buttonSide"> <i class="ri-align-left"></i></button>
-
         <a href="index.html" class="logo">
             <video autoplay loop muted playsinline class="logo-video">
                 <source src="/Res/LivroLândia.mp4" type="video/mp4">
             </video>
         </a>
-
         <ul class="navlist">
             <i class="ri-search-line"></i>
-            <div class="search-box" >
+            <div class="search-box">
                 <input class="search-text" type="text" name="" placeholder="O que Procura" id="">
             </div>
             <button id="iconConta"><i class="ri-user-3-line"></i></button>
-            <h4 id="textoNome">  </h4>
-             
+            <h4 id="textoNome"> </h4>
             <button id="iconFavs"> <i class="ri-heart-2-line"></i> </button>
             <button id="iconCarrinho"><i class="ri-shopping-cart-line"></i></button>
-           
         </ul>
+    </header>
 
-        <!--
-        <div class="nav-right">
-            <a id="conta" href="/html/registo.html">Conta</i></a>
-            <div class="bx bx menu" id="menu-icon">
+    <!-- Sidebar -->
+    <div id="sidebar" class="sidebar hidden">
+        <a href="#" class="side-link">Aventura</a>
+        <a href="#" class="side-link">Romance</a>
+        <a href="#" class="side-link">Terror</a>
+        <a href="#" class="side-link">Ação</a>
+    </div>
 
+    <section class="banner">
+        <h2>Banner</h2>
+    </section>
+
+    <section class="suggestions">
+        <h1>Sugestões de Aventura</h1>
+        <div class="books-container">
+            <div class="book-card">
+                <div class="book-image">
+                    <div class="favorite-icon">
+                        <i class="ri-heart-3-line"></i>
+                    </div>
+                </div>
+                <h3>Sangue e Cinzas - Livro 1</h3>
+                <p>Jennifer L. Armentrout</p>
+                <p>17,52€</p>
+                <p class="free-shipping">Portes Grátis</p>
+            </div>
+            <div class="book-card">
+                <div class="book-image">
+                    <div class="favorite-icon">
+                        <i class="ri-heart-3-line"></i>
+                    </div>
+                </div>
+                <h3>A História de Roma</h3>
+                <p>Joana Bértholo</p>
+                <p>17,52€</p>
+            </div>
+            <div class="book-card">
+                <div class="book-image">
+                    <div class="favorite-icon">
+                        <i class="ri-heart-3-line"></i>
+                    </div>
+                </div>
+                <h3>A História de Roma</h3>
+                <p>Joana Bértholo</p>
+                <p>17,52€</p>
+            </div>
+            <div class="book-card">
+                <div class="book-image">
+                    <div class="favorite-icon">
+                        <i class="ri-heart-3-line"></i>
+                    </div>
+                </div>
+                <h3>A História de Roma</h3>
+                <p>Joana Bértholo</p>
+                <p>17,52€</p>
+            </div>
+            <div class="book-card">
+                <div class="book-image">
+                    <div class="favorite-icon">
+                        <i class="ri-heart-3-line"></i>
+                    </div>
+                </div>
+                <h3>A História de Roma</h3>
+                <p>Joana Bértholo</p>
+                <p>17,52€</p>
+            </div>
+            <div class="book-card">
+                <div class="book-image">
+                    <div class="favorite-icon">
+                        <i class="ri-heart-3-line"></i>
+                    </div>
+                </div>
+                <h3>A História de Roma</h3>
+                <p>Joana Bértholo</p>
+                <p>17,52€</p>
             </div>
         </div>
-        -->
-        
-    </header>
-    <div class="hidden" id="categorias">
+    </section>
 
+    <section class="suggestions">
+        <h1>Sugestões de Terror</h1>
+        <div class="books-container">
+            <div class="book-card">
+                <div class="book-image">
+                    <div class="favorite-icon">
+                        <i class="ri-heart-3-line"></i>
+                    </div>
+                </div>
+                <h3>Sangue e Cinzas - Livro 1</h3>
+                <p>Jennifer L. Armentrout</p>
+                <p>17,52€</p>
+                <p class="free-shipping">Portes Grátis</p>
+            </div>
+            <div class="book-card">
+                <div class="book-image">
+                    <div class="favorite-icon">
+                        <i class="ri-heart-3-line"></i>
+                    </div>
+                </div>
+                <h3>A História de Roma</h3>
+                <p>Joana Bértholo</p>
+                <p>17,52€</p>
+            </div>
+            <div class="book-card">
+                <div class="book-image">
+                    <div class="favorite-icon">
+                        <i class="ri-heart-3-line"></i>
+                    </div>
+                </div>
+                <h3>A História de Roma</h3>
+                <p>Joana Bértholo</p>
+                <p>17,52€</p>
+            </div>
+            <div class="book-card">
+                <div class="book-image">
+                    <div class="favorite-icon">
+                        <i class="ri-heart-3-line"></i>
+                    </div>
+                </div>
+                <h3>A História de Roma</h3>
+                <p>Joana Bértholo</p>
+                <p>17,52€</p>
+            </div>
+            <div class="book-card">
+                <div class="book-image">
+                    <div class="favorite-icon">
+                        <i class="ri-heart-3-line"></i>
+                    </div>
+                </div>
+                <h3>A História de Roma</h3>
+                <p>Joana Bértholo</p>
+                <p>17,52€</p>
+            </div>
+            <div class="book-card">
+                <div class="book-image">
+                    <div class="favorite-icon">
+                        <i class="ri-heart-3-line"></i>
+                    </div>
+                </div>
+                <h3>A História de Roma</h3>
+                <p>Joana Bértholo</p>
+                <p>17,52€</p>
+            </div>
+        </div>
+    </section>
 
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-box">
+            <h3>Companhia</h3>
+            <a href="#" id="linkSobre">Sobre</a>
+            <a href="#">Características</a>
+            <a href="#">Trabalho</a>
+            <a href="#">Carreira</a>
+        </div>
+
+        <div class="footer-box">
+            <h3>FAQ</h3>
+            <a href="#">Conta</a>
+            <a href="#">Características</a>
+            <a href="#">Trabalho</a>
+            <a href="#">Carreira</a>
+        </div>
+
+        <div class="footer-box">
+            <h3>Recursos</h3>
+            <a href="#">Youtube playlist</a>
+            <a href="#">Características</a>
+            <a href="#">Trabalho</a>
+        </div>
+
+        <div class="footer-box">
+            <h3>Social</h3>
+            <div class="social">
+                <a href="#"><i class="ri-facebook-fill"></i></a>
+                <a href="#"><i class="ri-instagram-fill"></i></a>
+                <a href="#"><i class="ri-twitter-fill"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Copyright -->
+    <div class="copyright">
+        <div class="end-text">
+            <p>CopyRight 2024 By Leandro Pinto, Ruben Pinheiro, Pedro Mouro, Francisco Nunes</p>
+        </div>  
     </div>
 
 </body>
-
 </html>
