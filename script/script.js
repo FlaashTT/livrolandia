@@ -2,6 +2,7 @@ let btnCategorias, categorias, textoNome, sidebar, iconConta, iconFavs, iconCarr
 
 window.onload = function () {
     userLogged = JSON.parse(localStorage.getItem("userLogged"));
+
     sidebar = document.getElementById("sidebar");
     iconConta = document.getElementById("iconConta");
     btnCategorias = document.getElementById("btnCategorias");
@@ -17,10 +18,12 @@ window.onload = function () {
 }
 
 function header() {
-    if (userLogged != null) {
-        textoNome.innerHTML = "Olá <br>" + userLogged.name + "!";
-    } else {
-        textoNome.innerHTML = "Erro!";
+    if(userLogged !=null){
+        textoNome.innerHTML = "Olá <br>" + userLogged.name + " !";
+    }else if(userLogged === null){
+        textoNome.innerHTML = "Olá <br> anonimo"
+    }else{
+        textoNome.innerHTML = "Erro!"
     }
 
     btnCategorias.addEventListener("click", toggleSidebar);

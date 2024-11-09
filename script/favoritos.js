@@ -14,9 +14,12 @@ window.onload = function () {
 function header() {
     if(userLogged !=null){
         textoNome.innerHTML = "Olá <br>" + userLogged.name + " !";
+    }else if(userLogged === null){
+        textoNome.innerHTML = "Olá <br> anonimo"
     }else{
         textoNome.innerHTML = "Erro!"
     }
+    
     btnCategorias.addEventListener("click", function () {
         if (categorias.classList.contains("hidden")) {
             categorias.classList.remove("hidden");
