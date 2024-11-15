@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Livrolandia</title>
+    <link rel="stylesheet" href="../style/book.css" />
+    <script src="../script/book.js" defer></script>
+    <!-- Box icons link -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+    />
+    <!-- Remix icons link -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <!-- Header Principal -->
+    <header>
+      <button id="btnCategorias" class="buttonSide">
+        <i class="ri-align-left"></i>
+      </button>
+      <a href="index.html" class="logo">
+        <video autoplay loop muted playsinline class="logo-video">
+          <source src="/Res/LivroLândia.mp4" type="video/mp4" />
+        </video>
+      </a>
+      <ul class="navlist">
+        <i class="ri-search-line"></i>
+        <div class="search-box">
+          <input
+            class="search-text"
+            type="text"
+            name=""
+            placeholder="O que Procura"
+            id=""
+          />
+        </div>
+        <button id="iconConta"><i class="ri-user-3-line"></i></button>
+        <h4 id="textoNome"></h4>
+        <button id="iconFavs"><i class="ri-heart-2-line"></i></button>
+        <button id="iconCarrinho"><i class="ri-shopping-cart-line"></i></button>
+      </ul>
+    </header>
+
+    <!-- Sidebar -->
+    <div id="sidebar" class="sidebar hidden">
+      <a href="#" class="side-link">Aventura</a>
+      <a href="#" class="side-link">Romance</a>
+      <a href="#" class="side-link">Terror</a>
+      <a href="#" class="side-link">Ação</a>
+    </div>
+
+    <!-- Book List -->
+    <main>
+      <section class="book-details-page">
+        <div class="book-container">
+          <!-- Área de visualização com quadrados pequenos -->
+          <div class="book-preview">
+            <!-- Quadrado pequeno com a imagem do livro -->
+            <div class="small-square">
+              <img
+                src="../images/book-thumbnail.jpg"
+                alt="Thumbnail do livro"
+              />
+            </div>
+            <!-- Quadrado pequeno com o texto 'VER+' -->
+            <div class="small-square">
+              <div class="view-more">VER+</div>
+            </div>
+          </div>
+
+          <!-- Imagem principal do livro -->
+          <div class="book-image">
+            <img src="../images/book-cover.jpg" alt="Capa do Livro" />
+          </div>
+
+          <!-- Informações do livro -->
+          <div class="book-info">
+            <span class="discount">30% DE DESCONTO</span>
+            <h1>Título do Livro</h1>
+            <h3>Subtítulo do Livro</h3>
+            <div class="author-container">
+              <p><span class="author">Nome do Autor</span></p>
+            </div>
+
+            <!-- Editor pequeno e slogan -->
+            <div class="small-column">
+              <p><span class="editor">editor: Nome do Editor</span></p>
+            </div>
+
+            <p>
+              <i class="ri-star-line">
+                <i class="ri-star-line"></i> <i class="ri-star-line"></i>
+                <i class="ri-star-line"></i> <i class="ri-star-line"></i
+              ></i>
+            </p>
+            <p class="slogan">"Um livro inesquecível!"</p>
+            <div class="price-container">
+                <p class="price-ant">26,99€</p>
+              <p class="price">19,99€</p>
+              <p class="new-discount">10€ DESCONTO IMEDIATO</p>
+            </div>
+
+            <div class="actions">
+              <button class="buy-button">Comprar</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
