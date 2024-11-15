@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Livrolandia</title>
+    <link rel="stylesheet" href="../style/definicoes.css" />
+    <script src="../script/definicoes.js" defer></script>
+    <!-- Box icons link -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+    />
+    <!-- Remix icons link -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <!-- Header Principal -->
+    <header>
+      <button id="btnCategorias" class="buttonSide">
+        <i class="ri-align-left"></i>
+      </button>
+      <a href="index.html" class="logo">
+        <video autoplay loop muted playsinline class="logo-video">
+          <source src="/Res/LivroLândia.mp4" type="video/mp4" />
+        </video>
+      </a>
+      <ul class="navlist">
+        <i class="ri-search-line"></i>
+        <div class="search-box">
+          <input
+            class="search-text"
+            type="text"
+            name=""
+            placeholder="O que Procura"
+            id=""
+          />
+        </div>
+        <button id="iconConta"><i class="ri-user-3-line"></i></button>
+        <h4 id="textoNome"></h4>
+        <button id="iconFavs"><i class="ri-heart-2-line"></i></button>
+        <button id="iconCarrinho"><i class="ri-shopping-cart-line"></i></button>
+      </ul>
+    </header>
+
+    <!-- Sidebar -->
+    <div id="sidebar" class="sidebar hidden">
+      <a href="#" class="side-link">Aventura</a>
+      <a href="#" class="side-link">Romance</a>
+      <a href="#" class="side-link">Terror</a>
+      <a href="#" class="side-link">Ação</a>
+    </div>
+
+    <!-- Menu de Opções -->
+    <nav class="opcoes" id="opcoes">
+    <p>Olá <span id="userName">Alexandre!</span></p>
+      <a href="#">Vendas</a>
+      <div class="side-submenu">
+        <a href="#" id="toggle-account">
+          Conta <i class="ri-arrow-right-line"></i></i>
+        </a>
+        <ul id="submenu" style="display: none;">
+          <li><a href="#">Dados Pessoais</a></li>
+          <li><a href="#">Gerir Moradas</a></li>
+        </ul>
+      </div>
+      <a href="#">Favoritos</a>
+      <a href="#">Cupons</a>
+      <a href="#" id="logoutBtn" >Terminar Sessão</a>
+    </nav>
+
+    <!-- Conteúdo Principal -->
+    <main class="main-content">
+      <h2>Última Venda</h2>
+      <div class="sale-info">
+        <div class="sale-details">
+          <p>Encomenda Nº 33557890</p>
+          <p>Data da Compra: 14/11/2023</p>
+          <p class="location">Local da Compra: Venda Online</p>
+        </div>
+        <div class="price">Valor: 22,00€</div>
+        <button class="details-button">VER DETALHES</button>
+      </div>
+    </main>
+  </body>
+</html>

@@ -1,8 +1,10 @@
 let btnCategorias, categorias, textoNome, sidebar, iconConta, iconFavs, iconCarrinho, searchBox, searchInput;
 
 window.onload = function () {
-    userLogged = JSON.parse(localStorage.getItem("userLogged"));
+    // Recupera o usuário logado do localStorage
+    let userLogged = JSON.parse(localStorage.getItem("userLogged"));
 
+    // Seletores dos elementos da página
     sidebar = document.getElementById("sidebar");
     iconConta = document.getElementById("iconConta");
     btnCategorias = document.getElementById("btnCategorias");
@@ -14,22 +16,24 @@ window.onload = function () {
     searchBox = document.querySelector('.search-box');
     searchInput = document.querySelector('.search-text');
 
-    header();
+    header(userLogged);
 }
 
-function header() {
-    if(userLogged !=null){
+function header(userLogged) {
+    if (userLogged != null) {
         textoNome.innerHTML = "Olá <br>" + userLogged.name + " !";
-    }else if(userLogged === null){
-        textoNome.innerHTML = "Olá <br> anonimo"
-    }else{
-        textoNome.innerHTML = "Erro!"
+    } else {
+        textoNome.innerHTML = "Olá <br> anónimo";
     }
 
     btnCategorias.addEventListener("click", toggleSidebar);
 
     iconConta.addEventListener("click", function () {
-        window.location.href = '../html/conta.html';
+        if (userLogged != null) {
+            window.location.href = '../html/definicoes.html';
+        } else {
+            window.location.href = '../html/registo.html';
+        }
     });
 
     iconFavs.addEventListener("click", function () {
@@ -41,11 +45,11 @@ function header() {
     });
 
     searchInput.addEventListener('focus', function() {
-        searchBox.classList.add('expanded'); 
+        searchBox.classList.add('expanded');
     });
 
     searchInput.addEventListener('blur', function() {
-        if (!searchInput.value) { 
+        if (!searchInput.value) {
             searchBox.classList.remove('expanded');
         }
     });
