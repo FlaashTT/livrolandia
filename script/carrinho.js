@@ -11,10 +11,10 @@ window.onload = function () {
 
     searchBox = document.querySelector('.search-box');
     searchInput = document.querySelector('.search-text');
-    header();
+    header(userLogged);
 }
 
-function header() {
+function header(userLogged) {
     if(userLogged !=null){
         textoNome.innerHTML = "Olá <br>" + userLogged.name + " !";
     }else {

@@ -16,7 +16,7 @@ window.onload = function () {
     searchBox = document.querySelector('.search-box');
     searchInput = document.querySelector('.search-text');
 
-    header();
+    header(userLogged);
 }
 
 function header(userLogged) {
