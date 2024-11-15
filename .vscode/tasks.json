@@ -1,0 +1,16 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Git Pull",
+        "type": "shell",
+        "command": "git pull",
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        },
+        "problemMatcher": [],
+        "detail": "Faz um pull automaticamente do repositório remoto"
+      }
+    ]
+  }
