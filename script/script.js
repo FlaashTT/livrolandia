@@ -16,7 +16,7 @@ window.onload = function () {
     searchBox = document.querySelector('.search-box');
     searchInput = document.querySelector('.search-text');
 
-    header(userLogged);
+    header();
 }
 
 function header(userLogged) {
@@ -26,7 +26,10 @@ function header(userLogged) {
         textoNome.innerHTML = "Olá <br> anónimo !";
     }
 
-    btnCategorias.addEventListener("click", toggleSidebar);
+    btnCategorias.addEventListener("click", function(){
+        sidebar.classList.toggle("hidden");
+        sidebar.classList.toggle("show");
+    });
 
     iconConta.addEventListener("click", function () {
         if (userLogged != null) {
@@ -55,7 +58,3 @@ function header(userLogged) {
     });
 }
 
-function toggleSidebar() {
-    sidebar.classList.toggle("hidden");
-    sidebar.classList.toggle("show");
-}

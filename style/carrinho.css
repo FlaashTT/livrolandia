@@ -27,6 +27,10 @@
 body{
     background-color: var(--bb-color);
     color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
 }
 
 header { 
@@ -41,10 +45,58 @@ header {
     display: flex;
     align-items: center;
     transition: all .6s;
+    z-index: 1010;
 }
 
-.ri-align-left{
+.sidebar {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    width: 250px;
+    height: 100%;
+    background-color: var(--main-color);
+    color: var(--bb-color);
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    padding-top: 20px;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: 1000;
+}
+
+.sidebar a {
+    padding: 15px 0px;
+    color: var(--second-color);
+    text-decoration: none;
+    font-size: 18px;
+    padding-left: 20px;
+    text-align: left; 
+    border-bottom: 1px solid #444; 
+    width: 100%; 
+}
+
+.sidebar a:last-child {
+    border-bottom: none; 
+}
+
+.sidebar a:hover {
+    background-color: var(--bb-color);
+}
+
+.sidebar.hidden {
+    transform: translateY(-100%);
+}
+
+.sidebar.show {
+    transform: translateY(0);
+}
+
+.buttonSide {
+    border: none;
+    background-color: transparent;
     margin-right: 20px;
+    cursor: pointer;
 }
 
 .logo {
@@ -64,6 +116,8 @@ header {
     object-fit: cover;
 }
 
+
+
 .navlist {
     display: flex;
     margin-left: auto; 
@@ -80,21 +134,35 @@ header {
     align-items: center;
     background-color: transparent;
     border: none;
+    cursor: pointer;
 }
 
 .navlist i{
     margin: 0 8px;
 }
 
-.search-box:hover > .search-text{
-    width: 320px;
+.search-box {
+    position: relative;
+    width: 200px; 
+    transition: width 0.4s ease-in-out;
 }
 
-.search-text{
-    border-radius: 20px;
-    height: 50px;
-    align-items: center;
-    transition: .40s;
+.search-text {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 15px;
+    outline: none;
+    background-color: #fff;
+    transition: width 0.4s ease-in-out;
+}
+
+.search-box.expanded {
+    width: 400px; 
+}
+
+.search-text.expanded {
+    width: 100%; 
 }
 
 .navlist h4{
@@ -122,13 +190,4 @@ header {
 
 .nav-right a:hover {
     transform: translate(-5px) scale(1.1);
-}
-
-#menu-icon {
-    font-size: 35px;
-    color: var(--text-color);
-    z-index: 10001;
-    margin-left: 10px;
-    cursor: pointer;
-    display: none;
 }
