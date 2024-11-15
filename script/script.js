@@ -23,7 +23,7 @@ function header(userLogged) {
     if (userLogged != null) {
         textoNome.innerHTML = "Olá <br>" + userLogged.name + " !";
     } else {
-        textoNome.innerHTML = "Olá <br> anónimo";
+        textoNome.innerHTML = "Olá <br> anónimo !";
     }
 
     btnCategorias.addEventListener("click", toggleSidebar);
