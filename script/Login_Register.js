@@ -1,4 +1,3 @@
-let users = [];
 
 let container, pwShowHide, pwFields, signUp, loginnavbarRight, loginForm, registerForm, campoLog, campoReg, selecionarOP,
     regName, regEmail, regPass, logEmail, logPass, tipoUser;
@@ -15,7 +14,6 @@ container = document.querySelector(".container"),
 
 window.onload = function () {
     localStorage.removeItem('userLogged');
-    loadUsers();
 
     logEmail = document.getElementById("logEmail");
     logPass = document.getElementById("logPass");
@@ -55,35 +53,6 @@ window.onload = function () {
 }
 
 
-function User(name, email, password, tipoUser, verfAdmin,morada) {
-    this.name = name;
-    this.email = email;
-    this.password = password;
-    this.tipoUser = tipoUser;
-    this.verfAdmin = verfAdmin
-    this.morada = morada;
-}
-
-User.prototype = {
-    getName: function () {
-        return this.name;
-    },
-    getEmail: function () {
-        return this.email;
-    },
-    getPassword: function () {
-        return this.password;
-    },
-    getTipoUser: function () {
-        return this.tipoUser;
-    },
-    getVerfAdmin: function () {
-        return this.verfAdmin;
-    },
-    getMorada: function(){
-        return this.morada;
-    }
-};
 
 
 function trocarForm() {
@@ -96,11 +65,6 @@ function trocarForm() {
         registerForm.classList.remove("hidden");
         cleanItens();
     }
-}
-
-function processRegister() {
-    console.log("ola");
-    window.location.href = '..//html/index.html';
 }
 
 // Adicionando evento de clique para mostrar/ocultar senha
@@ -118,53 +82,43 @@ pwShowHide.forEach(eyeIcon => {
     });
 });
 
-function loadUsers() {
-    let storedUser = localStorage.getItem('users');
 
-    if (storedUser != null) {
-        users = JSON.parse(storedUser);
-        users = users.map(user => new User(user.name, user.email, user.password, user.tipoUser, user.verfAdmin,user.morada))
-    } else {
-        users.push(new User("Admin", "admin@gmail.com", "admin", "ambos", "true",""));
-        users.push(new User("Joao Pinto", "joaopinto@gmail.com", "joao123", "vendedor", "false",""));
-        users.push(new User("Joana Pinho", "joanapinho@gmail.com", "joana123", "comprador", "false",""));
-        saveUsers();
-
-    }
-}
-
-function saveUsers() {
-    localStorage.setItem('users', JSON.stringify(users));
-}
 
 function cleanItens() {
     campoLog.reset();
     campoReg.reset();
 }
 
-function processRegister() {
-    if (regName.value != "" && regEmail.value != "" && regPass.value != "" && tipoUser != null) {
-        if (regName.value === "admin") {
-            alert("Nome invalido!");
-        } else {
-            for (let i = 0; i < users.length; i++) {
-                if (users[i].getEmail() === regEmail.value) {
-                    alert("Email ja utilizado!");
-                    break;
-                }
-            }
-            if (verificarEmail(regEmail.value)) {
-                alert("Utilizador criado")
-                users.push(new User(regName.value, regEmail.value, regPass.value, tipoUser, "false"));
-                saveUsers();
-                trocarForm();
-            } else {
-                alert("Endereço email incorreto");
-            }
 
+function processRegister() {
+    let email = regEmail.value,
+        password = regPass.value,
+        name = regName.value;
+
+    if (verificarEmail(email)) {
+        if (email !== "" && password !== "" && name !== "" && tipoUser) {
+            fetch('http://localhost:3000/register', {  // Alterando para a rota /register
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password, name, tipoUser })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("Usuário registrado com sucesso! Faça login para continuar.");
+                        trocarForm();  // Redirecionar para a página de login
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        } else {
+            alert("Preencha todos os campos!");
         }
     } else {
-        alert("Dados invalidos,preencha os dados todos");
+        alert("email Invalido!")
     }
 
 
@@ -172,61 +126,82 @@ function processRegister() {
 }
 
 function processLogin() {
-    let loggedInUser = null;
-    if (logEmail.value != "" && logPass.value != "") {
-        for (let i = 0; i < users.length; i++) {
-            if (logEmail.value === users[i].getEmail() && logPass.value === users[i].getPassword()) {
-                loggedInUser = users[i];
-                break;
-            }
-        }
-        
-        if (loggedInUser) {
-            localStorage.setItem('userLogged', JSON.stringify(loggedInUser));
-            alert("Bem vindo " + loggedInUser.name);
-            window.location.href = '../html/index.html';
-            
-        }else{  
-            alert("credenciais invalidas")
-        }
+    let email = logEmail.value,
+        password = logPass.value;
+
+    if (email && password) {
+        fetch('http://localhost:3000/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email, password })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+
+                    localStorage.setItem('userLogged', JSON.stringify(data.user));
+
+                    const user = data.user;
+                    alert("Bem-vindo " + user.name);
+                    window.location.href = '../html/index.html'; // Redireciona para a página inicial
+                } else {
+                    alert(data.message); // Exibe mensagem de erro se as credenciais forem inválidas
+                }
+            })
+            .catch(error => console.error('Error:', error));
     } else {
-        alert("preencha todos os campos!")
+        alert("Preencha todos os campos!"); // Alerta se campos estiverem vazios
     }
 
 }
 
 function forgotEmail() {
-    console.log("forgot");
     loginForm.classList.add("hidden");
     registerForm.classList.add("hidden");
     forgotForm.classList.remove("hidden");
 
     ForgotBtn.addEventListener("click", function () {
-        if (forgotEmailInput.value != "" && verificarEmail(forgotEmailInput.value)) {
-            for (let i = 0; i < users.length; i++) {
-                if (users[i].getEmail() === forgotEmailInput.value) {
-                    alert("Foi enviado um email para alterar palavra passe!");
-                    loginForm.classList.remove("hidden");
-                    forgotForm.classList.add("hidden");
-                    break;
-                } else {
-                    alert("Email não existente")
-                    break;
-                }
-            }
+        let forgEmail = forgotEmailInput.value;
+
+        if (forgEmail) {
+            fetch('http://localhost:3000/forgotPass', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ forgEmail })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+
+                        alert("Foi enviado um email para alterar palavra passe!");
+                        loginForm.classList.remove("hidden");
+                        forgotForm.classList.add("hidden");
+
+                    } else {
+                        alert(data.message); // Exibe mensagem de erro se as credenciais forem inválidas
+                    }
+                })
+                .catch(error => console.error('Error:', error));
         } else {
-            alert("Insira um email valido")
-            
+            alert("Preencha todos os campos!"); // Alerta se campos estiverem vazios
         }
+
     })
+
+
+
 }
 
-function verificarEmail(emailreg) {
+function verificarEmail(email) {
     let arr = [];
     emailValid = false;
 
     // Divide o endereço de email em duas partes utilizando o símbolo "@" como delimitador
-    arr = emailreg.split("@");
+    arr = email.split("@");
 
     if (arr.length === 2) { // O endereço deve conter um único "@"
         if (arr[0].length !== 0 && arr[1].length >= 2) { // À esquerda do "@" deve haver algum dado e à direita pelo menos dois caracteres
