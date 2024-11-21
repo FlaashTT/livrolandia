@@ -17,6 +17,7 @@ window.onload = function () {
     searchInput = document.querySelector('.search-text');
 
     header(userLogged);
+    addBooks();
 }
 
 function header(userLogged) {
@@ -56,5 +57,9 @@ function header(userLogged) {
             searchBox.classList.remove('expanded');
         }
     });
+}
+
+function addBooks(){
+    
 }
 

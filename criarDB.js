@@ -1,11 +1,11 @@
 const express = require('express');
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
-const cors = require('cors'); // Importando o cors
+const cors = require('cors'); 
 const app = express();
 const port = 3000;
 
-app.use(cors()); // Adicionando o middleware CORS para permitir requisições de qualquer origem
+app.use(cors()); 
 app.use(bodyParser.json());
 
 // Conexão com o banco de dados
@@ -43,12 +43,11 @@ const tables = [
     `CREATE TABLE Livros (
       id_livro INT AUTO_INCREMENT,
       id_categoria INT,
-      nome VARCHAR(30),
-      autor VARCHAR(30),
-      imagem VARCHAR(15),
-      sinopse VARCHAR(60),
+      autor VARCHAR(100),
+      imagem VARCHAR(100),
+      sinopse VARCHAR(200),
       preco DECIMAL(10,2),
-      titulo VARCHAR(30),
+      titulo VARCHAR(100),
       id_utilizador INT,
       stock INT,
       desconto INT,
