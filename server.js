@@ -109,7 +109,61 @@ app.post('/favoritos', (req, res) => {
             res.json({ success: true, favorites: result });
         } else {
             // Se não houver favoritos, retornamos uma mensagem apropriada
-            res.json({ success: false, message: "Não há favoritos para este usuário" });
+            res.json({ success: true, favorites: [] });
+        }
+    });
+});
+
+app.post('/livro', (req, res) => {
+    const { id_livro } = req.body; // Obtém o id_livro da requisição
+
+    // Verifica se id_livro foi fornecido
+    if (!id_livro) {
+        return res.json({ success: false, message: "ID do livro é obrigatório" });
+    }
+
+    // Query para buscar os detalhes do livro
+    const query = 'SELECT * FROM Livros WHERE id_livro = ?';
+
+    con.query(query, [id_livro], (err, result) => {
+        if (err) {
+            console.error('Erro ao acessar o banco de dados:', err);
+            return res.json({ success: false, message: "Erro ao acessar o banco de dados" });
+        }
+
+        // Se o livro for encontrado
+        if (result.length > 0) {
+            res.json({ success: true, livro: result[0] });
+        } else {
+            res.json({ success: false, message: "Livro não encontrado" });
+        }
+    });
+});
+
+app.post('/carrinho', (req, res) => {
+    const { id_utilizador } = req.body; // Obtém o id_utilizador da requisição
+
+    // Verifica se id_utilizador foi fornecido
+    if (!id_utilizador) {
+        return res.json({ success: false, message: "ID do usuário é obrigatório" });
+    }
+
+    // Query para buscar os favoritos do usuário
+    const query = 'SELECT * FROM carrinho WHERE id_utilizador = ?';
+
+    con.query(query, [id_utilizador], (err, result) => {
+        if (err) {
+            console.error('Erro ao acessar o banco de dados:', err);
+            return res.json({ success: false, message: "Erro ao acessar o banco de dados" });
+        }
+
+        // Se o usuário não tiver favoritos
+        if (result.length > 0) {
+            // Se houver favoritos, retornamos os dados
+            res.json({ success: true, carrinho: result });
+        } else {
+            // Se não houver favoritos, retornamos uma mensagem apropriada
+            res.json({ success: true, carrinho: [] });
         }
     });
 });

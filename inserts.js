@@ -275,7 +275,7 @@ con.connect(function (err) {
     if (err) throw err;
     console.log(`${result.affectedRows} registros inseridos!`);
   });
-});*/
+});
 
 con.connect(function(err) {
   if (err) throw err;
@@ -288,6 +288,23 @@ con.connect(function(err) {
     ['1', '55', '2024/11/21'],
     
   ];
+
+  con.query(sql, [values], function(err, result) {
+    if (err) throw err;
+    console.log(`${result.affectedRows} registros inseridos!`);
+  });
+});
+*/
+
+con.connect(function(err) {
+  if (err) throw err;
+  
+
+  // Inserindo múltiplos registros
+  const sql = `INSERT INTO carrinho (id_utilizador, id_livro) VALUES ?`;
+const values = [
+    ['1', '2'] // Valores a serem inseridos
+];
 
   con.query(sql, [values], function(err, result) {
     if (err) throw err;

@@ -61,48 +61,83 @@ function header(userLogged) {
 }
 
 function showFavorits() {
-    const id_utilizador = userLogged.id_utilizador; // Usando o id_utilizador de userLogged
+    if (!userLogged) {
+        favoritosHtml.innerHTML = "Indisponível, inicie sessão para continuar!<br>";
+        favoritosHtml.innerHTML += `
+        <input type="button" value="Iniciar sessão!" onclick="window.location.href='../html/registo.html';">
+    `;
+        return;
+    } else {
+        const id_utilizador = userLogged.id_utilizador; // Usando o id_utilizador de userLogged
 
-    fetch('http://localhost:3000/favoritos', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ id_utilizador }) // Enviando o id_utilizador na requisição
-    })
-    .then(response => response.json())
-    .then(data => {
-        let favoritosHtml = ''; // Variável para armazenar o HTML dos favoritos
+        fetch('http://localhost:3000/favoritos', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id_utilizador }) // Enviando o id_utilizador na requisição
+        })
+            .then(response => response.json())
+            .then(data => {
+                let favoritosHtmlContent = ''; // Variável para armazenar o HTML dos favoritos
 
-        if (data.success) {
-            // Verifica se 'data.favorites' é um array antes de acessar 'length'
-            if (Array.isArray(data.favorites) && data.favorites.length > 0) {
-                data.favorites.forEach((favorito, i) => {
-                    favoritosHtml += `
-                        <div class="favorito">
-                            <p>Favorito ${i + 1}: ${favorito.nome}</p> 
-                        </div>
-                    `;
-                });
-            } else {
-                // Caso não tenha favoritos
-                favoritosHtml += `
+                if (data.success) {
+                    // Verifica se 'data.favorites' é um array antes de acessar 'length'
+                    if (Array.isArray(data.favorites) && data.favorites.length > 0) {
+                        // Para cada favorito, buscar os detalhes do livro
+                        data.favorites.forEach((favorito, i) => {
+                            // Buscar informações do livro com o id_livro
+                            fetch('http://localhost:3000/livro', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({ id_livro: favorito.id_livro }) // Envia o id_livro
+                            })
+                                .then(response => response.json())
+                                .then(livroData => {
+                                    if (livroData.success) {
+                                        console.log("ok")
+                                        // Adiciona as informações do livro ao HTML do favorito
+                                        favoritosHtmlContent += `
+                                    <div class="favorito">
+                                        <p>Favorito ${i + 1}: ${livroData.livro.titulo}</p> 
+                                        <p>Autor: ${livroData.livro.autor}</p>
+                                        <p>Descrição: ${livroData.livro.sinopse}</p>
+                                        <p>ID: ${livroData.livro.id_livro}</p><br>
+                                    </div>
+                                `;
+                                    } else {
+                                        favoritosHtmlContent += `
+                                    <div class="favorito">
+                                        <p>Favorito ${i + 1}: Não foi possível carregar os dados do livro.</p>
+                                    </div>
+                                `;
+                                    }
+                                    favoritosHtml.innerHTML = favoritosHtmlContent;
+
+                                })
+                                .catch(error => console.error('Erro ao buscar detalhes do livro:', error));
+                        });
+                    } else {
+                        // Caso não tenha favoritos
+                        favoritosHtmlContent += `
                     <div class="favorito">
-                        <p>Não tem favoritos</p>
+                        <p>Sem nenhum livro favorito marcado</p>
                     </div>
                 `;
-            }
-        } else {
-            // Se a resposta da API não for bem-sucedida, exibe a mensagem de erro
-            alert(data.message);
-            
-        }
+                    }
+                } else {
+                    alert(data.message);
+                }
 
-        // Atualiza o HTML no contêiner com o ID 'favoritosHtml'
-        document.getElementById('favoritosHtml').innerHTML = favoritosHtml;
-    })
-    .catch(error => console.error('Error:', error));
+                // Atualiza o HTML no contêiner com o ID 'favoritosHtml'
+                favoritosHtml.innerHTML = favoritosHtmlContent;
+            })
+            .catch(error => console.error('Error:', error));
+    }
 }
+
 
 
 
