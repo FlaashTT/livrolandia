@@ -145,52 +145,33 @@ app.post('/livro', (req, res) => {
     });
 });
 
-/*
-app.post('/categoria', (req, res) => {
-    // Consulta para buscar todas as categorias
-    const queryCategorias = 'SELECT * FROM Categoria';
+app.post('/carrinho', (req, res) => {
+    const { id_utilizador } = req.body; // Obtém o id_utilizador da requisição
 
-    con.query(queryCategorias, (err, categorias) => {
+    // Verifica se id_utilizador foi fornecido
+    if (!id_utilizador) {
+        return res.json({ success: false, message: "ID do usuário é obrigatório" });
+    }
+
+    // Query para buscar os favoritos do usuário
+    const query = 'SELECT * FROM carrinho WHERE id_utilizador = ?';
+
+    con.query(query, [id_utilizador], (err, result) => {
         if (err) {
-            return res.json({ success: false, message: 'Erro ao buscar categorias: ' + err.message });
+            console.error('Erro ao acessar o banco de dados:', err);
+            return res.json({ success: false, message: "Erro ao acessar o banco de dados" });
         }
 
-        if (categorias.length === 0) {
-            return res.json({ success: false, message: "Nenhuma categoria encontrada" });
+        // Se o usuário não tiver favoritos
+        if (result.length > 0) {
+            // Se houver favoritos, retornamos os dados
+            res.json({ success: true, carrinho: result });
+        } else {
+            // Se não houver favoritos, retornamos uma mensagem apropriada
+            res.json({ success: true, carrinho: [] });
         }
-
-        // Array para armazenar categorias com seus livros
-        const categoriasComLivros = [];
-        let categoriasProcessadas = 0;
-
-        categorias.forEach(categoria => {
-            const queryLivros = 'SELECT * FROM Livros WHERE id_categoria = ?';
-
-            con.query(queryLivros, [categoria.id_categoria], (err, livros) => {
-                if (err) {
-                    return res.json({ success: false, message: 'Erro ao buscar livros para a categoria ' + categoria.nome + ': ' + err.message });
-                }
-
-                // Adiciona a categoria com seus livros ao array
-                categoriasComLivros.push({
-                    ...categoria,
-                    livros: livros // Adiciona os livros da categoria
-                });
-
-                // Verifica se todas as categorias foram processadas
-                categoriasProcessadas++;
-                if (categoriasProcessadas === categorias.length) {
-                    res.json({ success: true, categorias: categoriasComLivros });
-                }
-            });
-        });
     });
 });
-*/
-
-
-
-
 
 
 
