@@ -20,7 +20,7 @@ window.onload = function () {
 
     header(userLogged);
     addItens();
-    showSlides();
+    
 }
 
 function header(userLogged) {
@@ -64,19 +64,6 @@ function header(userLogged) {
 
 
 
-function showSlides() {
-    const slides = document.querySelectorAll('.slide'); // Seleciona todos os slides
-    slides.forEach((slide) => (slide.style.display = 'none')); // Esconde todos os slides
-    currentSlideIndex++;
-    if (currentSlideIndex > slides.length) {
-        currentSlideIndex = 1; // Reinicia o slideshow
-    }
-    slides[currentSlideIndex - 1].style.display = 'block'; // Mostra o slide atual
-    slides[currentSlideIndex - 1].style.animation = 'fadeEffect 1.5s ease-in-out'; // Aplica o efeito de fade
-    setTimeout(showSlides, 5000); // Troca de slide a cada 5 segundos
-}
-
-
 function addItens() {
     fetch('http://localhost:3000/categoria', {
         method: 'POST',
@@ -96,14 +83,14 @@ function addItens() {
                     </div>
                     <div class="book-card">
                         <div class="book-image">
-                            <img src="../Res/categorias/arte/espelho magico.png" alt="imagem">
+                            <img src="../Res/categorias/${categoria.nome}/espelho magico.png" alt="imagem">
                         <div class="favorite-icon">
                             <i id="iconFavoritos" class="ri-heart-3-line"></i>
                         </div>
                     </div>
-                    <h3>Sangue e Cinzas</h3>
-                    <p>Jennifer L. Armentrout</p>
-                    <p>17,52€</p>
+                    <h3>${titulolivro}</h3>
+                    <p>${nomeautor}</p>
+                    <p>${preço}</p>
                     <p class="free-shipping">Portes Grátis</p>
                     </div>
                     `;
