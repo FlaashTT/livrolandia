@@ -82,11 +82,8 @@ function showFavorits() {
                 let favoritosHtmlContent = ''; // Variável para armazenar o HTML dos favoritos
 
                 if (data.success) {
-                    // Verifica se 'data.favorites' é um array antes de acessar 'length'
                     if (Array.isArray(data.favorites) && data.favorites.length > 0) {
-                        // Para cada favorito, buscar os detalhes do livro
                         data.favorites.forEach((favorito, i) => {
-                            // Buscar informações do livro com o id_livro
                             fetch('http://localhost:3000/livro', {
                                 method: 'POST',
                                 headers: {
@@ -97,14 +94,16 @@ function showFavorits() {
                                 .then(response => response.json())
                                 .then(livroData => {
                                     if (livroData.success) {
-                                        console.log("ok")
+                                        const livro = livroData.livro;
+
                                         // Adiciona as informações do livro ao HTML do favorito
                                         favoritosHtmlContent += `
-                                    <div class="favorito">
-                                        <p>Favorito ${i + 1}: ${livroData.livro.titulo}</p> 
-                                        <p>Autor: ${livroData.livro.autor}</p>
-                                        <p>Descrição: ${livroData.livro.sinopse}</p>
-                                        <p>ID: ${livroData.livro.id_livro}</p><br>
+                                    <div class="favorito" id=favorito${i+1}>
+                                        <img src="../Res/categorias/${livro.nome_categoria}/${livro.titulo}.png" alt="imagem">
+                                        <p> ${livro.titulo}</p> 
+                                        <p>${livro.autor}</p><br>
+                                        
+                                        
                                     </div>
                                 `;
                                     } else {
@@ -120,7 +119,6 @@ function showFavorits() {
                                 .catch(error => console.error('Erro ao buscar detalhes do livro:', error));
                         });
                     } else {
-                        // Caso não tenha favoritos
                         favoritosHtmlContent += `
                     <div class="favorito">
                         <p>Sem nenhum livro favorito marcado</p>
@@ -137,6 +135,7 @@ function showFavorits() {
             .catch(error => console.error('Error:', error));
     }
 }
+
 
 
 

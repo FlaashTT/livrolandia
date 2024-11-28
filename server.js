@@ -115,30 +115,37 @@ app.post('/favoritos', (req, res) => {
 });
 
 app.post('/livro', (req, res) => {
-    const { id_livro } = req.body; // Obtém o id_livro da requisição
+    const { id_livro } = req.body;
 
-    // Verifica se id_livro foi fornecido
     if (!id_livro) {
         return res.json({ success: false, message: "ID do livro é obrigatório" });
     }
 
-    // Query para buscar os detalhes do livro
-    const query = 'SELECT * FROM Livros WHERE id_livro = ?';
+    // Query para buscar os detalhes do livro e sua categoria
+    const queryLivro = `
+        SELECT Livros.*, Categoria.nome AS nome_categoria
+        FROM Livros
+        INNER JOIN Categoria ON Livros.id_categoria = Categoria.id_categoria
+        WHERE Livros.id_livro = ?`;
 
-    con.query(query, [id_livro], (err, result) => {
+    con.query(queryLivro, [id_livro], (err, result) => {
         if (err) {
             console.error('Erro ao acessar o banco de dados:', err);
             return res.json({ success: false, message: "Erro ao acessar o banco de dados" });
         }
 
-        // Se o livro for encontrado
         if (result.length > 0) {
-            res.json({ success: true, livro: result[0] });
+            res.json({
+                success: true,
+                livro: result[0] // Inclui o nome da categoria no resultado
+            });
         } else {
             res.json({ success: false, message: "Livro não encontrado" });
         }
     });
 });
+
+
 
 app.post('/carrinho', (req, res) => {
     const { id_utilizador } = req.body; // Obtém o id_utilizador da requisição
