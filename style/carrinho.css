@@ -9,11 +9,14 @@
 }
 h1 {
     margin: 0; /* Remove margens */
+    margin-right: 10px;
+    
 }
-p {
-    margin: 0; /* Remove margens */
-    padding-left: 10px; /* Espaçamento entre o h1 e o parágrafo */
+
+.artigo{
+    color: var(--second-color);
 }
+
 /**/
 
 *{

@@ -204,6 +204,10 @@ header {
     z-index: 999; 
 }
 
+.opcoes p {
+    margin-bottom: 10px;
+}
+
 /* Estilo geral dos links do menu */
 .opcoes a {
     display: block;
@@ -257,6 +261,10 @@ header {
     background-color: var(--bb-color);
     margin-top: 120px;
     width: 70%;
+}
+
+.main-content h2{
+    margin-bottom: 10px;
 }
 
 .sale-info {
