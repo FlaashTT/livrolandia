@@ -213,14 +213,22 @@ body {
 }
 
 .banner {
-    width: 103%;
+    width: 110%; /* Ajustar para 100% para evitar rolagem horizontal */
     height: 200px;
     background-color: #ccc;
     margin-top: 60px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     font-size: 24px;
+    overflow: hidden; /* Garante que o conteúdo não ultrapasse os limites */
+}
+
+.banner img {
+    width: 100%; /* Garante que a imagem ocupe todo o container */
+    height: auto; /* Mantém a proporção da imagem */
+    object-fit: cover; /* Faz o ajuste da imagem sem distorções */
 }
 
 .suggestions {

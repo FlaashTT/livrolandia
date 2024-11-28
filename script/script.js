@@ -1,4 +1,5 @@
 let btnCategorias, categorias, textoNome, sidebar, iconConta, iconFavs, iconCarrinho, searchBox, searchInput;
+let currentSlideIndex = 0;
 
 window.onload = function () {
     // Recupera o usuário logado do localStorage
@@ -18,6 +19,7 @@ window.onload = function () {
 
     header(userLogged);
     addBooks();
+    showSlides();
 }
 
 function header(userLogged) {
@@ -63,3 +65,14 @@ function addBooks(){
     
 }
 
+function showSlides() {
+    const slides = document.querySelectorAll('.slide'); // Seleciona todos os slides
+    slides.forEach((slide) => (slide.style.display = 'none')); // Esconde todos os slides
+    currentSlideIndex++;
+    if (currentSlideIndex > slides.length) {
+        currentSlideIndex = 1; // Reinicia o slideshow
+    }
+    slides[currentSlideIndex - 1].style.display = 'block'; // Mostra o slide atual
+    slides[currentSlideIndex - 1].style.animation = 'fadeEffect 1.5s ease-in-out'; // Aplica o efeito de fade
+    setTimeout(showSlides, 5000); // Troca de slide a cada 5 segundos
+}
