@@ -98,3 +98,28 @@ function toggleSidebar() {
   sidebar.classList.toggle("hidden");
   sidebar.classList.toggle("show");
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  const vendasLink = document.getElementById("vendas-link");
+  const moradasLink = document.getElementById("moradas-link");
+  const vendasContent = document.getElementById("vendas-content");
+  const moradasContent = document.getElementById("moradas-content");
+
+  function esconderConteudo() {
+    vendasContent.classList.add("hidden");
+    moradasContent.classList.add("hidden");
+  }
+
+  vendasLink.addEventListener("click", (e) => {
+    e.preventDefault(); 
+    esconderConteudo(); 
+    vendasContent.classList.remove("hidden"); 
+  });
+
+  moradasLink.addEventListener("click", (e) => {
+    e.preventDefault(); 
+    esconderConteudo(); 
+    moradasContent.classList.remove("hidden");
+  });
+});
+

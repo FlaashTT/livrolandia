@@ -253,6 +253,7 @@ header {
 }
 
 
+
 /* Estilo do conteúdo principal */
 .main-content {
     margin-left: 270px; 
@@ -292,6 +293,106 @@ header {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+}
+
+
+
+
+.hidden {
+    display: none;
+}
+
+
+.form-container {
+    padding: 20px;
+    width: calc(100% - 270px);
+    background-color: #f0f0f0; /* Cor do fundo igual a sale-info */
+    margin-top: 105px;
+    border-radius: 8px; /* Mantém bordas levemente arredondadas */
+    display: block;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Sombra leve */
+    width: 150%; /* Garante largura total */
+    max-width: 800px; /* Limita a largura para evitar muito esticado */
+    padding: 20px 30px; /* Adiciona espaçamento interno */
+}
+
+.form-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Espaçamento entre campos */
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: bold;
+    color: #333;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: bold;
+    color: #333;
+}
+
+
+/*                             Moradas                                     */
+input[type="text1"],
+input[type="tel1"],
+input[type="email1"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+input[type="text1"]:focus,
+input[type="tel1"]:focus {
+    border-color: #4A90E2;
+    outline: none;
+}
+
+.form-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.save-button {
+    background-color: #4A90E2;
+    color: white;
+    padding: 12px 30px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.save-button:hover {
+    background-color: #357ABD;
+}
+
+.cancel-button {
+    background-color: #ccc;
+    color: #333;
+    padding: 12px 30px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.cancel-button:hover {
+    background-color: #999;
 }
 
 
