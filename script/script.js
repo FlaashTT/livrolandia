@@ -12,13 +12,14 @@ window.onload = function () {
     textoNome = document.getElementById("textoNome");
     iconFavs = document.getElementById("iconFavs");
     iconCarrinho = document.getElementById("iconCarrinho");
-    
+
     // Corrige o seletor da search-box e searchInput
     searchBox = document.querySelector('.search-box');
     searchInput = document.querySelector('.search-text');
+    ItensLivros = document.getElementById("Sectiongeral");
 
     header(userLogged);
-    addBooks();
+    addItens();
     showSlides();
 }
 
@@ -29,7 +30,7 @@ function header(userLogged) {
         textoNome.innerHTML = "Olá <br> anónimo !";
     }
 
-    btnCategorias.addEventListener("click", function(){
+    btnCategorias.addEventListener("click", function () {
         sidebar.classList.toggle("hidden");
         sidebar.classList.toggle("show");
     });
@@ -50,20 +51,18 @@ function header(userLogged) {
         window.location.href = '../html/carrinho.html';
     });
 
-    searchInput.addEventListener('focus', function() {
+    searchInput.addEventListener('focus', function () {
         searchBox.classList.add('expanded');
     });
 
-    searchInput.addEventListener('blur', function() {
+    searchInput.addEventListener('blur', function () {
         if (!searchInput.value) {
             searchBox.classList.remove('expanded');
         }
     });
 }
 
-function addBooks(){
-    
-}
+
 
 function showSlides() {
     const slides = document.querySelectorAll('.slide'); // Seleciona todos os slides
@@ -76,3 +75,50 @@ function showSlides() {
     slides[currentSlideIndex - 1].style.animation = 'fadeEffect 1.5s ease-in-out'; // Aplica o efeito de fade
     setTimeout(showSlides, 5000); // Troca de slide a cada 5 segundos
 }
+
+
+function addItens() {
+    fetch('http://localhost:3000/categoria', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
+            let HtmlContent = '';
+            if (data.success) {
+                data.categorias.forEach(categoria => {
+                    HtmlContent += `
+                    <div class="suggestions-header">
+                        <h1>Sugestões de ${categoria.nome}</h1>
+                        <span class="add-icon">VER +</span>
+                    </div>
+                    <div class="book-card">
+                        <div class="book-image">
+                            <img src="../Res/categorias/arte/espelho magico.png" alt="imagem">
+                        <div class="favorite-icon">
+                            <i id="iconFavoritos" class="ri-heart-3-line"></i>
+                        </div>
+                    </div>
+                    <h3>Sangue e Cinzas</h3>
+                    <p>Jennifer L. Armentrout</p>
+                    <p>17,52€</p>
+                    <p class="free-shipping">Portes Grátis</p>
+                    </div>
+                    `;
+                });
+            } else {
+                // Imprime mensagem de erro na console
+                console.error("Erro:", data.message);
+            }
+
+            // Insere o HTML gerado no contêiner
+            ItensLivros.innerHTML = HtmlContent;
+        })
+        .catch(error => console.error('Erro na requisição:', error));
+}
+
+
+
+
