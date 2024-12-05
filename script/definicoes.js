@@ -3,7 +3,8 @@ let btnCategorias, categorias, textoNome, sidebar, iconConta, iconFavs, iconCarr
 
 window.onload = function () {
   // Recupera o usuário logado do localStorage
-  let userLogged = JSON.parse(localStorage.getItem("userLogged"));
+  
+  userLogged = JSON.parse(localStorage.getItem("userLogged"));
 
   // Seletores dos elementos da página
   userNameElement = document.getElementById("userName");
@@ -21,6 +22,8 @@ window.onload = function () {
   dadosPessoais = document.getElementById("dadosPessoais");
   linkCupons = document.getElementById("linkCupons");
   cupons = document.getElementById("cupons");
+  linkFavoritos = document.getElementById("linkFavoritos");
+  favoritos = document.getElementById("favoritos");
 
   // Corrige o seletor da search-box e searchInput
   searchBox = document.querySelector(".search-box");
@@ -112,6 +115,10 @@ document.addEventListener("DOMContentLoaded", () => {
   function esconderConteudo() {
     vendasContent.classList.add("hidden");
     moradasContent.classList.add("hidden");
+    favoritos.classList.add("hidden");
+    dadosPessoais.classList.add("hidden");
+    cupons.classList.add("hidden")
+
   }
 
   vendasLink.addEventListener("click", (e) => {
@@ -130,12 +137,98 @@ document.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
     esconderConteudo();
     dadosPessoais.classList.remove("hidden");
-  })
+  });
 
   linkCupons.addEventListener("click",(e) =>{
     e.preventDefault();
     esconderConteudo();
     cupons.classList.remove("hidden");
-  })
+  });
+
+  linkFavoritos.addEventListener("click",(e) =>{
+    e.preventDefault();
+    esconderConteudo();
+    favoritos.classList.remove("hidden");
+    showFavorits();
+  });
+
+
 });
+
+
+function showFavorits() {
+  if (!userLogged) {
+      favoritosHtml.innerHTML = "Indisponível, inicie sessão para continuar!<br>";
+      favoritosHtml.innerHTML += `
+      <input type="button" value="Iniciar sessão!" onclick="window.location.href='../html/registo.html';">
+  `;
+      return;
+  } else {
+      const id_utilizador = userLogged.id_utilizador; // Usando o id_utilizador de userLogged
+
+      fetch('http://localhost:3000/favoritos', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ id_utilizador }) // Enviando o id_utilizador na requisição
+      })
+          .then(response => response.json())
+          .then(data => {
+              let favoritosHtmlContent = ''; // Variável para armazenar o HTML dos favoritos
+
+              if (data.success) {
+                  if (Array.isArray(data.favorites) && data.favorites.length > 0) {
+                      data.favorites.forEach((favorito, i) => {
+                          fetch('http://localhost:3000/livro', {
+                              method: 'POST',
+                              headers: {
+                                  'Content-Type': 'application/json'
+                              },
+                              body: JSON.stringify({ id_livro: favorito.id_livro }) // Envia o id_livro
+                          })
+                              .then(response => response.json())
+                              .then(livroData => {
+                                  if (livroData.success) {
+                                      const livro = livroData.livro;
+
+                                      // Adiciona as informações do livro ao HTML do favorito
+                                      favoritosHtmlContent += `
+                                  <div class="favorito" id=favorito${i+1}>
+                                      <img src="../Res/categorias/${livro.nome_categoria}/${livro.titulo}.png" alt="imagem">
+                                      <p> ${livro.titulo}</p> 
+                                      <p>${livro.autor}</p><br>
+                                      
+                                      
+                                  </div>
+                              `;
+                                  } else {
+                                      favoritosHtmlContent += `
+                                  <div class="favorito">
+                                      <p>Favorito ${i + 1}: Não foi possível carregar os dados do livro.</p>
+                                  </div>
+                              `;
+                                  }
+                                  favoritosHtml.innerHTML = favoritosHtmlContent;
+
+                              })
+                              .catch(error => console.error('Erro ao buscar detalhes do livro:', error));
+                      });
+                  } else {
+                      favoritosHtmlContent += `
+                  <div class="favorito">
+                      <p>Sem nenhum livro favorito marcado</p>
+                  </div>
+              `;
+                  }
+              } else {
+                  alert(data.message);
+              }
+
+              // Atualiza o HTML no contêiner com o ID 'favoritosHtml'
+              favoritosHtml.innerHTML = favoritosHtmlContent;
+          })
+          .catch(error => console.error('Error:', error));
+  }
+}
 
