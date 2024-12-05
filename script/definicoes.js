@@ -1,5 +1,5 @@
-let btnCategorias, categorias, textoNome, sidebar,iconConta, iconFavs,iconCarrinho,searchBox,searchInput, toggleAccountLink, submenu,
-    arrowIcon, logoutBtn, userNameElement;
+let btnCategorias, categorias, textoNome, sidebar, iconConta, iconFavs, iconCarrinho, searchBox, searchInput, toggleAccountLink, submenu,
+  arrowIcon, logoutBtn, userNameElement;
 
 window.onload = function () {
   // Recupera o usuário logado do localStorage
@@ -17,6 +17,10 @@ window.onload = function () {
   submenu = document.getElementById("submenu");
   arrowIcon = toggleAccountLink.querySelector("i");
   logoutBtn = document.getElementById("logoutBtn");
+  dadosPessoaislink = document.getElementById("dadosPessoaislink");
+  dadosPessoais = document.getElementById("dadosPessoais");
+  linkCupons = document.getElementById("linkCupons");
+  cupons = document.getElementById("cupons");
 
   // Corrige o seletor da search-box e searchInput
   searchBox = document.querySelector(".search-box");
@@ -81,7 +85,7 @@ window.onload = function () {
 
   // Evento para terminar a sessão
   logoutBtn.addEventListener("click", function () {
-    localStorage.removeItem("userLogged"); // Remove os dados do usuário do localStorage
+    localStorage.removeItem("userLogged"); // Remove os dados do usuário logado do localStorage
     window.location.href = "../html/index.html"; // Redireciona para a página inicial
   });
 };
@@ -100,10 +104,10 @@ function toggleSidebar() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  const vendasLink = document.getElementById("vendas-link");
-  const moradasLink = document.getElementById("moradas-link");
-  const vendasContent = document.getElementById("vendas-content");
-  const moradasContent = document.getElementById("moradas-content");
+  let vendasLink = document.getElementById("vendas-link"),
+    moradasLink = document.getElementById("moradas-link"),
+    vendasContent = document.getElementById("vendas-content"),
+    moradasContent = document.getElementById("moradas-content");
 
   function esconderConteudo() {
     vendasContent.classList.add("hidden");
@@ -111,15 +115,27 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   vendasLink.addEventListener("click", (e) => {
-    e.preventDefault(); 
-    esconderConteudo(); 
-    vendasContent.classList.remove("hidden"); 
+    e.preventDefault();
+    esconderConteudo();
+    vendasContent.classList.remove("hidden");
   });
 
   moradasLink.addEventListener("click", (e) => {
-    e.preventDefault(); 
-    esconderConteudo(); 
+    e.preventDefault();
+    esconderConteudo();
     moradasContent.classList.remove("hidden");
   });
+
+  dadosPessoaislink.addEventListener("click",(e) =>{
+    e.preventDefault();
+    esconderConteudo();
+    dadosPessoais.classList.remove("hidden");
+  })
+
+  linkCupons.addEventListener("click",(e) =>{
+    e.preventDefault();
+    esconderConteudo();
+    cupons.classList.remove("hidden");
+  })
 });
 

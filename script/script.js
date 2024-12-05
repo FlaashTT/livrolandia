@@ -88,7 +88,7 @@ function addItens() {
                             <i id="iconFavoritos" class="ri-heart-3-line"></i>
                         </div>
                     </div>
-                    <h3>${titulolivro}</h3>
+                    <h3>${titulo}</h3>
                     <p>${nomeautor}</p>
                     <p>${preço}</p>
                     <p class="free-shipping">Portes Grátis</p>

@@ -91,12 +91,12 @@
           Conta <i class="ri-arrow-right-line"></i></i>
         </a>
         <ul id="submenu" style="display: none;">
-          <li><a href="#">Dados Pessoais</a></li>
+          <li><a href="#" id="dadosPessoaislink">Dados Pessoais</a></li>
           <li><a href="#" id="moradas-link">Gerir Moradas</a></li>
         </ul>
       </div>
-      <a href="#">Favoritos</a>
-      <a href="#">Cupons</a>
+      <a href="../html/favoritos.html">Favoritos</a>
+      <a href="#" id="linkCupons">Cupons</a>
       <a href="#" id="logoutBtn">Terminar Sessão</a>
     </nav>
 
@@ -154,6 +154,87 @@
             <label for="country">País</label>
             <input type="text1" id="country" placeholder="Portugal" />
           </div>
+
+          <div class="form-buttons">
+            <button type="submit" class="save-button">GUARDAR ALTERAÇÕES</button>
+            <button type="button" class="cancel-button">CANCELAR</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+
+    <!--Section dos dados Pessoais-->
+    <section id="dadosPessoais" class="hidden">
+      <div class="form-container">
+        <h2>Dados Pessoais</h2>
+        <h3>Editar dados</h3>
+        <form>
+          <div class="form-group">
+            <label for="name">Nome*</label>
+            <input type="text1" id="name" placeholder="Sérgio" required />
+          </div>
+
+          <div class="form-group">
+            <label for="Email">Email</label>
+            <input type="tel1" id="Email" placeholder="923232132" />
+          </div>
+
+          <div class="form-group">
+            <label for="password">password</label>
+            <input type="text1" id="password" placeholder="Urbanização de Lisboa" />
+          </div>
+
+          <div class="form-group">
+            <label for="Telefone">Telefone</label>
+            <input type="text1" id="Telefone" placeholder="6220-898" />
+          </div>
+
+          <div class="form-group">
+            <label for="Tipo">Tipo utilizador</label>
+            <input type="text1" id="Tipo" placeholder="Lisboa" />
+          </div>
+
+          <div class="form-buttons">
+            <button type="submit" class="save-button">GUARDAR ALTERAÇÕES</button>
+            <button type="button" class="cancel-button">CANCELAR</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+
+    <section id="cupons" class="hidden">
+      <div class="form-container">
+        <h2>Seus cupons</h2>
+        
+        <form>
+          <div class="form-group">
+            <label for="name">Nome</label>
+            <p>Cupon de Natal</p>
+          </div>
+
+          <div class="form-group">
+            <label for="DescricaoCupon">Descrição</label>
+            <p>Cupao para todos os tipos de livros</p>
+          </div>
+
+          <div class="form-group">
+            <label for="inicioCupon">Data inicio cupon</label>
+            <p>05 de Dezembro de 2024</p>
+          </div>
+          
+
+          <div class="form-group">
+            <label for="fimCupon">Data fim Cupon</label>
+            <p>05 de Janeiro de 2025</p>
+          </div>
+
+          <div class="form-group">
+            <button type="submit" class="save-button">Usar cupon</button>
+          </div>
+
+          
 
           <div class="form-buttons">
             <button type="submit" class="save-button">GUARDAR ALTERAÇÕES</button>

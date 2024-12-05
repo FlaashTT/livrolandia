@@ -21,7 +21,7 @@ con.connect(function (err) {
   console.log("Connected to MySQL!");
 });
 
-const tables = [/*
+const tables = [
   `CREATE TABLE Utilizador (
       id_utilizador INT AUTO_INCREMENT,
       name VARCHAR(30),
@@ -78,6 +78,17 @@ const tables = [/*
       PRIMARY KEY (id_compra,dataCompra, id_utilizador, id_livro)
     )`,
 
+  `CREATE TABLE Cupon(  
+  idCupon int,
+  NomeCupon VARCHAR(50) UNIQUE,
+  idUtilizador int,
+  descriçaoCupon VARCHAR(100),
+  dataInicioCupon DATE,
+  dataFimCupon DATE,
+  valor int,
+  PRIMARY key (idCupon),
+  Foreign Key (idUtilizador) REFERENCES Utilizador(id_utilizador))`,
+
   `CREATE TABLE Troca (
       id_troca INT AUTO_INCREMENT,
       id_utilizador INT,
@@ -88,7 +99,7 @@ const tables = [/*
       FOREIGN KEY (id_vendedor) REFERENCES Utilizador(id_utilizador),
       PRIMARY KEY (id_troca, id_utilizador, id_vendedor)
     )`,
-*/
+
   `CREATE TABLE carrinho (
       id_carrinho INT AUTO_INCREMENT,
       id_utilizador INT,
