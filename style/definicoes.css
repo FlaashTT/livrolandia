@@ -302,7 +302,7 @@ header {
     display: none;
 }
 
-
+/*                             Moradas                                     */
 .form-container {
     padding: 20px;
     width: calc(100% - 270px);
@@ -340,8 +340,6 @@ label {
     color: #333;
 }
 
-
-/*                             Moradas                                     */
 input[type="text1"],
 input[type="tel1"],
 input[type="email1"] {
