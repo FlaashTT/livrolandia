@@ -66,8 +66,8 @@ window.onload = function () {
   });
 
   // Outros eventos de navegação
-  iconFavs.addEventListener("click", function () {
-    window.location.href = "../html/favoritos.html";
+  iconFavs.addEventListener("click",(e) => {
+    funcaoFavs();
   });
 
   iconCarrinho.addEventListener("click", function () {
@@ -147,11 +147,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   linkFavoritos.addEventListener("click",(e) =>{
     e.preventDefault();
+    funcaoFavs();
+  });
+
+  function funcaoFavs(){
     esconderConteudo();
     favoritos.classList.remove("hidden");
     showFavorits();
-  });
-
+  }
 
 });
 
