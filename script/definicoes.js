@@ -197,12 +197,17 @@ function showFavorits() {
 
                                       // Adiciona as informações do livro ao HTML do favorito
                                       favoritosHtmlContent += `
-                                  <div class="favorito" id=favorito${i+1}>
+                                    <div 
+                                      class="favorito" 
+                                      id="favorito${i + 1}" 
+                                      onclick="window.location.href='../html/book.html'">
                                       <img src="../Res/categorias/${livro.nome_categoria}/${livro.titulo}.png" alt="imagem">
-                                      <p> ${livro.titulo}</p> 
+                                      <p>${livro.titulo}</p> 
                                       <p>${livro.autor}</p><br>
                                       
-                                      
+                                      <button class="btnFavorito" id="${livro.id_livro}" onclick="removerFavorito(event, '${livro.id_livro}')">
+                                          Remover
+                                      </button>
                                   </div>
                               `;
                                   } else {

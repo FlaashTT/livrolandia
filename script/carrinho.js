@@ -60,7 +60,7 @@ function header(userLogged) {
 
 
 }
-
+/*
 function showCart(){
     if (!userLogged) {
         carrinhoHTML.innerHTML = "Indisponível, inicie sessão para continuar!<br>";
@@ -144,4 +144,4 @@ function showCart(){
         })
         .catch(error => console.error('Error:', error));
     }
-}
+}*/

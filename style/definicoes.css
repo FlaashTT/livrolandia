@@ -395,3 +395,152 @@ input[type="tel1"]:focus {
 
 
 
+/* Botão de Remover */
+.favorito button {
+    padding: 8px 12px;
+    font-size: 14px;
+    color: #fff;
+    background: var(--other-color);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;    
+    transition: background 0.3s;
+}
+
+.favorito button:hover {
+    background: #c0392b;
+}
+
+
+
+
+
+
+#favoritosHtml {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Título */
+#favoritosHtml h1 {
+    text-align: center;
+    color: #2c3e50;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Mensagem de indisponibilidade */
+#favoritosHtml p {
+    text-align: center;
+    font-size: 16px;
+    color: var(--other-color);
+}
+
+/* Botão de iniciar sessão */
+#favoritosHtml input[type="button"] {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background: #3498db;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+#favoritosHtml input[type="button"]:hover {
+    background: #2980b9;
+}
+
+/* Container de Favoritos */
+.favorito {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Adicionado */
+    gap: 20px;
+    background: #ecf0f1;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.favorito-content {
+    flex: 1; /* Permite que a área de texto ocupe o espaço restante */
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+
+.favorito:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.favorito img {
+    width: auto; 
+    height: 100px; 
+    max-width: 100%; 
+    object-fit: contain; 
+    border-radius: 5px;
+    border: 2px solid #bdc3c7;
+}
+
+
+.favorito p {
+    margin: 0;
+    font-size: 16px;
+    color: #2c3e50;
+}
+
+.favorito p:first-of-type {
+    font-weight: bold;
+}
+
+/* Mensagem de "Sem favoritos" */
+.favorito:last-of-type {
+    text-align: center;
+    font-size: 18px;
+    color: #7f8c8d;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .favorito {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .favorito img {
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    #favoritosHtml {
+        padding: 10px;
+    }
+
+    #favoritosHtml h1 {
+        font-size: 20px;
+    }
+
+    .favorito img {
+        width: 60px;
+        height: 80px;
+    }
+
+    .favorito p {
+        font-size: 14px;
+    }
+}
+
+
+
