@@ -215,6 +215,31 @@ app.post('/categoria', (req, res) => {
     });
 });
 
+app.post('/ImprimirPgInicial', (req, res) => {
+    const { id_livro } = req.body;
+
+   
+    // Query para buscar os detalhes do livro e sua categoria
+    const queryLivro = `
+        SELECT * FROM Categoria`;
+
+    con.query(queryLivro, [id_livro], (err, result) => {
+        if (err) {
+            console.error('Erro ao acessar o banco de dados:', err);
+            return res.json({ success: false, message: "Erro ao acessar o banco de dados" });
+        }
+
+        if (result.length > 0) {
+            res.json({
+                success: true,
+                livro: result[0] 
+            });
+        } else {
+            res.json({ success: false, message: "Livro não encontrado" });
+        }
+    });
+});
+
 
 
 

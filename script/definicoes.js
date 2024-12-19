@@ -127,56 +127,81 @@ function funcaoFavs() {
 // Função para carregar os favoritos
 function showFavorits() {
   if (!userLogged) {
-    favoritosHtml.innerHTML = `
-      Indisponível, inicie sessão para continuar!<br>
+    favoritosHtml.innerHTML = "Indisponível, inicie sessão para continuar!<br>";
+    favoritosHtml.innerHTML += `
       <input type="button" value="Iniciar sessão!" onclick="window.location.href='../html/registo.html';">
     `;
     return;
-  }
+  } else {
+    const id_utilizador = userLogged.id_utilizador; // Usando o id_utilizador de userLogged
 
-  fetch('http://localhost:3000/favoritos', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ id_utilizador: userLogged.id_utilizador })
-  })
-    .then(response => response.json())
-    .then(data => renderizarFavoritos(data))
-    .catch(error => console.error('Error:', error));
-}
+    fetch('http://localhost:3000/favoritos', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ id_utilizador }) // Enviando o id_utilizador na requisição
+    })
+      .then(response => response.json())
+      .then(data => {
+        let favoritosHtmlContent = ''; // Variável para armazenar o HTML dos favoritos
 
-// Função para renderizar os favoritos
-function renderizarFavoritos(data) {
-  let favoritosHtmlContent = '';
+        if (data.success) {
+          if (Array.isArray(data.favorites) && data.favorites.length > 0) {
+            data.favorites.forEach((favorito, i) => {
+              fetch('http://localhost:3000/livro', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id_livro: favorito.id_livro }) // Envia o id_livro
+              })
+                .then(response => response.json())
+                .then(livroData => {
+                  if (livroData.success) {
+                    const livro = livroData.livro;
 
-  if (data.success && Array.isArray(data.favorites) && data.favorites.length > 0) {
-    data.favorites.forEach((favorito, i) => {
-      fetch('http://localhost:3000/livro', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id_livro: favorito.id_livro })
-      })
-        .then(response => response.json())
-        .then(livroData => {
-          if (livroData.success) {
-            const livro = livroData.livro;
+                    // Adiciona as informações do livro ao HTML do favorito
+                    favoritosHtmlContent += `
+                      <div 
+                        class="favorito" 
+                        id="favorito${i + 1}" 
+                        onclick="window.location.href='../html/book.html'">
+                        <img src="../Res/categorias/${livro.nome_categoria}/${livro.titulo}.png" alt="imagem">
+                        <p>${livro.titulo}</p> 
+                        <p>${livro.autor}</p><br>
+                        <button class="btnFavorito" id="${livro.id_livro}" onclick="removerFavorito(event, '${livro.id_livro}')">
+                          Remover
+                        </button>
+                      </div>
+                    `;
+                  } else {
+                    favoritosHtmlContent += `
+                      <div class="favorito">
+                        <p>Favorito ${i + 1}: Não foi possível carregar os dados do livro.</p>
+                      </div>
+                    `;
+                  }
+                  favoritosHtml.innerHTML = favoritosHtmlContent;
+
+                })
+                .catch(error => console.error('Erro ao buscar detalhes do livro:', error));
+            });
+          } else {
             favoritosHtmlContent += `
-              <div class="favorito" id="favorito${i + 1}" onclick="window.location.href='../html/book.html'">
-                <img src="../Res/categorias/${livro.nome_categoria}/${livro.titulo}.png" alt="imagem">
-                <p>${livro.titulo}</p>
-                <p>${livro.autor}</p><br>
-                <button class="btnFavorito" id="${livro.id_livro}" onclick="removerFavorito(event, '${livro.id_livro}')">
-                  Remover
-                </button>
+              <div class="favorito">
+                <p>Sem nenhum livro favorito marcado</p>
               </div>
             `;
-          } else {
-            favoritosHtmlContent += `<div class="favorito"><p>Favorito ${i + 1}: Não foi possível carregar os dados do livro.</p></div>`;
           }
-          favoritosHtml.innerHTML = favoritosHtmlContent;
-        })
-        .catch(error => console.error('Erro ao buscar detalhes do livro:', error));
-    });
-  } else {
-    favoritosHtml.innerHTML = '<div class="favorito"><p>Sem nenhum livro favorito marcado</p></div>';
+        } else {
+          alert(data.message);
+        }
+
+        // Atualiza o HTML no contêiner com o ID 'favoritosHtml'
+        favoritosHtml.innerHTML = favoritosHtmlContent;
+      })
+      .catch(error => console.error('Error:', error));
   }
 }
+
