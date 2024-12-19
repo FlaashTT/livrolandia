@@ -40,7 +40,7 @@ function header(userLogged) {
     });
 
     iconFavs.addEventListener("click", function () {
-        window.location.href = '../html/favoritos.html';
+        window.location.href = '../html/definicoes.html?show=favoritos';
     });
 
     iconCarrinho.addEventListener("click", function () {

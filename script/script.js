@@ -23,6 +23,8 @@ window.onload = function () {
     
 }
 
+
+
 function header(userLogged) {
     if (userLogged != null) {
         textoNome.innerHTML = "Olá <br>" + userLogged.name + " !";
@@ -44,7 +46,7 @@ function header(userLogged) {
     });
 
     iconFavs.addEventListener("click", function () {
-        window.location.href = '../html/favoritos.html';
+        window.location.href = '../html/definicoes.html?show=favoritos';
     });
 
     iconCarrinho.addEventListener("click", function () {
