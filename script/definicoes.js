@@ -149,7 +149,7 @@ function showFavorits() {
         if (data.success) {
           if (Array.isArray(data.favorites) && data.favorites.length > 0) {
             data.favorites.forEach((favorito, i) => {
-              fetch('http://localhost:3000/livro', {
+              fetch('http://localhost:3000/livroParaFavoritos', {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json'

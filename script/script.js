@@ -67,122 +67,78 @@ function header(userLogged) {
 
 
 function addItens() {
-    fetch('http://localhost:3000/ImprimirPgInicial', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
+    // Envia a requisição para o servidor para obter as categorias
+    fetch('http://localhost:3000/categoria')
         .then(response => response.json())
         .then(data => {
-            let HtmlContent = '';
             if (data.success) {
+                const HtmlContentPromises = data.categorias.map(categoria => {
+                    // Cria o HTML base para a categoria
+                    let categoriaHtml = `
 
-                HtmlContent += `
-                            <div class="suggestions-header">
-                                <h1>Sugestões de NOme</h1>
-                                <span class="add-icon">VER +</span>
-                            </div>`;
-
-                        // Itera sobre os livros da categoria
-                        
-                            HtmlContent += `
-                                <div class="book-card">
-                                    <div class="book-image">
-                                        <img src="../Res/categorias/.png" alt="imagem">
-                                        <div class="favorite-icon">
-                                            <i id="iconFavoritos" class="ri-heart-3-line"></i>
-                                        </div>
-                                    </div>
-                                    <h3>tobias</h3>
-                                    <p>Ja mias</p>
-                                    <p>10€</p>
-                                    <p class="free-shipping">Portes Grátis</p>
-                                </div>`;
-                
-                    // Verifica se "categoria.livros" é um array válido
-                   
-                        HtmlContent += `
+                        <section class="suggestions" id="categoria-${categoria.id_categoria}">
                             <div class="suggestions-header">
                                 <h1>Sugestões de ${categoria.nome}</h1>
                                 <span class="add-icon">VER +</span>
-                            </div>`;
+                            </div>
+                            <div class ="books-container"> 
+                            `;
 
-                        // Itera sobre os livros da categoria
-                        categoria.livros.forEach(livro => {
-                            HtmlContent += `
-                                <div class="book-card">
-                                    <div class="book-image">
-                                        <img src="../Res/categorias/${categoria.nome}/${livro.titulo}.png" alt="imagem">
-                                        <div class="favorite-icon">
-                                            <i id="iconFavoritos" class="ri-heart-3-line"></i>
-                                        </div>
-                                    </div>
-                                    <h3>${livro.titulo}</h3>
-                                    <p>${livro.autor}</p>
-                                    <p>${livro.preco}€</p>
-                                    <p class="free-shipping">Portes Grátis</p>
+                    // Busca os livros para a categoria
+                    return fetch('http://localhost:3000/livrosParaCat', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ id_categoria: categoria.id_categoria })
+                    })
+                        .then(response => response.json())
+                        .then(livrosData => {
+                            if (livrosData.success) {
+                                livrosData.livros.forEach(livro => {
+                                    categoriaHtml += `
+                                        <div class="book-card">
+                                            <div class="book-image">
+                                                <img src="../Res/categorias/${categoria.nome}/${livro.titulo}.png" alt="${livro.titulo}">
+                                                <div class="favorite-icon">
+                                                    <i id="iconFavoritos" class="ri-heart-3-line"></i>
+                                                </div>
+                                            </div>
+                                            <h3>${livro.titulo}</h3>
+                                            <p>${livro.autor}</p>
+                                            <p>${livro.preco}€</p>
+                                            <p class="free-shipping">Portes Grátis</p>
+                                        </div>`;
+                                });
+                            } else {
+                                categoriaHtml += `<p class="no-books">Nenhum livro disponível para esta categoria.</p>`;
+                            }
+                            categoriaHtml += `</div></section>`; // Fecha os contêineres de livros e categoria
+                            return categoriaHtml; // Retorna o HTML gerado para esta categoria
+                        })
+                        .catch(error => {
+                            console.error('Erro ao buscar livros da categoria:', error);
+                            return `
+                                <div class="categoria">
+                                    <h1>Sugestões de ${categoria.nome}</h1>
+                                    <p class="no-books">Erro ao carregar livros. Tente novamente mais tarde.</p>
                                 </div>`;
                         });
-                   
-              
-            } else {
-                // Caso não haja sucesso na resposta
-                HtmlContent = `<p>Erro ao carregar livros: ${data.message}</p>`;
-            }
+                });
 
-            // Insere o HTML gerado no contêiner
-            ItensLivros.innerHTML = HtmlContent;
+                // Após processar todas as categorias, insere o HTML no DOM
+                Promise.all(HtmlContentPromises).then(htmlArray => {
+                    ItensLivros.innerHTML = htmlArray.join(''); // Junta todos os HTMLs de categorias
+                });
+            } else {
+                ItensLivros.innerHTML = `<p>Erro ao carregar categorias: ${data.message}</p>`;
+            }
         })
         .catch(error => {
-            console.error('Erro na requisição:', error);
-            ItensLivros.innerHTML = `<p>Erro ao carregar livros. Tente novamente mais tarde.</p>`;
+            console.error('Erro ao buscar categorias:', error);
+            ItensLivros.innerHTML = `<p>Erro ao carregar categorias. Tente novamente mais tarde.</p>`;
         });
 }
 
-/*
-function addItens() {
-    fetch('http://localhost:3000/BuscarCategorias', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-        .then(response => response.json())
-        .then(data => {
-            // Diagnóstico: verificar se os dados foram retornados corretamente
-            console.log("Dados recebidos:", data);
 
-            if (!data || !data.success) {
-                console.error("Erro: resposta inesperada do servidor.");
-                throw new Error(data?.message || "Resposta inválida do servidor.");
-            }
 
-            if (!data.categorias || !Array.isArray(data.categorias)) {
-                console.error("Erro: 'categorias' está ausente ou não é uma lista.");
-                throw new Error("Estrutura inválida retornada pelo servidor.");
-            }
-
-            let HtmlContent = '';
-            // Iteração sobre categorias
-            data.categorias.forEach(categoria => {
-                HtmlContent += `
-                    <div class="suggestions-header">
-                        <h1>Sugestões de ${categoria.nome}</h1>
-                        <span class="add-icon">VER +</span>
-                    </div>
-                    <div class="book-list" id="categoria-${categoria.id_categoria}">
-                        <!-- Livros desta categoria serão inseridos aqui -->
-                    </div>
-                `;
-            });
-
-            // Insere o HTML gerado no contêiner
-            const ItensLivros = document.getElementById('ItensLivros'); // Certifique-se de ter este elemento no HTML
-            if (!ItensLivros) {
-                throw new Error("Elemento com ID 'ItensLivros' não encontrado no DOM.");
-            }
-            ItensLivros.innerHTML = HtmlContent;
-        })
-        .catch(error => console.error('Erro na requisição:', error));
-}*/

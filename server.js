@@ -114,7 +114,7 @@ app.post('/favoritos', (req, res) => {
     });
 });
 
-app.post('/livro', (req, res) => {
+app.post('/livroParaFavoritos', (req, res) => {
     const { id_livro } = req.body;
 
     if (!id_livro) {
@@ -144,6 +144,38 @@ app.post('/livro', (req, res) => {
         }
     });
 });
+
+app.post('/livrosParaCat', (req, res) => {
+    const { id_categoria } = req.body;
+
+    if (!id_categoria) {
+        return res.json({ success: false, message: "ID da categoria é obrigatório" });
+    }
+
+    // Query para buscar os livros da categoria selecionada
+    const queryLivros = `
+        SELECT Livros.*, Categoria.nome AS nome_categoria
+        FROM Livros
+        INNER JOIN Categoria ON Livros.id_categoria = Categoria.id_categoria
+        WHERE Livros.id_categoria = ?`;
+
+    con.query(queryLivros, [id_categoria], (err, results) => {
+        if (err) {
+            console.error('Erro ao acessar o banco de dados:', err);
+            return res.json({ success: false, message: "Erro ao acessar o banco de dados" });
+        }
+
+        if (results.length > 0) {
+            res.json({
+                success: true,
+                livros: results // Retorna todos os livros da categoria
+            });
+        } else {
+            res.json({ success: false, message: "Nenhum livro encontrado para esta categoria" });
+        }
+    });
+});
+
 
 app.post('/carrinho', (req, res) => {
     const { id_utilizador } = req.body; // Obtém o id_utilizador da requisição
@@ -175,73 +207,44 @@ app.post('/carrinho', (req, res) => {
 
 
 
-app.post('/categoria', (req, res) => {
-    // Consulta para buscar todas as categorias
-    const queryCategorias = 'SELECT * FROM Categoria';
+app.get('/categoria', (req, res) => {
+    // Consulta para buscar 5 categorias aleatórias
+   // const queryCategorias = 'SELECT * FROM Categoria ';
+   const queryCategorias = 'SELECT * FROM Categoria ORDER BY RAND() LIMIT 5';
 
+    
     con.query(queryCategorias, (err, categorias) => {
         if (err) {
+            console.error('Erro ao buscar categorias:', err.message);
             return res.json({ success: false, message: 'Erro ao buscar categorias: ' + err.message });
         }
 
         if (categorias.length === 0) {
+            console.log('Nenhuma categoria encontrada.');
             return res.json({ success: false, message: "Nenhuma categoria encontrada" });
         }
 
-        // Array para armazenar as categorias com seus respectivos livros
-        let categoriasComLivros = [];
+        // Array para buscar livros para cada categoria
+        const categoriasComLivros = [];
 
-        // Para cada categoria, busque os livros relacionados
-        categorias.forEach((categoria, index) => {
+        categorias.forEach(categoria => {
             const queryLivros = 'SELECT * FROM Livros WHERE id_categoria = ?';
-
             con.query(queryLivros, [categoria.id], (err, livros) => {
                 if (err) {
-                    return res.json({ success: false, message: 'Erro ao buscar livros: ' + err.message });
+                    console.error(`Erro ao buscar livros para a categoria ${categoria.id}:`, err.message);
                 }
 
-                // Adiciona os livros à categoria correspondente
-                categoria.livros = livros;
+                categoria.livros = livros || []; // Adiciona livros à categoria (ou um array vazio caso ocorra erro)
+                categoriasComLivros.push(categoria); // Adiciona categoria com livros à lista
 
-                // Adiciona a categoria com os livros no array
-                categoriasComLivros.push(categoria);
-
-                // Se todas as categorias já tiverem sido processadas, retorna a resposta
+                // Após todas as categorias e livros serem processados, envia a resposta
                 if (categoriasComLivros.length === categorias.length) {
-                    return res.json({ success: true, categorias: categoriasComLivros });
+                    res.json({ success: true, categorias: categoriasComLivros });
                 }
             });
         });
     });
 });
-
-app.post('/ImprimirPgInicial', (req, res) => {
-    const { id_livro } = req.body;
-
-   
-    // Query para buscar os detalhes do livro e sua categoria
-    const queryLivro = `
-        SELECT * FROM Categoria`;
-
-    con.query(queryLivro, [id_livro], (err, result) => {
-        if (err) {
-            console.error('Erro ao acessar o banco de dados:', err);
-            return res.json({ success: false, message: "Erro ao acessar o banco de dados" });
-        }
-
-        if (result.length > 0) {
-            res.json({
-                success: true,
-                livro: result[0] 
-            });
-        } else {
-            res.json({ success: false, message: "Livro não encontrado" });
-        }
-    });
-});
-
-
-
 
 
 
