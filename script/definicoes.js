@@ -166,11 +166,11 @@ function showFavorits() {
                       <div 
                         class="favorito" 
                         id="favorito${i + 1}" 
-                        onclick="window.location.href='../html/book.html'">
+                        onclick="window.location.href='../html/book.html?show=${livro.id_livro}'">
                         <img src="../Res/categorias/${livro.nome_categoria}/${livro.titulo}.png" alt="imagem">
                         <p>${livro.titulo}</p> 
                         <p>${livro.autor}</p><br>
-                        <button class="btnFavorito" id="${livro.id_livro}" onclick="removerFavorito(event, '${livro.id_livro}')">
+                        <button class="btnFavorito" id="${livro.id_livro}" onclick="removerFavorito('${livro.id_livro}')">
                           Remover
                         </button>
                       </div>
@@ -203,5 +203,26 @@ function showFavorits() {
       })
       .catch(error => console.error('Error:', error));
   }
+}
+
+function removerFavorito(idLivro){
+  idUser = userLogged.id_utilizador
+
+  fetch('http://localhost:3000/removerFavorito', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ id_livro: idLivro, id_utilizador: idUser })
+  })
+    .then(response => response.json())
+    .then(livroData => {
+      if (livroData.success) {
+        alert("Livro removido com sucesso")
+      } else {
+        alert("Erro ao remover o livro")
+      }
+    })
+    .catch(error => console.error('Erro ao buscar detalhes do livro:', error));
 }
 
