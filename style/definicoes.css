@@ -419,6 +419,7 @@ input[type="tel1"]:focus {
 #favoritosHtml {
     max-width: 1200px;
     margin: 20px auto;
+    width: 800px;
     padding: 20px;
     background: #fff;
     border-radius: 8px;
@@ -443,7 +444,7 @@ input[type="tel1"]:focus {
 /* Botão de iniciar sessão */
 #favoritosHtml input[type="button"] {
     display: block;
-    margin: 20px auto;
+    margin: 20px 0;
     padding: 10px 20px;
     font-size: 16px;
     color: #fff;
@@ -456,6 +457,7 @@ input[type="tel1"]:focus {
 
 #favoritosHtml input[type="button"]:hover {
     background: #2980b9;
+
 }
 
 /* Container de Favoritos */
@@ -511,36 +513,7 @@ input[type="tel1"]:focus {
     color: #7f8c8d;
 }
 
-/* Responsividade */
-@media (max-width: 768px) {
-    .favorito {
-        flex-direction: column;
-        text-align: center;
-    }
 
-    .favorito img {
-        margin-bottom: 10px;
-    }
-}
-
-@media (max-width: 480px) {
-    #favoritosHtml {
-        padding: 10px;
-    }
-
-    #favoritosHtml h1 {
-        font-size: 20px;
-    }
-
-    .favorito img {
-        width: 60px;
-        height: 80px;
-    }
-
-    .favorito p {
-        font-size: 14px;
-    }
-}
 
 
 
