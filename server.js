@@ -297,24 +297,101 @@ app.post('/removerFavorito', (req, res) => {
 app.post('/adicionarFavoritos', (req, res) => {
     const { id_utilizador, id_livro } = req.body;
 
-    // A consulta deve usar ambos os parâmetros id_livro e id_utilizador
-    const sql = 'INSERT INTO Favorito (id_utilizador, id_livro) VALUES (?, ?)';
-
-    // Passa ambos os parâmetros para a query
-    con.query(sql, [id_utilizador, id_livro], (err, result) => {
+    // Verifica se o livro já está nos favoritos
+    const sqlCheck = 'SELECT * FROM Favorito WHERE id_utilizador = ? AND id_livro = ?';
+    con.query(sqlCheck, [id_utilizador, id_livro], (err, result) => {
         if (err) {
-            console.error('Erro ao adicionar favorito:', err);
+            console.error('Erro ao verificar favorito:', err);
+            return res.json({ success: false, message: 'Erro no servidor' });
+        }
+
+        // Se já existe o favorito, retorna uma mensagem indicando isso
+        if (result.length > 0) {
+            return res.json({ success: false, message: 'Livro já adicionado aos favoritos' });
+        }
+
+        // Caso não esteja nos favoritos, insere o novo favorito
+        const sqlInsert = 'INSERT INTO Favorito (id_utilizador, id_livro) VALUES (?, ?)';
+        con.query(sqlInsert, [id_utilizador, id_livro], (err, result) => {
+            if (err) {
+                console.error('Erro ao adicionar favorito:', err);
+                return res.json({ success: false, message: 'Erro no servidor' });
+            }
+
+            // Verifica se a inserção foi bem-sucedida
+            if (result.affectedRows > 0) {
+                res.json({ success: true, message: 'Livro adicionado aos favoritos' });
+            } else {
+                res.json({ success: false, message: 'Não foi possível adicionar o favorito' });
+            }
+        });
+    });
+});
+
+
+app.post('/livroParaCarrinho', (req, res) => {
+    const { id_livro, id_utilizador } = req.body;
+
+    if (!id_livro || !id_utilizador) {
+        return res.json({ success: false, message: "ID do livro e ID do utilizador são obrigatórios" });
+    }
+
+    // Query para buscar os detalhes do livro e o nome da categoria
+    const queryLivro = `
+        SELECT Livros.*, Categoria.nome AS nome_categoria
+        FROM Livros
+        INNER JOIN carrinho ON Livros.id_livro = carrinho.id_livro
+        INNER JOIN Categoria ON Livros.id_categoria = Categoria.id_categoria
+        WHERE carrinho.id_utilizador = ? AND carrinho.id_livro = ?;
+    `;
+
+    con.query(queryLivro, [id_utilizador, id_livro], (err, result) => {
+        if (err) {
+            console.error('Erro ao acessar o banco de dados:', err);
+            return res.json({ success: false, message: "Erro ao acessar o banco de dados" });
+        }
+
+        if (result.length > 0) {
+            res.json({
+                success: true,
+                livro: result[0]
+            });
+        } else {
+            res.json({ success: false, message: "Livro não encontrado no carrinho" });
+        }
+    });
+});
+
+
+app.post('/removerLivroDoCarrinho', (req, res) => {
+    const { id_carrinho } = req.body;
+
+    // Verifica se o id_carrinho está presente
+    if (!id_carrinho) {
+        return res.json({ success: false, message: "ID do carrinho é obrigatório" });
+    }
+
+    // A consulta agora usa apenas o id_carrinho para remover o livro
+    const query = 'DELETE FROM carrinho WHERE id_carrinho = ?';
+
+    // Passa o id_carrinho para a query
+    con.query(query, [id_carrinho], (err, result) => {
+        if (err) {
+            console.error('Erro ao remover livro do carrinho:', err);
             return res.json({ success: false, message: 'Erro no servidor' });
         }
 
         // Verifica se pelo menos uma linha foi afetada
         if (result.affectedRows > 0) {
-            res.json({ success: true });
+            res.json({ success: true, message: 'Livro removido com sucesso' });
         } else {
-            res.json({ success: false });
+            res.json({ success: false, message: 'Livro não encontrado no carrinho' });
         }
     });
 });
+
+
+
 
 
 app.listen(port, () => {

@@ -163,13 +163,10 @@ function showFavorits() {
 
                     // Adiciona as informações do livro ao HTML do favorito
                     favoritosHtmlContent += `
-                      <div 
-                        class="favorito" 
-                        id="favorito${i + 1}" 
-                        onclick="window.location.href='../html/book.html?show=${livro.id_livro}'">
-                        <img src="../Res/categorias/${livro.nome_categoria}/${livro.titulo}.png" alt="imagem">
-                        <p>${livro.titulo}</p> 
-                        <p>${livro.autor}</p><br>
+                      <div class="favorito" id="favorito${i + 1}" >
+                        <img src="../Res/categorias/${livro.nome_categoria}/${livro.titulo}.png" alt="imagem" class="itemFav" onclick=paginaLivro(${livro.id_livro})>
+                        <p class="itemFav" onclick=paginaLivro(${livro.id_livro}) >${livro.titulo}</p> 
+                        <p class="itemFav" onclick=paginaLivro(${livro.id_livro})>${livro.autor}</p><br>
                         <button class="btnFavorito" id="${livro.id_livro}" onclick="removerFavorito('${livro.id_livro}')">
                           Remover
                         </button>
@@ -219,10 +216,15 @@ function removerFavorito(idLivro){
     .then(livroData => {
       if (livroData.success) {
         alert("Livro removido com sucesso")
+        location.reload();
       } else {
         alert("Erro ao remover o livro")
       }
     })
     .catch(error => console.error('Erro ao buscar detalhes do livro:', error));
+}
+
+function paginaLivro(idLivro){
+  window.location.href = `../html/book.html?show=${idLivro}`;
 }
 

@@ -141,28 +141,31 @@ function addItens() {
         });
 }
 
-function adicionarFavorito(idLivro){
-    idUser = userLogged.id_utilizador
+function adicionarFavorito(idLivro) {
+    const idUser = userLogged.id_utilizador;
 
     fetch('http://localhost:3000/adicionarFavoritos', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ id_livro: idLivro, id_utilizador: idUser })
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id_livro: idLivro, id_utilizador: idUser })
     })
-      .then(response => response.json())
-      .then(livroData => {
-        if (livroData.success) {
-            if (confirm("Adicionado aos favoritos, deseja ir para os favoritos?")) {
-                window.location.href = '../html/definicoes.html?show=favoritos';
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                if (confirm("Adicionado aos favoritos, deseja ir para os favoritos?")) {
+                    window.location.href = '../html/definicoes.html?show=favoritos';
+                }
+            } else if (data.message === "Livro já adicionado aos favoritos") {
+                alert("Livro já adicionado aos favoritos!");
+            } else {
+                alert("Erro ao adicionar o livro aos favoritos!");
             }
-        } else {
-          alert("Erro ao remover o livro")
-        }
-      })
-      .catch(error => console.error('Erro ao buscar detalhes do livro:', error));
+        })
+        .catch(error => console.error('Erro ao adicionar favorito:', error));
 }
+
 
 
 
