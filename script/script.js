@@ -1,9 +1,9 @@
 let btnCategorias, categorias, textoNome, sidebar, iconConta, iconFavs, iconCarrinho, searchBox, searchInput;
-let currentSlideIndex = 0;
+let currentSlideIndex = 0,userLogged;
 
 window.onload = function () {
     // Recupera o usuário logado do localStorage
-    let userLogged = JSON.parse(localStorage.getItem("userLogged"));
+    userLogged = JSON.parse(localStorage.getItem("userLogged"));
 
     // Seletores dos elementos da página
     sidebar = document.getElementById("sidebar");
@@ -101,7 +101,8 @@ function addItens() {
                                             <div class="book-image">
                                                 <img src="../Res/categorias/${categoria.nome}/${livro.titulo}.png" alt="${livro.titulo}">
                                                 <div class="favorite-icon">
-                                                    <i id="iconFavoritos" class="ri-heart-3-line"></i>
+                                                   <i id="iconFavoritos" class="ri-heart-3-line" onclick="adicionarFavorito('${livro.id_livro}')"></i>
+
                                                 </div>
                                             </div>
                                             <h3>${livro.titulo}</h3>
@@ -138,6 +139,29 @@ function addItens() {
             console.error('Erro ao buscar categorias:', error);
             ItensLivros.innerHTML = `<p>Erro ao carregar categorias. Tente novamente mais tarde.</p>`;
         });
+}
+
+function adicionarFavorito(idLivro){
+    idUser = userLogged.id_utilizador
+
+    fetch('http://localhost:3000/adicionarFavoritos', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ id_livro: idLivro, id_utilizador: idUser })
+    })
+      .then(response => response.json())
+      .then(livroData => {
+        if (livroData.success) {
+            if (confirm("Adicionado aos favoritos, deseja ir para os favoritos?")) {
+                window.location.href = '../html/definicoes.html?show=favoritos';
+            }
+        } else {
+          alert("Erro ao remover o livro")
+        }
+      })
+      .catch(error => console.error('Erro ao buscar detalhes do livro:', error));
 }
 
 

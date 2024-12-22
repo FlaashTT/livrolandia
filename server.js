@@ -18,7 +18,7 @@ const con = mysql.createConnection({
 
 
 
-con.connect(function(err) {
+con.connect(function (err) {
     if (err) throw err;
     console.log("Connected to MySQL!");
 });
@@ -27,10 +27,10 @@ con.connect(function(err) {
 app.post('/login', (req, res) => {
     const { email, password } = req.body;
     const query = 'SELECT * FROM Utilizador WHERE email = ? AND password = ?';
-    
+
     con.query(query, [email, password], (err, result) => {
         if (err) throw err;
-        
+
         if (result.length > 0) {
             res.json({ success: true, user: result[0] });
         } else {
@@ -74,10 +74,10 @@ app.post('/register', (req, res) => {
 app.post('/forgotPass', (req, res) => {
     const { forgEmail } = req.body;
     const query = 'SELECT * FROM Utilizador WHERE email = ? ';
-    
+
     con.query(query, [forgEmail], (err, result) => {
         if (err) throw err;
-        
+
         if (result.length > 0) {
             res.json({ success: true, user: result[0] });
         } else {
@@ -114,6 +114,30 @@ app.post('/favoritos', (req, res) => {
     });
 });
 
+//usado para mostrar apenas um livro na pagina book
+app.post('/ExibirDadosLivro', (req, res) => {
+    const { id_livro } = req.body;
+    const query = `
+    SELECT Livros.*, Categoria.nome AS categoria_nome
+    FROM Livros
+    INNER JOIN Categoria
+    ON Livros.id_categoria = Categoria.id_categoria
+    WHERE Livros.id_livro = ?`;
+
+    con.query(query, [id_livro], (err, result) => {
+        if (err) throw err;
+
+        if (result.length > 0) {
+            res.json({
+                success: true,
+                livro: result[0]
+            });
+        } else {
+            res.json({ success: false, message: "ERRO!" });
+        }
+    });
+});
+
 app.post('/livroParaFavoritos', (req, res) => {
     const { id_livro } = req.body;
 
@@ -137,7 +161,7 @@ app.post('/livroParaFavoritos', (req, res) => {
         if (result.length > 0) {
             res.json({
                 success: true,
-                livro: result[0] 
+                livro: result[0]
             });
         } else {
             res.json({ success: false, message: "Livro não encontrado" });
@@ -209,10 +233,10 @@ app.post('/carrinho', (req, res) => {
 
 app.get('/categoria', (req, res) => {
     // Consulta para buscar 5 categorias aleatórias
-   // const queryCategorias = 'SELECT * FROM Categoria ';
-   const queryCategorias = 'SELECT * FROM Categoria ORDER BY RAND() LIMIT 5';
+    // const queryCategorias = 'SELECT * FROM Categoria ';
+    const queryCategorias = 'SELECT * FROM Categoria ORDER BY RAND() LIMIT 5';
 
-    
+
     con.query(queryCategorias, (err, categorias) => {
         if (err) {
             console.error('Erro ao buscar categorias:', err.message);
@@ -246,6 +270,51 @@ app.get('/categoria', (req, res) => {
     });
 });
 
+
+
+app.post('/removerFavorito', (req, res) => {
+    const { id_livro, id_utilizador } = req.body;
+
+    // A consulta deve usar ambos os parâmetros id_livro e id_utilizador
+    const query = 'DELETE FROM Favorito WHERE id_livro = ? AND id_utilizador = ?';
+
+    // Passa ambos os parâmetros para a query
+    con.query(query, [id_livro, id_utilizador], (err, result) => {
+        if (err) {
+            console.error('Erro ao remover favorito:', err);
+            return res.json({ success: false, message: 'Erro no servidor' });
+        }
+
+        // Verifica se pelo menos uma linha foi afetada
+        if (result.affectedRows > 0) {
+            res.json({ success: true });
+        } else {
+            res.json({ success: false, message: 'Livro não encontrado nos favoritos' });
+        }
+    });
+});
+
+app.post('/adicionarFavoritos', (req, res) => {
+    const { id_utilizador, id_livro } = req.body;
+
+    // A consulta deve usar ambos os parâmetros id_livro e id_utilizador
+    const sql = 'INSERT INTO Favorito (id_utilizador, id_livro) VALUES (?, ?)';
+
+    // Passa ambos os parâmetros para a query
+    con.query(sql, [id_utilizador, id_livro], (err, result) => {
+        if (err) {
+            console.error('Erro ao adicionar favorito:', err);
+            return res.json({ success: false, message: 'Erro no servidor' });
+        }
+
+        // Verifica se pelo menos uma linha foi afetada
+        if (result.affectedRows > 0) {
+            res.json({ success: true });
+        } else {
+            res.json({ success: false });
+        }
+    });
+});
 
 
 app.listen(port, () => {
