@@ -68,7 +68,7 @@ function header(userLogged) {
 }
 
 function showCart() {
-    let precoFinal, precoTotal = 0,preçoSemQuantidade =0;
+    let precoFinal, precoTotal = 0, preçoSemQuantidade = 0;
     if (!userLogged) {
         carrinhoHTML.innerHTML = "Indisponível, inicie sessão para continuar!<br>";
         carrinhoHTML.innerHTML += `
@@ -112,10 +112,10 @@ function showCart() {
                                             precoInicial = livroData.livro.preco + 0
                                             descontoAplicado = livroData.livro.desconto + 0
                                             precoFinal = precoInicial * (descontoAplicado / 100)
-                                            
+
                                         }
                                         preçoSemQuantidade = precoFinal
-                                        precoFinal = precoFinal*item.quantidade
+                                        precoFinal = precoFinal * item.quantidade
                                         precoTotal = precoTotal + precoFinal;
                                         carrinhoHTMLContent += `
                                     <div class="carrinho-item">
@@ -187,6 +187,25 @@ function adicionarQuantidade(idCarrinho) {
 
     // Aumenta a quantidade
     quantidade += 1;
+    fetch('http://localhost:3000/adicionarQuantidade', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id_carrinho: idCarrinho,quantidade :quantidade }) // Envia os dados como JSON
+    })
+        .then(response => response.json())  // Converte a resposta para JSON
+        .then(livroData => {
+            // Processa os dados recebidos
+            if (livroData.success) {
+                location.reload();
+            } else {
+                console.log('Erro ao remover o livro do carrinho');
+            }
+        })
+        .catch(error => {
+            console.error('Erro na requisição:', error);  // Captura qualquer erro na requisição
+        });
 
     // Atualiza o texto no elemento
     quantidadeElement.innerHTML = quantidade;
@@ -202,8 +221,27 @@ function removerQuantidade(idCarrinho) {
     // Se a quantidade for maior que 1, diminui
     if (quantidade > 1) {
         quantidade -= 1;
+        fetch('http://localhost:3000/removerQuantidade', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id_carrinho: idCarrinho,quantidade :quantidade }) // Envia os dados como JSON
+        })
+            .then(response => response.json())  // Converte a resposta para JSON
+            .then(livroData => {
+                // Processa os dados recebidos
+                if (livroData.success) {
+                    location.reload();
+                } else {
+                    console.log('Erro ao remover o livro do carrinho');
+                }
+            })
+            .catch(error => {
+                console.error('Erro na requisição:', error);  // Captura qualquer erro na requisição
+            });
     } else {
-        if(confirm("deseja mesmo remover o livro do carrinho?")){
+        if (confirm("deseja mesmo remover o livro do carrinho?")) {
             fetch('http://localhost:3000/removerLivroDoCarrinho', {
                 method: 'POST',
                 headers: {
@@ -224,7 +262,7 @@ function removerQuantidade(idCarrinho) {
                     console.error('Erro na requisição:', error);  // Captura qualquer erro na requisição
                 });
         }
-        
+
 
     }
 

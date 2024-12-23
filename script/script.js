@@ -1,5 +1,5 @@
 let btnCategorias, categorias, textoNome, sidebar, iconConta, iconFavs, iconCarrinho, searchBox, searchInput;
-let currentSlideIndex = 0,userLogged;
+let currentSlideIndex = 0, userLogged;
 
 window.onload = function () {
     // Recupera o usuário logado do localStorage
@@ -20,7 +20,7 @@ window.onload = function () {
 
     header(userLogged);
     addItens();
-    
+
 }
 
 
@@ -99,16 +99,16 @@ function addItens() {
                                     categoriaHtml += `
                                         <div class="book-card">
                                             <div class="book-image">
-                                                <img src="../Res/categorias/${categoria.nome}/${livro.titulo}.png" alt="${livro.titulo}">
+                                                <img src="../Res/categorias/${categoria.nome}/${livro.titulo}.png" alt="${livro.titulo}" onclick=paginaLivro(${livro.id_livro})>
                                                 <div class="favorite-icon">
                                                    <i id="iconFavoritos" class="ri-heart-3-line" onclick="adicionarFavorito('${livro.id_livro}')"></i>
 
                                                 </div>
                                             </div>
-                                            <h3>${livro.titulo}</h3>
-                                            <p>${livro.autor}</p>
-                                            <p>${livro.preco}€</p>
-                                            <p class="free-shipping">Portes Grátis</p>
+                                            <h3 onclick=paginaLivro(${livro.id_livro})> ${livro.titulo} </h3>
+                                            <p onclick=paginaLivro(${livro.id_livro})> ${livro.autor} </p>
+                                            <p onclick=paginaLivro(${livro.id_livro})> ${livro.preco}€ </p>
+                                            <p class="free-shipping" onclick=paginaLivro(${livro.id_livro})> Portes Grátis</p>
                                         </div>`;
                                 });
                             } else {
@@ -165,6 +165,77 @@ function adicionarFavorito(idLivro) {
         })
         .catch(error => console.error('Erro ao adicionar favorito:', error));
 }
+
+function paginaLivro(idLivro) {
+    window.location.href = `../html/book.html?show=${idLivro}`;
+}
+
+function selecionado(nome) {
+    fetch('http://localhost:3000/selecionado', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ nomeCat: nome })
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data); // Verifica o que está sendo retornado pela API
+            if (data.success) {
+                exibirLivros(data.livros, nome);
+            } else {
+                console.log(data.message || "Erro desconhecido");
+            }
+        })
+        .catch(error => console.error('Erro ao adicionar favorito:', error));
+}
+
+
+
+function exibirLivros(livros, categoriaNome) {
+    const booksContainer = document.querySelector(".books-container"); // O contêiner onde os livros serão exibidos
+    booksContainer.innerHTML = ''; // Limpa os livros anteriores
+    ItensLivros.innerHTML = "";
+
+    if (livros.length > 0) {
+        // Cria o cabeçalho com o nome da categoria
+
+        let categoriaHtml = `
+            <div class="suggestions-header">
+                <h1>Livros de ${categoriaNome}</h1>
+                <span class="add-icon">VER +</span>
+            </div>
+            <div class="books-container"> 
+        `;
+
+        // Loop pelos livros e gera os cards
+        livros.forEach(livro => {
+            categoriaHtml += `
+                <div class="book-card">
+                    <div class="book-image">
+                        <img src="../Res/categorias/${categoriaNome}/${livro.titulo}.png" alt="${livro.titulo}" onclick="paginaLivro(${livro.id_livro})">
+                        <div class="favorite-icon">
+                            <i id="iconFavoritos" class="ri-heart-3-line" onclick="adicionarFavorito('${livro.id_livro}')"></i>
+                        </div>
+                    </div>
+                    <h3 onclick="paginaLivro(${livro.id_livro})">${livro.titulo}</h3>
+                    <p onclick="paginaLivro(${livro.id_livro})">${livro.autor}</p>
+                    <p onclick="paginaLivro(${livro.id_livro})">${livro.preco}€</p>
+                    <p class="free-shipping" onclick="paginaLivro(${livro.id_livro})">Portes Grátis</p>
+                </div>
+            `;
+        });
+
+        categoriaHtml += `</div>`; // Fecha o contêiner de livros
+
+        // Insere o HTML gerado no contêiner da página
+        ItensLivros.innerHTML = categoriaHtml;
+    } else {
+        ItensLivros.innerHTML = '<p>Nenhum livro encontrado para esta categoria.</p>';
+    }
+}
+
+
 
 
 

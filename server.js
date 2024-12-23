@@ -390,6 +390,108 @@ app.post('/removerLivroDoCarrinho', (req, res) => {
     });
 });
 
+app.post('/removerQuantidade', (req, res) => {
+    const { quantidade, id_carrinho } = req.body;
+
+    // Verifica se o id_carrinho está presente
+    if (!id_carrinho) {
+        return res.json({ success: false, message: "ID do carrinho é obrigatório" });
+    }
+
+    // A consulta agora está corrigida
+    const query = 'UPDATE carrinho SET quantidade = ? WHERE id_carrinho = ?';
+
+    // Passa os parâmetros para a query
+    con.query(query, [quantidade, id_carrinho], (err, result) => {
+        if (err) {
+            console.error('Erro ao remover livro do carrinho:', err);
+            return res.json({ success: false, message: 'Erro no servidor' });
+        }
+
+        // Verifica se pelo menos uma linha foi afetada
+        if (result.affectedRows > 0) {
+            res.json({ success: true, message: 'Quantidade atualizada com sucesso' });
+        } else {
+            res.json({ success: false, message: 'Livro não encontrado no carrinho' });
+        }
+    });
+});
+
+
+app.post('/adicionarQuantidade', (req, res) => {
+    const { quantidade, id_carrinho } = req.body;
+
+    // Verifica se o id_carrinho está presente
+    if (!id_carrinho) {
+        return res.json({ success: false, message: "ID do carrinho é obrigatório" });
+    }
+
+    // A consulta agora está corrigida
+    const query = 'UPDATE carrinho SET quantidade = ? WHERE id_carrinho = ?';
+
+    // Passa os parâmetros para a query
+    con.query(query, [quantidade, id_carrinho], (err, result) => {
+        if (err) {
+            console.error('Erro ao remover livro do carrinho:', err);
+            return res.json({ success: false, message: 'Erro no servidor' });
+        }
+
+        // Verifica se pelo menos uma linha foi afetada
+        if (result.affectedRows > 0) {
+            res.json({ success: true, message: 'Quantidade atualizada com sucesso' });
+        } else {
+            res.json({ success: false, message: 'Livro não encontrado no carrinho' });
+        }
+    });
+});
+
+
+app.post('/selecionado', (req, res) => {
+    const { nomeCat } = req.body;
+
+    // Consulta para buscar o id_categoria com base no nome da categoria
+    const queryCategoria = 'SELECT id_categoria FROM Categoria WHERE nome = ?';
+
+    con.query(queryCategoria, [nomeCat], (err, result) => {
+        if (err) {
+            console.error('Erro ao buscar categoria:', err);
+            return res.json({ success: false, message: 'Erro no servidor' });
+        }
+
+        // Verifica se encontrou a categoria
+        if (result.length > 0) {
+            const idCategoria = result[0].id_categoria;  // Pega o id_categoria da categoria encontrada
+
+            // Agora, busca os livros que têm esse id_categoria
+            const queryLivros = `
+                SELECT Livros.*, Categoria.nome AS nome_categoria
+                FROM Livros
+                INNER JOIN Categoria ON Livros.id_categoria = Categoria.id_categoria
+                WHERE Livros.id_categoria = ?`;
+
+            con.query(queryLivros, [idCategoria], (err, livrosResult) => {
+                if (err) {
+                    console.error('Erro ao buscar livros:', err);
+                    return res.json({ success: false, message: 'Erro ao acessar os livros' });
+                }
+
+                // Verifica se encontrou livros para a categoria
+                if (livrosResult.length > 0) {
+                    res.json({
+                        success: true,
+                        livros: livrosResult // Retorna os livros encontrados para a categoria
+                    });
+                } else {
+                    res.json({ success: false, message: 'Nenhum livro encontrado para esta categoria' });
+                }
+            });
+        } else {
+            res.json({ success: false, message: 'Categoria não encontrada' });
+        }
+    });
+});
+
+
 
 
 
