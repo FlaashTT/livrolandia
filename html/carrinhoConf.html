@@ -82,7 +82,25 @@
       <a href="#" class="side-link">Vida Pratica</a>
     </div>
 
+    
     <div class="payment-container">
+      <div>
+        <h1>A sua compra</h1>
+        <div>
+          <h3>Preço da sua compra</h3>
+          <p id="valorCompra">70</p>
+        </div>
+        <div>
+          <h3>Custos dos portes de envio</h3>
+          <p id="custoPortes">5</p>
+        </div>
+        <div>
+          <h3>Preço total final</h3>
+          <p id="preçoFinal"> 75</p>
+        </div>
+        
+        
+      </div>
         <h1>Método de Pagamento</h1>
 
         <!-- Opções de pagamento -->
@@ -93,11 +111,11 @@
             </div>
             <div class="payment-option" data-payment-method="pix">
                 <i class="ri-pixelfed-fill"></i>
-                Pix
+                MBWAY
             </div>
             <div class="payment-option" data-payment-method="boleto">
                 <i class="ri-file-fill"></i>
-                Boleto
+                Multibanco
             </div>
             <div class="payment-option" data-payment-method="paypal">
                 <i class="ri-paypal-fill"></i>
@@ -105,12 +123,12 @@
             </div>
             <div class="payment-option" data-payment-method="apple-pay">
                 <i class="ri-apple-fill"></i>
-                Apple Pay
+                Transferências Bancárias
             </div>
         </div>
 
         <!-- Formulário de pagamento -->
-        <form id="payment-form" action="/processar-pagamento" method="POST">
+        <form id="payment-form"  method="POST">
             <div class="form-group" id="card-name-group">
                 <label for="card-name">Nome no Cartão</label>
                 <input type="text" id="card-name" name="card-name" placeholder="Digite o nome">
@@ -130,8 +148,8 @@
 
             <!-- Campos específicos de outros métodos -->
             <div class="form-group hidden" id="pix-group">
-                <label for="pix-code">Código Pix</label>
-                <input type="text" id="pix-code" name="pix-code" placeholder="Digite o código Pix">
+                <label for="pix-code">Insira o seu contacto associado ao MBWAY</label>
+                <input type="text" id="pix-code" name="pix-code" placeholder="987654321">
             </div>
 
             <div class="form-group hidden" id="boleto-group">

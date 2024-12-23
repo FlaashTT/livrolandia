@@ -1,6 +1,7 @@
-
+let precoFinal, precoTotal = 0, preçoSemQuantidade = 0, portes;
 
 window.onload = function () {
+    localStorage.removeItem('compra');
     userLogged = JSON.parse(localStorage.getItem("userLogged"));
 
     iconConta = document.getElementById("iconConta");
@@ -68,7 +69,7 @@ function header(userLogged) {
 }
 
 function showCart() {
-    let precoFinal, precoTotal = 0, preçoSemQuantidade = 0;
+
     if (!userLogged) {
         carrinhoHTML.innerHTML = "Indisponível, inicie sessão para continuar!<br>";
         carrinhoHTML.innerHTML += `
@@ -148,7 +149,7 @@ function showCart() {
                                 .catch(error => console.error('Erro ao buscar detalhes do livro:', error));
                         })).then(() => {
                             // Após todos os fetchs, atualizar o HTML
-                            let portes = 5;
+                            portes = 5;
 
                             precoSemCustos.innerHTML = '<span>Custos</span> <span>' + precoTotal.toFixed(2) + '€</span>';
                             precoTotal += portes;
@@ -192,7 +193,7 @@ function adicionarQuantidade(idCarrinho) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ id_carrinho: idCarrinho,quantidade :quantidade }) // Envia os dados como JSON
+        body: JSON.stringify({ id_carrinho: idCarrinho, quantidade: quantidade }) // Envia os dados como JSON
     })
         .then(response => response.json())  // Converte a resposta para JSON
         .then(livroData => {
@@ -226,7 +227,7 @@ function removerQuantidade(idCarrinho) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ id_carrinho: idCarrinho,quantidade :quantidade }) // Envia os dados como JSON
+            body: JSON.stringify({ id_carrinho: idCarrinho, quantidade: quantidade }) // Envia os dados como JSON
         })
             .then(response => response.json())  // Converte a resposta para JSON
             .then(livroData => {
@@ -269,3 +270,25 @@ function removerQuantidade(idCarrinho) {
     // Atualiza o texto no elemento
     quantidadeElement.textContent = quantidade;
 }
+
+function seguirPagamento() {
+    console.log('Preço Total:', precoTotal);
+    console.log('Portes:', portes);
+
+    
+    const dadosPagamento = {
+        precoTotal: precoTotal,
+        portes: portes
+    };
+
+    // Verifique se o objeto está correto antes de armazenar
+    console.log('Dados de pagamento:', dadosPagamento);
+
+    // Armazena os dados no localStorage
+    localStorage.setItem('compra', JSON.stringify(dadosPagamento));
+
+    
+    window.location.href = `../html/carrinhoConf.html`;
+}
+
+

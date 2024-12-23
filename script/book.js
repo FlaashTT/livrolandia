@@ -121,7 +121,7 @@ function showLivro() {
                 nomeAutor.innerHTML = data.livro.autor
 
                 precoAntigo.innerHTML = precoInicial+"€"
-                PreçoLivro.innerHTML = precoFinal +"€"
+                PreçoLivro.innerHTML = precoFinal.toFixed(2) +"€"
                 descontoImediato.innerHTML = precoInicial-precoFinal+"€ de desconto"
 
                 Sinopse.innerHTML = data.livro.sinopse

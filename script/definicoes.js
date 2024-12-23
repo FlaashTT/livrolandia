@@ -4,6 +4,7 @@ let btnCategorias, categorias, textoNome, sidebar, iconConta, iconFavs, iconCarr
 
 // Carregamento da página
 window.onload = function () {
+  localStorage.removeItem('compra');
   inicializarElementos();
   configurarEventos();
   atualizarHeader();
@@ -12,6 +13,7 @@ window.onload = function () {
 
 // Função para inicializar os elementos
 function inicializarElementos() {
+  localStorage.removeItem('compra');
   userLogged = JSON.parse(localStorage.getItem("userLogged"));
 
   userNameElement = document.getElementById("userName");

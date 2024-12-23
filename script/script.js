@@ -2,7 +2,7 @@ let btnCategorias, categorias, textoNome, sidebar, iconConta, iconFavs, iconCarr
 let currentSlideIndex = 0, userLogged;
 
 window.onload = function () {
-    // Recupera o usuário logado do localStorage
+    localStorage.removeItem('compra');
     userLogged = JSON.parse(localStorage.getItem("userLogged"));
 
     // Seletores dos elementos da página
