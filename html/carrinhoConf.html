@@ -109,11 +109,11 @@
                 <i class="ri-bank-card-2-fill"></i>
                 Cartão de Crédito
             </div>
-            <div class="payment-option" data-payment-method="pix">
+            <div class="payment-option" data-payment-method="mbway">
                 <i class="ri-pixelfed-fill"></i>
                 MBWAY
             </div>
-            <div class="payment-option" data-payment-method="boleto">
+            <div class="payment-option" data-payment-method="multibanco">
                 <i class="ri-file-fill"></i>
                 Multibanco
             </div>
@@ -123,52 +123,53 @@
             </div>
             <div class="payment-option" data-payment-method="apple-pay">
                 <i class="ri-apple-fill"></i>
-                Transferências Bancárias
+                Apple Pay
             </div>
         </div>
 
         <!-- Formulário de pagamento -->
-        <form id="payment-form"  method="POST">
-            <div class="form-group" id="card-name-group">
-                <label for="card-name">Nome no Cartão</label>
-                <input type="text" id="card-name" name="card-name" placeholder="Digite o nome">
-            </div>
-            <div class="form-group" id="card-number-group">
-                <label for="card-number">Número do Cartão</label>
-                <input type="text" id="card-number" name="card-number" placeholder="0000 0000 0000 0000">
-            </div>
-            <div class="form-group" id="expiry-date-group">
-                <label for="expiry-date">Data de Validade</label>
-                <input type="text" id="expiry-date" name="expiry-date" placeholder="MM/AA">
-            </div>
-            <div class="form-group" id="cvv-group">
-                <label for="cvv">CVV</label>
-                <input type="password" id="cvv" name="cvv" placeholder="123">
-            </div>
-
-            <!-- Campos específicos de outros métodos -->
-            <div class="form-group hidden" id="pix-group">
-                <label for="pix-code">Insira o seu contacto associado ao MBWAY</label>
-                <input type="text" id="pix-code" name="pix-code" placeholder="987654321">
-            </div>
-
-            <div class="form-group hidden" id="boleto-group">
-                <label for="boleto-code">Código do Boleto</label>
-                <input type="text" id="boleto-code" name="boleto-code" placeholder="Digite o código do boleto">
-            </div>
-
-            <div class="form-group hidden" id="paypal-group">
-                <label for="paypal-email">E-mail PayPal</label>
-                <input type="email" id="paypal-email" name="paypal-email" placeholder="Digite o e-mail do PayPal">
-            </div>
-
-            <div class="form-group hidden" id="apple-pay-group">
-                <label for="apple-pay-id">ID Apple Pay</label>
-                <input type="text" id="apple-pay-id" name="apple-pay-id" placeholder="Digite seu ID Apple Pay">
-            </div>
-
-            <button type="submit" class="submit-btn">Pagar</button>
-        </form>
+        <form id="payment-form" method="POST">
+          <div class="form-group hidden" id="card-name-group">
+              <label for="card-name">Nome no Cartão</label>
+              <input type="text" id="card-name" name="card-name" placeholder="Digite o nome" >
+          </div>
+          <div class="form-group hidden" id="card-number-group">
+              <label for="card-number">Número do Cartão</label>
+              <input type="text" id="card-number" name="card-number" placeholder="0000 0000 0000 0000" >
+          </div>
+          <div class="form-group hidden" id="expiry-date-group">
+              <label for="expiry-date">Data de Validade</label>
+              <input type="text" id="expiry-date" name="expiry-date" placeholder="MM/AA">
+          </div>
+          <div class="form-group hidden" id="cvv-group">
+              <label for="cvv">CVV</label>
+              <input type="password" id="cvv" name="cvv" placeholder="123" >
+          </div>
+      
+          <!-- Campos específicos de outros métodos -->
+          <div class="form-group hidden" id="mbway-group">
+            <label for="mbway-code">Insira o seu contacto associado ao MBWAY</label>
+            <input type="text" id="mbway-code" name="mbway-code" placeholder="987654321">
+        </div>
+    
+        <div class="form-group hidden" id="multibanco-group">
+            <label for="multibanco-code">Código do Boleto</label>
+            <input type="text" id="multibanco-code" name="multibanco-code" placeholder="Digite o código do boleto">
+        </div>
+      
+          <div class="form-group hidden" id="paypal-group">
+              <label for="paypal-email">E-mail PayPal</label>
+              <input type="email" id="paypal-email" name="paypal-email" placeholder="Digite o e-mail do PayPal">
+          </div>
+      
+          <div class="form-group hidden" id="apple-pay-group">
+              <label for="apple-pay-id">ID Apple Pay</label>
+              <input type="text" id="apple-pay-id" name="apple-pay-id" placeholder="Digite seu ID Apple Pay">
+          </div>
+      
+          <button type="submit" class="submit-btn" id="payButton">Pagar</button>
+      </form>
+      
     </div>
 
     

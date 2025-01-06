@@ -491,6 +491,104 @@ app.post('/selecionado', (req, res) => {
     });
 });
 
+app.post('/adicionarLivroCart', (req, res) => {
+    const { id_utilizador, id_livro } = req.body;
+
+    // Verifica se todos os campos estão preenchidos
+    if (!id_utilizador || !id_livro) {
+        return res.json({ success: false, message: 'Sem dados necessários!' });
+    }
+
+    // Verifica se o livro já está no carrinho
+    const checkLivroQuery = 'SELECT * FROM carrinho WHERE id_utilizador = ? AND id_livro = ?';
+    con.query(checkLivroQuery, [id_utilizador, id_livro], (err, result) => {
+        if (err) {
+            return res.json({ success: false, message: 'Erro ao verificar o carrinho: ' + err.message });
+        }
+
+        if (result.length > 0) {
+            // Caso o livro já esteja no carrinho
+            return res.json({ success: false, message: 'Já tem este livro no carrinho!' });
+        } else {
+            // Caso o livro não esteja no carrinho, adiciona-o
+            const sql = 'INSERT INTO carrinho (id_utilizador, id_livro, quantidade) VALUES (?, ?, 1)';
+            con.query(sql, [id_utilizador, id_livro], (err, result) => {
+                if (err) {
+                    // Retorna erro em formato JSON
+                    return res.json({ success: false, message: 'Erro ao adicionar o livro: ' + err.message });
+                }
+                // Retorna sucesso em formato JSON
+                return res.json({ success: true, message: 'Livro adicionado ao carrinho com sucesso!' });
+            });
+        }
+        
+    });
+});
+
+
+app.post('/buscarDadosCart', (req, res) => {
+    const { id_user } = req.body;
+
+    // Validação do id_user
+    if (!id_user || isNaN(id_user)) {
+        return res.json({ success: false, message: "ID do utilizador é inválido" });
+    }
+
+    // Consulta para buscar os dados do carrinho
+    const query = `
+        SELECT id_livro, quantidade
+        FROM carrinho
+        WHERE id_utilizador = ?`;
+
+    con.query(query, [id_user], (err, results) => {
+        if (err) {
+            console.error('Erro ao buscar dados do carrinho:', err);
+            return res.json({ success: false, message: 'Erro ao buscar dados do carrinho' });
+        }
+
+        if (results.length > 0) {
+            res.json({ success: true, data: results });
+        } else {
+            res.json({ success: false, message: 'Carrinho vazio' });
+        }
+    });
+});
+
+
+app.post('/limparCarrinho', (req, res) => {
+    const { id_user } = req.body;
+
+    // Verifica se o id_carrinho está presente
+    if (!id_user) {
+        return res.json({ success: false, message: "ID do carrinho é obrigatório" });
+    }
+
+    // A consulta agora usa apenas o id_carrinho para remover o livro
+    const query = 'DELETE FROM carrinho WHERE id_utilizador = ?';
+
+    // Passa o id_carrinho para a query
+    con.query(query, [id_user], (err, result) => {
+        if (err) {
+            console.error('Erro ao remover livro do carrinho:', err);
+            return res.json({ success: false, message: 'Erro no servidor' });
+        }
+
+        // Verifica se pelo menos uma linha foi afetada
+        if (result.affectedRows > 0) {
+            res.json({ success: true, message: 'Livro removido com sucesso' });
+        } else {
+            res.json({ success: false, message: 'Livro não encontrado no carrinho' });
+        }
+    });
+});
+
+app.post('/adicionarHistorico', (req, res ) =>{
+
+
+
+});
+
+
 
 
 
