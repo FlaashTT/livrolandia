@@ -1,263 +1,176 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Livrolandia</title>
-    <link rel="stylesheet" href="../style/definicoes.css" />
-    <script src="../script/definicoes.js" defer></script>
-    <!-- Box icons link -->
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
-    />
-    <!-- Remix icons link -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
-      rel="stylesheet"
-    />
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
-      rel="stylesheet"
-    />
-  </head>
 
-  <body>
-    <!-- Header Principal -->
-    <header>
-      <button id="btnCategorias" class="buttonSide">
-        <i class="ri-align-left"></i>
-      </button>
-      <a href="index.html" class="logo">
-        <video autoplay loop muted playsinline class="logo-video">
-          <source src="/Res/LivroLândia.mp4" type="video/mp4" />
-        </video>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Livrolandia</title>
+  <link rel="stylesheet" href="../style/definicoes.css" />
+  <script src="../script/definicoes.js" defer></script>
+  <!-- Box icons link -->
+  <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" />
+  <!-- Remix icons link -->
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+    rel="stylesheet" />
+</head>
+
+<body>
+  <!-- Header Principal -->
+  <header>
+    <button id="btnCategorias" class="buttonSide">
+      <i class="ri-align-left"></i>
+    </button>
+    <a href="index.html" class="logo">
+      <video autoplay loop muted playsinline class="logo-video">
+        <source src="/Res/LivroLândia.mp4" type="video/mp4" />
+      </video>
+    </a>
+    <ul class="navlist">
+      <i class="ri-search-line"></i>
+      <div class="search-box">
+        <input class="search-text" type="text" name="" placeholder="O que Procura" id="" />
+      </div>
+      <button id="iconConta"><i class="ri-user-3-line"></i></button>
+      <h4 id="textoNome"></h4>
+      <button id="iconFavs"><i class="ri-heart-2-line"></i></button>
+      <button id="iconCarrinho"><i class="ri-shopping-cart-line"></i></button>
+    </ul>
+  </header>
+
+  <!-- Sidebar -->
+  <div id="sidebar" class="sidebar hidden">
+    <a href="#" class="side-link">Arte</a>
+    <a href="#" class="side-link">Banda desenhada</a>
+    <a href="#" class="side-link">Ciencias exatas e naturais</a>
+    <a href="#" class="side-link">Ciencias sociais e humanas</a>
+    <a href="#" class="side-link">Desenvolvimento pessoal e espirital</a>
+    <a href="#" class="side-link">Desporto e lazer</a>
+    <a href="#" class="side-link">Dicionarios e enciclopedias</a>
+    <a href="#" class="side-link">Direito</a>
+    <a href="#" class="side-link">Economia,finanças e contabilidade</a>
+    <a href="#" class="side-link">Engenharia</a>
+    <a href="#" class="side-link">Ensino e educação</a>
+    <a href="#" class="side-link">Gastronomia e vinhos</a>
+    <a href="#" class="side-link">Gestao</a>
+    <a href="#" class="side-link">Guias turisticos e mapas</a>
+    <a href="#" class="side-link">Historia</a>
+    <a href="#" class="side-link">Infantis e juvenis</a>
+    <a href="#" class="side-link">Informatica</a>
+    <a href="#" class="side-link">Literatura</a>
+    <a href="#" class="side-link">Medicina</a>
+    <a href="#" class="side-link">Plano nacional da leitura</a>
+    <a href="#" class="side-link">Politica</a>
+    <a href="#" class="side-link">Religiao e moral</a>
+    <a href="#" class="side-link">Saúde e bem estar</a>
+    <a href="#" class="side-link">Vida Pratica</a>
+  </div>
+
+  <!-- Menu de Opções -->
+  <nav class="opcoes" id="opcoes">
+    <p>Olá <span id="userName">Alexandre!</span></p>
+    <a href="#" id="vendas-link">Vendas</a>
+    <div class="side-submenu">
+      <a href="#" id="toggle-account">
+        Conta <i class="ri-arrow-right-line"></i></i>
       </a>
-      <ul class="navlist">
-        <i class="ri-search-line"></i>
-        <div class="search-box">
-          <input
-            class="search-text"
-            type="text"
-            name=""
-            placeholder="O que Procura"
-            id=""
-          />
-        </div>
-        <button id="iconConta"><i class="ri-user-3-line"></i></button>
-        <h4 id="textoNome"></h4>
-        <button id="iconFavs"><i class="ri-heart-2-line"></i></button>
-        <button id="iconCarrinho"><i class="ri-shopping-cart-line"></i></button>
+      <ul id="submenu" style="display: none;">
+        <li><a href="#" id="dadosPessoaislink">Dados Pessoais</a></li>
+        <li><a href="#" id="moradas-link">Gerir Moradas</a></li>
       </ul>
-    </header>
-
-    <!-- Sidebar -->
-    <div id="sidebar" class="sidebar hidden">
-      <a href="#" class="side-link">Arte</a>
-      <a href="#" class="side-link">Banda desenhada</a>
-      <a href="#" class="side-link">Ciencias exatas e naturais</a>
-      <a href="#" class="side-link">Ciencias sociais e humanas</a>
-      <a href="#" class="side-link">Desenvolvimento pessoal e espirital</a>
-      <a href="#" class="side-link">Desporto e lazer</a>
-      <a href="#" class="side-link">Dicionarios e enciclopedias</a>
-      <a href="#" class="side-link">Direito</a>
-      <a href="#" class="side-link">Economia,finanças e contabilidade</a>
-      <a href="#" class="side-link">Engenharia</a>
-      <a href="#" class="side-link">Ensino e educação</a>
-      <a href="#" class="side-link">Gastronomia e vinhos</a>
-      <a href="#" class="side-link">Gestao</a>
-      <a href="#" class="side-link">Guias turisticos e mapas</a>
-      <a href="#" class="side-link">Historia</a>
-      <a href="#" class="side-link">Infantis e juvenis</a>
-      <a href="#" class="side-link">Informatica</a>
-      <a href="#" class="side-link">Literatura</a>
-      <a href="#" class="side-link">Medicina</a>
-      <a href="#" class="side-link">Plano nacional da leitura</a>
-      <a href="#" class="side-link">Politica</a>
-      <a href="#" class="side-link">Religiao e moral</a>
-      <a href="#" class="side-link">Saúde e bem estar</a>
-      <a href="#" class="side-link">Vida Pratica</a>
     </div>
+    <a href="#" id="linkFavoritos">Favoritos</a>
+    <a href="#" id="logoutBtn">Terminar Sessão</a>
+  </nav>
 
-    <!-- Menu de Opções -->
-    <nav class="opcoes" id="opcoes">
-      <p>Olá <span id="userName">Alexandre!</span></p>
-      <a href="#" id="vendas-link">Vendas</a>
-      <div class="side-submenu">
-        <a href="#" id="toggle-account">
-          Conta <i class="ri-arrow-right-line"></i></i>
-        </a>
-        <ul id="submenu" style="display: none;">
-          <li><a href="#" id="dadosPessoaislink">Dados Pessoais</a></li>
-          <li><a href="#" id="moradas-link">Gerir Moradas</a></li>
-        </ul>
-      </div>
-      <a href="#" id="linkFavoritos">Favoritos</a>
-      <a href="#" id="linkCupons">Cupons</a>
-      <a href="#" id="logoutBtn">Terminar Sessão</a>
-    </nav>
+  <!-- Conteúdo Vendas -->
+  <main class="main-content" id="vendas-content">
+    <h2>Últimas Vendas</h2>
+    
+  </main>
 
-    <!-- Conteúdo Vendas -->
-    <main class="main-content" id="vendas-content">
-      <h2>Última Venda</h2>
-      <div class="sale-info">
-        <div class="sale-details">
-          <p>Encomenda Nº 33557890</p>
-          <p>Data da Compra: 14/11/2023</p>
-          <p class="location">Local da Compra: Venda Online</p>
-        </div>
-        <div class="price">Valor: 22,00€</div>
-        <button class="details-button">VER DETALHES</button>
-      </div>
-    </main>
-
-    <!-- Seção de Gestão de Moradas -->
-    <section id="moradas-content" class="hidden">
-      <div class="form-container">
+  <!-- Seção de Gestão de Moradas -->
+  <section id="moradas-content" class="hidden">
+    <div class="form-container">
         <h2>Gestão de Moradas</h2>
         <h3>Editar Moradas</h3>
-        <form>
-          <div class="form-group">
-            <label for="name">Nome*</label>
-            <input type="text1" id="name" placeholder="Sérgio" required />
-          </div>
+        <form id="form-morada">
+            <div class="form-group">
+                <label for="name">Cidade*</label>
+                <input type="text" id="name" placeholder="Ex: Lisboa" required />
+            </div>
 
-          <div class="form-group">
-            <label for="nif">NIF (Opcional)</label>
-            <input type="text1" id="nif" placeholder="123232132" />
-          </div>
+            <div class="form-group">
+                <label for="nif">Rua (Opcional)</label>
+                <input type="text" id="nif" placeholder="Ex: Rua das Flores" />
+            </div>
 
-          <div class="form-group">
-            <label for="phone">Telemóvel</label>
-            <input type="tel1" id="phone" placeholder="923232132" />
-          </div>
+            <div class="form-group">
+                <label for="phone">Código Postal*</label>
+                <input type="text" id="phone" placeholder="Ex: 1000-000" required />
+            </div>
 
-          <div class="form-group">
-            <label for="address">Morada</label>
-            <input type="text1" id="address" placeholder="Urbanização de Lisboa" />
-          </div>
-
-          <div class="form-group">
-            <label for="postal-code">Código Postal</label>
-            <input type="text1" id="postal-code" placeholder="6220-898" />
-          </div>
-
-          <div class="form-group">
-            <label for="city">Cidade</label>
-            <input type="text1" id="city" placeholder="Lisboa" />
-          </div>
-
-          <div class="form-group">
-            <label for="country">País</label>
-            <input type="text1" id="country" placeholder="Portugal" />
-          </div>
-
-          <div class="form-buttons">
-            <button type="submit" class="save-button">GUARDAR ALTERAÇÕES</button>
-            <button type="button" class="cancel-button">CANCELAR</button>
-          </div>
+            <div class="form-buttons">
+                <button type="submit" class="save-button">GUARDAR ALTERAÇÕES</button>
+                <button type="button" class="cancel-button">CANCELAR</button>
+            </div>
         </form>
-      </div>
-    </section>
-
-    <section id="favoritos" class="hidden">
-      <div class=" form-container">
-        <h2>Favoritos</h2>
-      </div>
-      <div id="favoritosHtml">
-        
-      </div>
-    </section>
-    
-
-    <!--Section dos dados Pessoais-->
-    <section id="dadosPessoais" class="hidden">
-      <div class="form-container">
-        <h2>Dados Pessoais</h2>
-        <h3>Editar dados</h3>
-        <form>
-          <div class="form-group">
-            <label for="name">Nome*</label>
-            <input type="text1" id="name" placeholder="Sérgio" required />
-          </div>
-
-          <div class="form-group">
-            <label for="Email">Email</label>
-            <input type="tel1" id="Email" placeholder="923232132" />
-          </div>
-
-          <div class="form-group">
-            <label for="password">password</label>
-            <input type="text1" id="password" placeholder="Urbanização de Lisboa" />
-          </div>
-
-          <div class="form-group">
-            <label for="Telefone">Telefone</label>
-            <input type="text1" id="Telefone" placeholder="6220-898" />
-          </div>
-
-          <div class="form-group">
-            <label for="Tipo">Tipo utilizador</label>
-            <input type="text1" id="Tipo" placeholder="Lisboa" />
-          </div>
-
-          <div class="form-buttons">
-            <button type="submit" class="save-button">GUARDAR ALTERAÇÕES</button>
-            <button type="button" class="cancel-button">CANCELAR</button>
-          </div>
-        </form>
-      </div>
-    </section>
+    </div>
+</section>
 
 
-    <section id="cupons" class="hidden">
-      <div class="form-container">
-        <h2>Seus cupons</h2>
-        
-        <form>
-          <div class="form-group">
-            <label for="name">Nome</label>
-            <p>Cupon de Natal</p>
-          </div>
+  <section id="favoritos" class="hidden">
+    <div class=" form-container">
+      <h2>Favoritos</h2>
+    </div>
+    <div id="favoritosHtml">
 
-          <div class="form-group">
-            <label for="valorCupon">Valor do cupon</label>
-            <p>15%</p>
-          </div>
+    </div>
+  </section>
 
 
-          <div class="form-group">
-            <label for="DescricaoCupon">Descrição</label>
-            <p>Cupao para todos os tipos de livros</p>
-          </div>
+  <!--Section dos dados Pessoais-->
+  <section id="dadosPessoais" class="hidden">
+    <div class="form-container">
+      <h2>Dados Pessoais</h2>
+      <h3>Editar dados</h3>
+      <form>
+        <div class="form-group">
+          <label for="name">Nome*</label>
+          <input type="text1" id="name" placeholder="Sérgio" required />
+        </div>
 
-          <div class="form-group">
-            <label for="inicioCupon">Data inicio cupon</label>
-            <p>05 de Dezembro de 2024</p>
-          </div>
-          
+        <div class="form-group">
+          <label for="Email">Email</label>
+          <input type="tel1" id="Email" placeholder="923232132" />
+        </div>
 
-          <div class="form-group">
-            <label for="fimCupon">Data fim Cupon</label>
-            <p>05 de Janeiro de 2025</p>
-          </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="text1" id="password" placeholder="Urbanização de Lisboa" />
+        </div>
 
-          <div class="form-group">
-            <button type="submit" class="save-button">Usar cupon</button>
-          </div>
+        <div class="form-group">
+          <label for="Telefone">Telefone</label>
+          <input type="text1" id="Telefone" placeholder="6220-898" />
+        </div>
 
-          
+       
 
-          <div class="form-buttons">
-            <button type="submit" class="save-button">GUARDAR ALTERAÇÕES</button>
-            <button type="button" class="cancel-button">CANCELAR</button>
-          </div>
-        </form>
-      </div>
-    </section>
-  
-  </body>
+        <div class="form-buttons">
+          <button type="submit" class="save-button" id="saveButtonPerfil">GUARDAR ALTERAÇÕES</button>
+          <button type="button" class="cancel-button">CANCELAR</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+
+
+
+</body>
+
 </html>

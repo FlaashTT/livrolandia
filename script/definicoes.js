@@ -1,6 +1,6 @@
 let btnCategorias, categorias, textoNome, sidebar, iconConta, iconFavs, iconCarrinho, searchBox, searchInput, toggleAccountLink, submenu,
   arrowIcon, logoutBtn, userNameElement, vendasLink, moradasLink, vendasContent, moradasContent, dadosPessoaislink, dadosPessoais,
-  linkCupons, cupons, linkFavoritos, favoritos, favoritosHtml;
+  linkFavoritos, favoritos, favoritosHtml;
 
 // Carregamento da página
 window.onload = function () {
@@ -35,14 +35,13 @@ function inicializarElementos() {
 
   dadosPessoaislink = document.getElementById("dadosPessoaislink");
   dadosPessoais = document.getElementById("dadosPessoais");
-  linkCupons = document.getElementById("linkCupons");
-  cupons = document.getElementById("cupons");
   linkFavoritos = document.getElementById("linkFavoritos");
   favoritos = document.getElementById("favoritos");
   favoritosHtml = document.getElementById("favoritosHtml");
 
   searchBox = document.querySelector(".search-box");
   searchInput = document.querySelector(".search-text");
+  exibirHistorico();
 }
 
 // Função para configurar eventos
@@ -60,7 +59,6 @@ function configurarEventos() {
   vendasLink.addEventListener("click", (e) => alternarConteudo(e, vendasContent));
   moradasLink.addEventListener("click", (e) => alternarConteudo(e, moradasContent));
   dadosPessoaislink.addEventListener("click", (e) => alternarConteudo(e, dadosPessoais));
-  linkCupons.addEventListener("click", (e) => alternarConteudo(e, cupons));
   linkFavoritos.addEventListener("click", (e) => alternarConteudo(e, favoritos, funcaoFavs));
 }
 
@@ -96,7 +94,8 @@ function redirecionarConta() {
 
 // Função para esconder o conteúdo
 function esconderConteudo() {
-  [vendasContent, moradasContent, favoritos, dadosPessoais, cupons].forEach(content => content.classList.add("hidden"));
+  [vendasContent, moradasContent, favoritos, dadosPessoais].forEach(content => content.classList.add("hidden"));
+  exibirHistorico();
 }
 
 // Função para alternar o conteúdo visível
@@ -204,7 +203,7 @@ function showFavorits() {
   }
 }
 
-function removerFavorito(idLivro){
+function removerFavorito(idLivro) {
   idUser = userLogged.id_utilizador
 
   fetch('http://localhost:3000/removerFavorito', {
@@ -226,7 +225,57 @@ function removerFavorito(idLivro){
     .catch(error => console.error('Erro ao buscar detalhes do livro:', error));
 }
 
-function paginaLivro(idLivro){
+function paginaLivro(idLivro) {
   window.location.href = `../html/book.html?show=${idLivro}`;
 }
+
+function exibirHistorico() {
+  const historicoContent = document.getElementById("vendas-content");
+  historicoContent.innerHTML = ''; // Limpa o conteúdo antes de exibir
+
+  fetch('http://localhost:3000/buscarHistorico', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ id_utilizador: userLogged['id_utilizador'] }) // Envia o ID do utilizador
+  })
+  .then(response => response.json())
+  .then(historicoData => {
+      if (historicoData.success) {
+          historicoData.data.forEach(item => {
+              // Formata a data para YYYY-MM-DD
+              const dataFormatada = new Date(item.dataCompra).toISOString().split('T')[0];
+
+              historicoContent.innerHTML += `
+                  <div class="sale-info">
+                      <div class="sale-details">
+                          <p>Encomenda Nº ${item.id_compra}</p>
+                          <p>Data da Compra: ${dataFormatada}</p>
+                          <p class="location">Livro: ${item.titulo}</p>
+                      </div>
+                      <div class="price">Valor: ${item.preco.toFixed(2)}€</div>
+                      <button class="details-button">VER DETALHES</button>
+                  </div>
+              `;
+          });
+      } else {
+          historicoContent.innerHTML = `
+              <div class="carrinho-item">
+                  <p>Não tem histórico de compras.</p>
+              </div>
+          `;
+      }
+  })
+  .catch(error => {
+      console.error('Erro ao buscar histórico:', error);
+      historicoContent.innerHTML = `
+          <div class="carrinho-item">
+              <p>Erro ao carregar o histórico.</p>
+          </div>
+      `;
+  });
+}
+
+
 

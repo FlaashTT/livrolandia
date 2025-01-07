@@ -582,11 +582,90 @@ app.post('/limparCarrinho', (req, res) => {
     });
 });
 
-app.post('/adicionarHistorico', (req, res ) =>{
+app.post('/adicionarHistorico', (req, res) => {
+    const { id_user, id_livro, preco, data } = req.body;
 
+    // Verifica se todos os campos estão preenchidos
+    if (!id_user || !id_livro || !preco || !data) {
+        return res.json({ success: false, message: 'Sem dados necessários!' });
+    }
 
+    // Verifica se id_livro é um array
+    if (!Array.isArray(id_livro)) {
+        return res.json({ success: false, message: 'IDs dos livros devem estar em um array!' });
+    }
 
+    // Cria os valores para inserção em lote
+    const valores = id_livro.map(livro => [id_user, livro, preco, data]);
+
+    // Query para inserção múltipla
+    const sql = 'INSERT INTO HistoricoCompras (id_utilizador, id_livro, preco, dataCompra) VALUES ?';
+
+    con.query(sql, [valores], (err, result) => {
+        if (err) {
+            return res.json({ success: false, message: 'Erro ao adicionar ao histórico: ' + err.message });
+        }
+        return res.json({ success: true, message: 'Histórico adicionado com sucesso!' });
+    });
 });
+
+
+app.post('/buscarHistorico', (req, res) => {
+    const { id_utilizador } = req.body;
+
+    // Validação do ID do utilizador
+    if (!id_utilizador) {
+        return res.json({ success: false, message: 'ID do utilizador é obrigatório!' });
+    }
+
+    // Query para buscar o histórico de compras
+    const sql = `
+        SELECT h.id_compra, h.dataCompra, h.preco, l.titulo
+        FROM HistoricoCompras h
+        JOIN Livros l ON h.id_livro = l.id_livro
+        WHERE h.id_utilizador = ?
+        ORDER BY h.dataCompra DESC`;
+
+    con.query(sql, [id_utilizador], (err, results) => {
+        if (err) {
+            console.error('Erro ao buscar histórico:', err);
+            return res.json({ success: false, message: 'Erro ao buscar histórico: ' + err.message });
+        }
+
+        if (results.length > 0) {
+            return res.json({ success: true, data: results });
+        } else {
+            return res.json({ success: false, message: 'Nenhum histórico encontrado.' });
+        }
+    });
+});
+
+app.post('/buscarMorada', (req, res) => {
+    const { id_user } = req.body;
+
+    if (!id_user) {
+        return res.json({ success: false, message: 'ID do utilizador é obrigatório!' });
+    }
+
+    const query = `
+        SELECT nome, nif, telefone, password
+        FROM Utilizadores
+        WHERE id_utilizador = ?`;
+
+    con.query(query, [id_user], (err, results) => {
+        if (err) {
+            console.error('Erro ao buscar dados:', err);
+            return res.json({ success: false, message: 'Erro ao buscar dados.' });
+        }
+
+        if (results.length > 0) {
+            res.json({ success: true, morada: results[0] });
+        } else {
+            res.json({ success: false, message: 'Nenhum dado encontrado.' });
+        }
+    });
+});
+
 
 
 

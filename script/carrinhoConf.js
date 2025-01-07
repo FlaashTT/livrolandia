@@ -1,10 +1,10 @@
 let btnCategorias, categorias, textoNome, sidebar, iconConta, iconFavs, iconCarrinho, searchBox, searchInput, metodo;
-let currentSlideIndex = 0, userLogged;
+let currentSlideIndex = 0, userLogged, compra;
 
 window.onload = function () {
     // Recupera o usuário logado do localStorage
     userLogged = JSON.parse(localStorage.getItem("userLogged"));
-    let compra = JSON.parse(localStorage.getItem("compra"));
+    compra = JSON.parse(localStorage.getItem("compra"));
 
     // Seletores dos elementos da página
     sidebar = document.getElementById("sidebar");
@@ -167,7 +167,13 @@ payButton.addEventListener("click", function (event) {
             break;
 
         case ("mbway"):
-            console.log("mbway");
+            mbwayInput = document.getElementById("mbway-code");
+            if(mbwayInput.value.length != 9){
+                alert("Numero invalido");
+                return;
+            }
+
+            realizarPagamento();
             break;
 
         case ("multibanco"):
@@ -175,11 +181,20 @@ payButton.addEventListener("click", function (event) {
             break;
 
         case ("paypal"):
-            console.log("paypal");
+            paypalInput = document.getElementById("paypal-email");
+            if(paypalInput.value.length == 0){
+                alert("tem de inverir o email do seu payal")
+            }
+            realizarPagamento();
             break;
 
         case ("applePay"):
-            console.log("applePay");
+            applepayInput = document.getElementById("apple-pay-id")
+            if(applepayInput.value.length == 0){
+                alert("Tem de inserir o seu id da Apple");
+                return;
+            }
+            realizarPagamento();
             break;
     }
 })
@@ -244,8 +259,10 @@ async function realizarPagamento() {
             alert("Pagamento realizado com sucesso!");
             window.location.href = "../html/carrinho.html";
         } else {
-            alert("Erro ao adicionar ao histórico!");
             console.log('Erro:', historicoData.message);
+            alert("Erro ao adicionar ao histórico!");
+            //window.location.href = "../html/carrinho.html";
+            
         }
 
     } catch (error) {
