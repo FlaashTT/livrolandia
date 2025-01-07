@@ -255,7 +255,6 @@ function exibirHistorico() {
                           <p class="location">Livro: ${item.titulo}</p>
                       </div>
                       <div class="price">Valor: ${item.preco.toFixed(2)}€</div>
-                      <button class="details-button">VER DETALHES</button>
                   </div>
               `;
           });
