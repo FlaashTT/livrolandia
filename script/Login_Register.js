@@ -2,7 +2,6 @@
 let container, pwShowHide, pwFields, signUp, loginnavbarRight, loginForm, registerForm, campoLog, campoReg, selecionarOP,
     regName, regEmail, regPass, logEmail, logPass, tipoUser;
 
-// Variáveis para os elementos do HTML
 container = document.querySelector(".container"),
     pwShowHide = document.querySelectorAll(".showHidePw"),
     pwFields = document.querySelectorAll(".password"),
@@ -67,7 +66,6 @@ function trocarForm() {
     }
 }
 
-// Adicionando evento de clique para mostrar/ocultar senha
 pwShowHide.forEach(eyeIcon => {
     eyeIcon.addEventListener("click", () => {
         pwFields.forEach(pwField => {
@@ -97,7 +95,7 @@ function processRegister() {
 
     if (verificarEmail(email)) {
         if (email !== "" && password !== "" && name !== "" && tipoUser) {
-            fetch('http://localhost:3000/register', {  // Alterando para a rota /register
+            fetch('http://localhost:3000/register', {  
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

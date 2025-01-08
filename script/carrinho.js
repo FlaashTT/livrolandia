@@ -71,29 +71,32 @@ function header(userLogged) {
 function showCart() {
 
     if (!userLogged) {
+        divPagamento = document.getElementById("divPagamento");
+        divPagamento.classList.remove("carrinho-total");
+        divPagamento.classList.add("hidden");
         carrinhoHTML.innerHTML = "Indisponível, inicie sessão para continuar!<br>";
         carrinhoHTML.innerHTML += `
         <input type="button" value="Iniciar sessão!" onclick="window.location.href='../html/registo.html';">
         `;
         return;
     } else {
-        const id_utilizador = userLogged.id_utilizador; // Usando o id_utilizador de userLogged
+        const id_utilizador = userLogged.id_utilizador; 
 
         fetch('http://localhost:3000/carrinho', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ id_utilizador }) // Enviando o id_utilizador na requisição
+            body: JSON.stringify({ id_utilizador }) 
         })
             .then(response => response.json())
             .then(data => {
-                let carrinhoHTMLContent = ''; // Variável para armazenar o HTML do carrinho
+                let carrinhoHTMLContent = ''; 
 
                 if (data.success) {
                     let quantidadeItens = data.carrinho.length;
 
-                    // Verifica se 'data.carrinho' é um array antes de acessar 'length'
+                   
                     if (quantidadeItens > 0) {
                         // Para cada item no carrinho, buscar os detalhes do livro
                         Promise.all(data.carrinho.map(item => {
@@ -102,7 +105,7 @@ function showCart() {
                                 headers: {
                                     'Content-Type': 'application/json'
                                 },
-                                body: JSON.stringify({ id_livro: item.id_livro, id_utilizador }) // Envia o id_livro e id_utilizador
+                                body: JSON.stringify({ id_livro: item.id_livro, id_utilizador })
                             })
                                 .then(response => response.json())
                                 .then(livroData => {
@@ -148,7 +151,7 @@ function showCart() {
                                 })
                                 .catch(error => console.error('Erro ao buscar detalhes do livro:', error));
                         })).then(() => {
-                            // Após todos os fetchs, atualizar o HTML
+                            // Após tudo, atualizar o HTML
                             portes = 5;
 
                             precoSemCustos.innerHTML = '<span>Custos</span> <span>' + precoTotal.toFixed(2) + '€</span>';
@@ -184,7 +187,7 @@ function showCart() {
 
 function adicionarQuantidade(idCarrinho) {
     const quantidadeElement = document.getElementById(`quantidade${idCarrinho}`);
-    let quantidade = parseInt(quantidadeElement.textContent, 10);  // Obtém a quantidade atual
+    let quantidade = parseInt(quantidadeElement.textContent, 10); 
 
     // Aumenta a quantidade
     quantidade += 1;
@@ -193,11 +196,10 @@ function adicionarQuantidade(idCarrinho) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ id_carrinho: idCarrinho, quantidade: quantidade }) // Envia os dados como JSON
+        body: JSON.stringify({ id_carrinho: idCarrinho, quantidade: quantidade }) 
     })
-        .then(response => response.json())  // Converte a resposta para JSON
+        .then(response => response.json())  
         .then(livroData => {
-            // Processa os dados recebidos
             if (livroData.success) {
                 location.reload();
             } else {
@@ -205,10 +207,9 @@ function adicionarQuantidade(idCarrinho) {
             }
         })
         .catch(error => {
-            console.error('Erro na requisição:', error);  // Captura qualquer erro na requisição
+            console.error('Erro na requisição:', error);  
         });
 
-    // Atualiza o texto no elemento
     quantidadeElement.innerHTML = quantidade;
 
 }
@@ -227,11 +228,10 @@ function removerQuantidade(idCarrinho) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ id_carrinho: idCarrinho, quantidade: quantidade }) // Envia os dados como JSON
+            body: JSON.stringify({ id_carrinho: idCarrinho, quantidade: quantidade }) 
         })
-            .then(response => response.json())  // Converte a resposta para JSON
+            .then(response => response.json())  
             .then(livroData => {
-                // Processa os dados recebidos
                 if (livroData.success) {
                     location.reload();
                 } else {
@@ -239,7 +239,7 @@ function removerQuantidade(idCarrinho) {
                 }
             })
             .catch(error => {
-                console.error('Erro na requisição:', error);  // Captura qualquer erro na requisição
+                console.error('Erro na requisição:', error);  
             });
     } else {
         if (confirm("deseja mesmo remover o livro do carrinho?")) {
@@ -248,11 +248,10 @@ function removerQuantidade(idCarrinho) {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ id_carrinho: idCarrinho }) // Envia os dados como JSON
+                body: JSON.stringify({ id_carrinho: idCarrinho })
             })
-                .then(response => response.json())  // Converte a resposta para JSON
+                .then(response => response.json()) 
                 .then(livroData => {
-                    // Processa os dados recebidos
                     if (livroData.success) {
                         location.reload();
                     } else {
@@ -260,29 +259,23 @@ function removerQuantidade(idCarrinho) {
                     }
                 })
                 .catch(error => {
-                    console.error('Erro na requisição:', error);  // Captura qualquer erro na requisição
+                    console.error('Erro na requisição:', error);  
                 });
         }
 
 
     }
 
-    // Atualiza o texto no elemento
     quantidadeElement.textContent = quantidade;
 }
 
 function seguirPagamento() {
-    console.log('Preço Total:', precoTotal);
-    console.log('Portes:', portes);
 
     
     const dadosPagamento = {
         precoTotal: precoTotal,
         portes: portes
     };
-
-    // Verifique se o objeto está correto antes de armazenar
-    console.log('Dados de pagamento:', dadosPagamento);
 
     // Armazena os dados no localStorage
     localStorage.setItem('compra', JSON.stringify(dadosPagamento));

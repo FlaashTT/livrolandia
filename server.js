@@ -234,7 +234,6 @@ app.post('/carrinho', (req, res) => {
 
 app.get('/categoria', (req, res) => {
     // Consulta para buscar 5 categorias aleatórias
-    // const queryCategorias = 'SELECT * FROM Categoria ';
     const queryCategorias = 'SELECT * FROM Categoria ORDER BY RAND() LIMIT 5';
 
 
@@ -259,8 +258,8 @@ app.get('/categoria', (req, res) => {
                     console.error(`Erro ao buscar livros para a categoria ${categoria.id}:`, err.message);
                 }
 
-                categoria.livros = livros || []; // Adiciona livros à categoria (ou um array vazio caso ocorra erro)
-                categoriasComLivros.push(categoria); // Adiciona categoria com livros à lista
+                categoria.livros = livros || []; 
+                categoriasComLivros.push(categoria); 
 
                 // Após todas as categorias e livros serem processados, envia a resposta
                 if (categoriasComLivros.length === categorias.length) {
@@ -564,10 +563,10 @@ app.post('/limparCarrinho', (req, res) => {
         return res.json({ success: false, message: "ID do carrinho é obrigatório" });
     }
 
-    // A consulta agora usa apenas o id_carrinho para remover o livro
+    
     const query = 'DELETE FROM carrinho WHERE id_utilizador = ?';
 
-    // Passa o id_carrinho para a query
+    
     con.query(query, [id_user], (err, result) => {
         if (err) {
             console.error('Erro ao remover livro do carrinho:', err);
@@ -591,15 +590,15 @@ app.post('/adicionarHistorico', (req, res) => {
         return res.json({ success: false, message: 'Sem dados necessários!' });
     }
 
-    // Verifica se id_livro é um array
+    
     if (!Array.isArray(id_livro)) {
         return res.json({ success: false, message: 'IDs dos livros devem estar em um array!' });
     }
 
-    // Cria os valores para inserção em lote
+   
     const valores = id_livro.map(livro => [id_user, livro, preco, data]);
 
-    // Query para inserção múltipla
+   
     const sql = 'INSERT INTO HistoricoCompras (id_utilizador, id_livro, preco, dataCompra) VALUES ?';
 
     con.query(sql, [valores], (err, result) => {

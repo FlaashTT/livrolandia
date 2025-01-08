@@ -5,7 +5,6 @@ window.onload = function () {
     localStorage.removeItem('compra');
     userLogged = JSON.parse(localStorage.getItem("userLogged"));
 
-    // Seletores dos elementos da página
     sidebar = document.getElementById("sidebar");
     iconConta = document.getElementById("iconConta");
     btnCategorias = document.getElementById("btnCategorias");
@@ -13,7 +12,6 @@ window.onload = function () {
     iconFavs = document.getElementById("iconFavs");
     iconCarrinho = document.getElementById("iconCarrinho");
 
-    // Corrige o seletor da search-box e searchInput
     searchBox = document.querySelector('.search-box');
     searchInput = document.querySelector('.search-text');
     ItensLivros = document.getElementById("Sectiongeral");
@@ -63,7 +61,7 @@ function pesquisar() {
             } else {
                 categoriaHtml += `<p class="no-books">Nenhum livro encontrado.</p>`;
             }
-            ItensLivros.innerHTML = categoriaHtml; // Exibe os resultados na página
+            ItensLivros.innerHTML = categoriaHtml; 
         })
         .catch(error => {
             console.error('Erro ao buscar livros:', error);
@@ -96,6 +94,7 @@ function header(userLogged) {
         }
     });
 
+    
     iconFavs.addEventListener("click", function () {
         window.location.href = '../html/definicoes.html?show=favoritos';
     });
@@ -135,7 +134,6 @@ function addItens() {
                             <div class ="books-container"> 
                             `;
 
-                    // Busca os livros para a categoria
                     return fetch('http://localhost:3000/livrosParaCat', {
                         method: 'POST',
                         headers: {

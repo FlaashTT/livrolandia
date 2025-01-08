@@ -2,11 +2,10 @@ let btnCategorias, categorias, textoNome, sidebar, iconConta, iconFavs, iconCarr
 let currentSlideIndex = 0, userLogged, compra;
 
 window.onload = function () {
-    // Recupera o usuário logado do localStorage
     userLogged = JSON.parse(localStorage.getItem("userLogged"));
     compra = JSON.parse(localStorage.getItem("compra"));
 
-    // Seletores dos elementos da página
+    
     sidebar = document.getElementById("sidebar");
     iconConta = document.getElementById("iconConta");
     btnCategorias = document.getElementById("btnCategorias");
@@ -14,7 +13,6 @@ window.onload = function () {
     iconFavs = document.getElementById("iconFavs");
     iconCarrinho = document.getElementById("iconCarrinho");
 
-    // Corrige o seletor da search-box e searchInput
     searchBox = document.querySelector('.search-box');
     searchInput = document.querySelector('.search-text');
     ItensLivros = document.getElementById("Sectiongeral");
@@ -80,17 +78,15 @@ function header(userLogged) {
 
 
 
-// Função para exibir/ocultar os campos com base na opção de pagamento selecionada
 document.querySelectorAll('.payment-option').forEach(option => {
     option.addEventListener('click', () => {
         const paymentMethod = option.getAttribute('data-payment-method');
 
-        // Ocultar todos os campos primeiro
         document.querySelectorAll('.form-group').forEach(group => {
             group.classList.add('hidden');
         });
 
-        // Mostrar os campos específicos de acordo com o método selecionado
+
         switch (paymentMethod) {
             case 'credit-card':
                 document.querySelector('#card-name-group').classList.remove('hidden');
@@ -129,7 +125,6 @@ document.querySelectorAll('.payment-option').forEach(option => {
 
 payButton.addEventListener("click", function (event) {
     event.preventDefault();
-    //console.log("paymentMethod Selecionado:", paymentMethod);
 
     switch (metodo) {
         case ("creditCard"):
@@ -147,7 +142,7 @@ payButton.addEventListener("click", function (event) {
                 return;
             }
 
-            // para gatanti que fica no estilo de 01/12
+            // para garantir que fica no estilo de 01/12
             const regexData = /^(0[1-9]|1[0-2])\/([0-9]{2})$/;
 
             // Remover espaços extras antes da verificação
@@ -222,9 +217,6 @@ async function realizarPagamento() {
         const precoTotal = compra['precoTotal'];
         const dataCompra = new Date().toISOString().split('T')[0]; // Data no formato YYYY-MM-DD
 
-        console.log('IDs dos livros:', id_livro.join(','));
-        console.log('Quantidades:', quantidade);
-        console.log('Preço total:', precoTotal);
 
         // Limpar carrinho
         const limparResponse = await fetch('http://localhost:3000/limparCarrinho', {
@@ -261,7 +253,7 @@ async function realizarPagamento() {
         } else {
             console.log('Erro:', historicoData.message);
             alert("Erro ao adicionar ao histórico!");
-            //window.location.href = "../html/carrinho.html";
+            window.location.href = "../html/carrinho.html";
             
         }
 

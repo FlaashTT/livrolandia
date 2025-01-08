@@ -13,7 +13,7 @@ window.onload = function () {
     iconFavs = document.getElementById("iconFavs");
     iconCarrinho = document.getElementById("iconCarrinho");
 
-    // Corrige o seletor da search-box e searchInput
+    
     searchBox = document.querySelector('.search-box');
     searchInput = document.querySelector('.search-text');
 
@@ -37,41 +37,47 @@ window.onload = function () {
     if (params.get("show") != " ") showLivro();
     else {
         alert("Erro ao carregar livro, tente novamente mais tarde!");
-        return; 
+        return;
     }
 
 
     buttonCompra.addEventListener("click", function () {
+        if (!userLogged) {
+            alert("Nao tem sessao iniciada");
+        } else {
+
+        
         idUtilizador = userLogged['id_utilizador'];
         // Verifica se os valores existem
         if (!idLivro || !idUtilizador) {
             alert("Dados insuficientes para adicionar ao carrinho!");
             return;
         }
-    
+    }
+
         // Faz a requisição para adicionar o livro ao carrinho
         fetch('http://localhost:3000/adicionarLivroCart', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ id_utilizador: idUtilizador, id_livro: idLivro }) 
-        })
-            .then(response => response.json()) 
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id_utilizador: idUtilizador, id_livro: idLivro })
+    })
+            .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    if(confirm("Livro adicionado ao carrinho!Deseja proseguir o pagamento?")){
-                        window.location.href="../html/carrinho.html";
+                    if (confirm("Livro adicionado ao carrinho!Deseja proseguir o pagamento?")) {
+                        window.location.href = "../html/carrinho.html";
                     }
                 } else {
-                    alert(data.message); 
+                    alert(data.message);
                 }
             })
             .catch(error => {
                 console.error("Erro ao processar a requisição:", error);
                 alert("Erro ao adicionar o livro ao carrinho!");
             });
-    });
+});
 
 }
 
@@ -126,7 +132,6 @@ function showLivro() {
     })
         .then(response => response.json())
         .then(data => {
-            // Variável para armazenar o HTML dos favoritos
             let precoInicial, descontoAplicado, precoFinal
             if (data.success) {
 
@@ -165,8 +170,6 @@ function showLivro() {
             } else {
                 alert(data.message);
             }
-
-            // Atualiza o HTML no contêiner com o ID 'favoritosHtml'
 
         })
         .catch(error => console.error('Error:', error));

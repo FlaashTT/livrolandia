@@ -2,7 +2,6 @@ let btnCategorias, categorias, textoNome, sidebar, iconConta, iconFavs, iconCarr
   arrowIcon, logoutBtn, userNameElement, vendasLink, moradasLink, vendasContent, moradasContent, dadosPessoaislink, dadosPessoais,
   linkFavoritos, favoritos, favoritosHtml;
 
-// Carregamento da página
 window.onload = function () {
   localStorage.removeItem('compra');
   inicializarElementos();
@@ -11,7 +10,6 @@ window.onload = function () {
   verificarParametros();
 };
 
-// Função para inicializar os elementos
 function inicializarElementos() {
   localStorage.removeItem('compra');
   userLogged = JSON.parse(localStorage.getItem("userLogged"));
@@ -44,7 +42,6 @@ function inicializarElementos() {
   exibirHistorico();
 }
 
-// Função para configurar eventos
 function configurarEventos() {
   toggleAccountLink.addEventListener("click", toggleSubmenu);
   iconConta.addEventListener("click", redirecionarConta);
@@ -62,43 +59,44 @@ function configurarEventos() {
   linkFavoritos.addEventListener("click", (e) => alternarConteudo(e, favoritos, funcaoFavs));
 }
 
-// Função para atualizar o header com o nome do usuário
 function atualizarHeader() {
   if (userLogged) {
     textoNome.innerHTML = `Olá <br>${userLogged.name} !`;
     userNameElement.innerHTML = `${userLogged.name}!`;
   } else {
-    textoNome.innerHTML = "Olá <br> anónimo";
-    userNameElement.innerHTML = "anónimo";
+    if(confirm("inicie sessao para acessar esta pagina")){
+      window.location.href='../html/registo.html';
+     }else{
+       window.location.href = '../html/index.html';
+     }
+    
   }
 }
 
-// Função para verificar parâmetros da URL
+
+
+
 function verificarParametros() {
   const params = new URLSearchParams(window.location.search);
   if (params.get("show") === "favoritos") funcaoFavs();
 }
 
-// Função para alternar o submenu de conta
 function toggleSubmenu() {
   submenu.style.display = submenu.style.display === "block" ? "none" : "block";
   arrowIcon.classList.toggle("ri-arrow-up-line");
   arrowIcon.classList.toggle("ri-arrow-down-line");
 }
 
-// Função para redirecionar a conta
 function redirecionarConta() {
   const destino = userLogged ? "../html/definicoes.html" : "../html/registo.html";
   window.location.href = destino;
 }
 
-// Função para esconder o conteúdo
 function esconderConteudo() {
   [vendasContent, moradasContent, favoritos, dadosPessoais].forEach(content => content.classList.add("hidden"));
   exibirHistorico();
 }
 
-// Função para alternar o conteúdo visível
 function alternarConteudo(event, content, callback = null) {
   event.preventDefault();
   esconderConteudo();
@@ -106,26 +104,22 @@ function alternarConteudo(event, content, callback = null) {
   if (callback) callback();
 }
 
-// Função para alternar a sidebar
 function toggleSidebar() {
   sidebar.classList.toggle("hidden");
   sidebar.classList.toggle("show");
 }
 
-// Função para encerrar a sessão
 function logout() {
   localStorage.removeItem("userLogged");
   window.location.href = "../html/index.html";
 }
 
-// Função para exibir favoritos
 function funcaoFavs() {
   esconderConteudo();
   favoritos.classList.remove("hidden");
   showFavorits();
 }
 
-// Função para carregar os favoritos
 function showFavorits() {
   if (!userLogged) {
     favoritosHtml.innerHTML = "Indisponível, inicie sessão para continuar!<br>";
@@ -134,18 +128,18 @@ function showFavorits() {
     `;
     return;
   } else {
-    const id_utilizador = userLogged.id_utilizador; // Usando o id_utilizador de userLogged
+    const id_utilizador = userLogged.id_utilizador; 
 
     fetch('http://localhost:3000/favoritos', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ id_utilizador }) // Enviando o id_utilizador na requisição
+      body: JSON.stringify({ id_utilizador }) 
     })
       .then(response => response.json())
       .then(data => {
-        let favoritosHtmlContent = ''; // Variável para armazenar o HTML dos favoritos
+        let favoritosHtmlContent = ''; 
 
         if (data.success) {
           if (Array.isArray(data.favorites) && data.favorites.length > 0) {
@@ -155,14 +149,13 @@ function showFavorits() {
                 headers: {
                   'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ id_livro: favorito.id_livro }) // Envia o id_livro
+                body: JSON.stringify({ id_livro: favorito.id_livro }) 
               })
                 .then(response => response.json())
                 .then(livroData => {
                   if (livroData.success) {
                     const livro = livroData.livro;
 
-                    // Adiciona as informações do livro ao HTML do favorito
                     favoritosHtmlContent += `
                       <div class="favorito" id="favorito${i + 1}" >
                         <img src="../Res/categorias/${livro.nome_categoria}/${livro.titulo}.png" alt="imagem" class="itemFav" onclick=paginaLivro(${livro.id_livro})>
@@ -195,8 +188,6 @@ function showFavorits() {
         } else {
           alert(data.message);
         }
-
-        // Atualiza o HTML no contêiner com o ID 'favoritosHtml'
         favoritosHtml.innerHTML = favoritosHtmlContent;
       })
       .catch(error => console.error('Error:', error));
@@ -231,14 +222,14 @@ function paginaLivro(idLivro) {
 
 function exibirHistorico() {
   const historicoContent = document.getElementById("vendas-content");
-  historicoContent.innerHTML = ''; // Limpa o conteúdo antes de exibir
+  historicoContent.innerHTML = ''; 
 
   fetch('http://localhost:3000/buscarHistorico', {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ id_utilizador: userLogged['id_utilizador'] }) // Envia o ID do utilizador
+      body: JSON.stringify({ id_utilizador: userLogged['id_utilizador'] }) 
   })
   .then(response => response.json())
   .then(historicoData => {
