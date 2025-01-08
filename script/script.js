@@ -24,6 +24,57 @@ window.onload = function () {
 }
 
 
+function pesquisar() {
+    let pesquisa = document.getElementById("search-text").value;
+    let categoriaHtml = "";
+    fetch('http://localhost:3000/pesquisa', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ pesquisa: pesquisa })
+    })
+        .then(response => response.json())
+        .then(livrosData => {
+            
+            if (livrosData.success) {
+                 categoriaHtml = `
+
+                        <section class="suggestions" >
+                            <div class="suggestions-header">
+                                <h1>Resultado da sua pesquisa </h1>
+                            </div>
+                            <div class ="books-container"> 
+                            `;
+                livrosData.livros.forEach(livro => {
+                    categoriaHtml += `
+                    <div class="book-card">
+                        <div class="book-image">
+                            <img src="../Res/categorias/${livro.nome_categoria}/${livro.titulo}.png" alt="${livro.titulo}" onclick="paginaLivro(${livro.id_livro})">                            <div class="favorite-icon">
+                            <i id="iconFavoritos" class="ri-heart-3-line" onclick="adicionarFavorito('${livro.id_livro}')"></i>
+                        </div>
+                        </div>
+                        <h3 onclick="paginaLivro(${livro.id_livro})"> ${livro.titulo} </h3>
+                        <p onclick="paginaLivro(${livro.id_livro})"> ${livro.autor} </p>
+                        <p onclick="paginaLivro(${livro.id_livro})"> ${livro.preco}€ </p>
+                        <p class="free-shipping" onclick="paginaLivro(${livro.id_livro})"> Portes Grátis</p>
+                    </div>`;
+                });
+            } else {
+                categoriaHtml += `<p class="no-books">Nenhum livro encontrado.</p>`;
+            }
+            ItensLivros.innerHTML = categoriaHtml; // Exibe os resultados na página
+        })
+        .catch(error => {
+            console.error('Erro ao buscar livros:', error);
+            ItensLivros.innerHTML = `<p class="no-books">Erro ao carregar livros. Tente novamente mais tarde.</p>`;
+        });
+}
+
+
+
+
+
 
 function header(userLogged) {
     if (userLogged != null) {
@@ -66,14 +117,14 @@ function header(userLogged) {
 
 
 
+
+
 function addItens() {
-    // Envia a requisição para o servidor para obter as categorias
     fetch('http://localhost:3000/categoria')
         .then(response => response.json())
         .then(data => {
             if (data.success) {
                 const HtmlContentPromises = data.categorias.map(categoria => {
-                    // Cria o HTML base para a categoria
                     let categoriaHtml = `
 
                         <section class="suggestions" id="categoria-${categoria.id_categoria}">
@@ -114,8 +165,8 @@ function addItens() {
                             } else {
                                 categoriaHtml += `<p class="no-books">Nenhum livro disponível para esta categoria.</p>`;
                             }
-                            categoriaHtml += `</div></section>`; // Fecha os contêineres de livros e categoria
-                            return categoriaHtml; // Retorna o HTML gerado para esta categoria
+                            categoriaHtml += `</div></section>`;
+                            return categoriaHtml;
                         })
                         .catch(error => {
                             console.error('Erro ao buscar livros da categoria:', error);
@@ -127,9 +178,8 @@ function addItens() {
                         });
                 });
 
-                // Após processar todas as categorias, insere o HTML no DOM
                 Promise.all(HtmlContentPromises).then(htmlArray => {
-                    ItensLivros.innerHTML = htmlArray.join(''); // Junta todos os HTMLs de categorias
+                    ItensLivros.innerHTML = htmlArray.join('');
                 });
             } else {
                 ItensLivros.innerHTML = `<p>Erro ao carregar categorias: ${data.message}</p>`;
@@ -180,7 +230,7 @@ function selecionado(nome) {
     })
         .then(response => response.json())
         .then(data => {
-            console.log(data); // Verifica o que está sendo retornado pela API
+            console.log(data);
             if (data.success) {
                 exibirLivros(data.livros, nome);
             } else {
@@ -193,12 +243,11 @@ function selecionado(nome) {
 
 
 function exibirLivros(livros, categoriaNome) {
-    const booksContainer = document.querySelector(".books-container"); // O contêiner onde os livros serão exibidos
-    booksContainer.innerHTML = ''; // Limpa os livros anteriores
+    const booksContainer = document.querySelector(".books-container");
+    booksContainer.innerHTML = '';
     ItensLivros.innerHTML = "";
 
     if (livros.length > 0) {
-        // Cria o cabeçalho com o nome da categoria
 
         let categoriaHtml = `
             <div class="suggestions-header">
@@ -208,7 +257,6 @@ function exibirLivros(livros, categoriaNome) {
             <div class="books-container"> 
         `;
 
-        // Loop pelos livros e gera os cards
         livros.forEach(livro => {
             categoriaHtml += `
                 <div class="book-card">
@@ -226,9 +274,8 @@ function exibirLivros(livros, categoriaNome) {
             `;
         });
 
-        categoriaHtml += `</div>`; // Fecha o contêiner de livros
+        categoriaHtml += `</div>`;
 
-        // Insere o HTML gerado no contêiner da página
         ItensLivros.innerHTML = categoriaHtml;
     } else {
         ItensLivros.innerHTML = '<p>Nenhum livro encontrado para esta categoria.</p>';

@@ -1,5 +1,6 @@
 const express = require('express');
 const mysql = require('mysql');
+const sql = require('mssql');
 const bodyParser = require('body-parser');
 const cors = require('cors'); // Importando o cors
 const app = express();
@@ -665,6 +666,41 @@ app.post('/buscarMorada', (req, res) => {
         }
     });
 });
+
+
+app.post('/pesquisa', async (req, res) => {
+    const { pesquisa } = req.body;
+
+    if (!pesquisa) {
+        return res.json({ success: false, message: "Sem nenhum dado de pesquisa" });
+    }
+
+    const queryLivros = `
+        SELECT Livros.*, Categoria.nome AS nome_categoria
+        FROM Livros
+        INNER JOIN Categoria ON Livros.id_categoria = Categoria.id_categoria
+        WHERE Livros.titulo LIKE ? OR Livros.autor LIKE ?`;
+
+    // Adicionando wildcards para pesquisa parcial
+    const pesquisaTermo = `%${pesquisa}%`;
+
+    con.query(queryLivros, [pesquisaTermo, pesquisaTermo], (err, results) => {
+        if (err) {
+            console.error('Erro ao acessar o banco de dados:', err);
+            return res.json({ success: false, message: "Erro ao acessar o banco de dados" });
+        }
+
+        if (results.length > 0) {
+            res.json({
+                success: true,
+                livros: results // Retorna todos os livros encontrados
+            });
+        } else {
+            res.json({ success: false, message: "Nenhum livro encontrado" });
+        }
+    });
+});
+
 
 
 
