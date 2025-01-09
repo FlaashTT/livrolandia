@@ -1,14 +1,14 @@
 const express = require('express');
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
-const cors = require('cors'); // Importando o cors
+const cors = require('cors'); 
 const app = express();
 const port = 3000;
 
-app.use(cors()); // Adicionando o middleware CORS para permitir requisições de qualquer origem
+app.use(cors()); 
 app.use(bodyParser.json());
 
-// Conexão com o banco de dados
+// Conexão com  base de dados
 const con = mysql.createConnection({
   host: "10.147.17.227",
   user: "123hames",
@@ -295,19 +295,3 @@ con.connect(function(err) {
   });
 });
 */
-
-con.connect(function(err) {
-  if (err) throw err;
-  
-
-  // Inserindo múltiplos registros
-  const sql = `INSERT INTO carrinho (id_utilizador, id_livro) VALUES ?`;
-const values = [
-    ['1', '2'] // Valores a serem inseridos
-];
-
-  con.query(sql, [values], function(err, result) {
-    if (err) throw err;
-    console.log(`${result.affectedRows} registros inseridos!`);
-  });
-});
